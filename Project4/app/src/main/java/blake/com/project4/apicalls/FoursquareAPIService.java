@@ -10,5 +10,5 @@ import retrofit2.http.Query;
 public interface FoursquareAPIService {
 
     @GET("search")
-    Call<> getTemperature(@Query("client_id") String clientID, @Query("client_secret") String clientSecret);
+    Call<> search(@Query("near") String near, @Query("client_id") String clientID, @Query("client_secret") String clientSecret);
 }

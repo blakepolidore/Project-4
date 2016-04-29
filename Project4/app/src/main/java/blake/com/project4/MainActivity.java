@@ -14,10 +14,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,12 +96,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void yelpAPISearchCall() {
-//        Retrofit retrofitWeather = new Retrofit.Builder()
-//                .baseUrl("https://api.foursquare.com/v2/venues/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        yelpAPIService = retrofitWeather.create(YelpAPIService.class);
 
         Map<String, String> params = new HashMap<>();
         params.put("term", "food");
@@ -123,6 +120,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void foursquareAPICal() {
+                Retrofit retrofitFourSquare = new Retrofit.Builder()
+                .baseUrl("https://api.foursquare.com/v2/venues/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        FoursquareAPIService foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
     }
 }
 
