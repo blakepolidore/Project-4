@@ -6,22 +6,31 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.yelp.clientlib.connection.YelpAPI;
+import com.yelp.clientlib.connection.YelpAPIFactory;
+import com.yelp.clientlib.entities.SearchResponse;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> al;
     ArrayAdapter<String> arrayAdapter;
-    YelpAPIService yelpAPIService;
+    //YelpAPIService yelpAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        yelpAPISearchCall();
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
@@ -84,12 +93,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void yelpAPISearchCall() {
-        Retrofit retrofitWeather = new Retrofit.Builder()
-                .baseUrl("https://api.yelp.com/v2/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+//        Retrofit retrofitWeather = new Retrofit.Builder()
+//                .baseUrl("https://api.foursquare.com/v2/venues/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        yelpAPIService = retrofitWeather.create(YelpAPIService.class);
 
-        yelpAPIService = retrofitWeather.create(YelpAPIService.class);
+        Map<String, String> params = new HashMap<>();
+        params.put("term", "food");
+        params.put("sort", "2");
+        params.put("radius_filter", "10000");
+
+        YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
+        YelpAPI yelpAPI = apiFactory.createAPI();
+        Call<SearchResponse> call = yelpAPI.search("San Francisco", params);
+
+        call.enqueue(new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                String name = response.body().businesses().get(0).name();
+                Log.d("Main Activity", name);
+            }
+
+            @Override
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+
+            }
+        });
+
+
     }
 }
 
