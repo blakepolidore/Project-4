@@ -9,11 +9,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> al;
     ArrayAdapter<String> arrayAdapter;
+    YelpAPIService yelpAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void yelpAPISearchCall() {
+        Retrofit retrofitWeather = new Retrofit.Builder()
+                .baseUrl("https://api.yelp.com/v2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        yelpAPIService = retrofitWeather.create(YelpAPIService.class);
     }
 }
 
