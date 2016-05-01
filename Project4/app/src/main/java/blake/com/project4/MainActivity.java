@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        yelpAPISearchCall();
+        //yelpAPISearchCall();
+        //foursquareAPICal();
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 String name = response.body().businesses().get(0).name();
-                Log.d("Main Activity", name);
+                //Log.d("Main Activity", name);
             }
 
             @Override
@@ -129,6 +130,27 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         FoursquareAPIService foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
+
+//        Calendar currentDate = Calendar.getInstance(); //Get the current date
+//        SimpleDateFormat formatter= new SimpleDateFormat("yyyyMMdd"); //format it as per your requirement
+//        String dateNow = formatter.format(currentDate.getTime());
+
+        Call<blake.com.project4.foursquareModel.Response> call =
+                foursquareAPIService.search("San Francisco", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
+        call.enqueue(new Callback<blake.com.project4.foursquareModel.Response>() {
+            @Override
+            public void onResponse(Call<blake.com.project4.foursquareModel.Response> call, Response<blake.com.project4.foursquareModel.Response> response) {
+                int error = response.code();
+                String code = Integer.toString(error);
+                //String name = response.body().getResponse()[0].getName();
+                Log.d("MAIN ACTIVITY", code);
+            }
+
+            @Override
+            public void onFailure(Call<blake.com.project4.foursquareModel.Response> call, Throwable t) {
+                Log.d("MAIN ACTIVITY", "Test Failed");
+            }
+        });
     }
 }
 

@@ -1,5 +1,6 @@
 package blake.com.project4.apicalls;
 
+import blake.com.project4.foursquareModel.Response;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -10,5 +11,7 @@ import retrofit2.http.Query;
 public interface FoursquareAPIService {
 
     @GET("search")
-    Call<> search(@Query("near") String near, @Query("client_id") String clientID, @Query("client_secret") String clientSecret);
+    Call<Response> search(@Query("near") String near, @Query("client_id") String clientID,
+                          @Query("client_secret") String clientSecret, @Query("v") String date,
+                          @Query("m") String responseMode);
 }
