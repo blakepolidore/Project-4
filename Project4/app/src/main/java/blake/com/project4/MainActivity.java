@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar1 = (Toolbar) findViewById(R.id.main_activity_toolbar);
+        setSupportActionBar(toolbar1);
 //        toolbar.setLogo(R.drawable.nyt_logo);
 //        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
 
@@ -111,8 +113,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

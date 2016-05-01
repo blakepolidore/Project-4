@@ -9,8 +9,11 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/venue_activity_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:minHeight="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     </android.support.v7.widget.Toolbar>
 
