@@ -30,4 +30,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
     compile 'com.yelp.clientlib:yelp-android:2.0.0'
     compile 'com.jakewharton:butterknife:8.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

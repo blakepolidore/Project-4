@@ -9,20 +9,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.SearchResponse;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,33 +31,38 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.main_activity_toolbar)Toolbar toolbar;
+//    @BindView(R.id.main_activity_toolbar)Toolbar toolbar;
+//    @BindView(R.id.swipableImage)ImageView imageView;
+//    @BindView(R.id.card_title)TextView title;
+    ImageView imageView;
+    TextView title;
+    public static final String TITLE_TEXT = "TITLE TEXT";
 
-    ArrayList<String> al;
+    LinkedList<String> al;
     ArrayAdapter<String> arrayAdapter;
-    //YelpAPIService yelpAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
-        Toolbar toolbar1 = (Toolbar) findViewById(R.id.main_activity_toolbar);
-        setSupportActionBar(toolbar1);
+        //ButterKnife.bind(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
+        setSupportActionBar(toolbar);
+        imageView = (ImageView) findViewById(R.id.swipableImage);
+        title = (TextView) findViewById(R.id.card_title);
 //        toolbar.setLogo(R.drawable.nyt_logo);
 //        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
 
-        //yelpAPISearchCall();
-        //foursquareAPICal();
-
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
-        al = new ArrayList<String>();
-        al.add("php");
-        al.add("c");
-        al.add("python");
-        al.add("java");
+        al = new LinkedList<>();
+        al.add("Taco");
+        al.add("Burrito");
+        al.add("Pizza");
+        al.add("Steak");
+        yelpAPISearchCall();
+        //foursquareAPICal();
 
         //TODO Custom Adapter
         //choose your favorite adapter
@@ -106,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-
+                Intent venueIntent = new Intent(MainActivity.this, VenueActivity.class);
+                venueIntent.putExtra(TITLE_TEXT, al.get(0));
+                startActivity(venueIntent);
             }
         });
     }
@@ -145,8 +152,13 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                String name = response.body().businesses().get(0).name();
-                //Log.d("Main Activity", name);
+                for (int i = 0; i < 20; i++) {
+                    String name = response.body().businesses().get(i).name();
+                    al.add(name);
+                }
+
+//                String imageURL = response.body().businesses().get(0).imageUrl();
+//                Picasso.with(MainActivity.this).load(imageURL).into(imageView);
             }
 
             @Override
@@ -176,8 +188,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<blake.com.project4.foursquareModel.Response> call, Response<blake.com.project4.foursquareModel.Response> response) {
                 int error = response.code();
+                for (int i = 0; i < response.body().getResponse().length; i++) {
+                    String name = response.body().getResponse()[i].getName();
+                    al.add(name);
+                }
                 String code = Integer.toString(error);
-                //String name = response.body().getResponse()[0].getName();
+
                 Log.d("MAIN ACTIVITY", code);
             }
 
