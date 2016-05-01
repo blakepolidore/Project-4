@@ -2,15 +2,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
-    android:layout_width="250dp"
-    android:layout_height="170dp">
+    android:layout_width="350dp"
+    android:layout_height="350dp">
+
+    <ImageView
+        android:id="@+id/swipableImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/smithriver"
+        android:scaleType="centerCrop"/>
 
     <TextView
-        android:id="@+id/helloText"
-        android:textSize="40sp"
-        android:textColor="@android:color/white"
-        android:background="#E339"
-        android:gravity="center"
+        android:id="@+id/card_title"
+        android:textSize="30sp"
+        android:gravity="start|bottom"
+        android:layout_marginBottom="30dp"
         tools:text="Test"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO Custom Adapter
         //choose your favorite adapter
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.helloText, al);
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.card_title, al);
 
         //set the listener and the adapter
         flingContainer.setAdapter(arrayAdapter);
