@@ -6,6 +6,14 @@
     android:orientation="vertical"
     tools:context="blake.com.project4.VenueActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/venue_activity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:minHeight="?attr/actionBarSize">
+
+    </android.support.v7.widget.Toolbar>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

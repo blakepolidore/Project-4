@@ -1,8 +1,12 @@
 package blake.com.project4;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -16,6 +20,8 @@ import java.util.Map;
 
 import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,6 +29,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.main_activity_toolbar)Toolbar toolbar;
 
     ArrayList<String> al;
     ArrayAdapter<String> arrayAdapter;
@@ -32,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+//        toolbar.setLogo(R.drawable.nyt_logo);
+//        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
 
         //yelpAPISearchCall();
         //foursquareAPICal();
@@ -94,6 +107,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.liked_activities:
+                Intent likedVenuesIntent = new Intent(MainActivity.this, VenueActivity.class);
+                startActivity(likedVenuesIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void yelpAPISearchCall() {

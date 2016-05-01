@@ -2,6 +2,8 @@ package blake.com.project4;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ public class VenueActivity extends AppCompatActivity {
     @BindView(R.id.website)TextView website;
     @BindView(R.id.phone_number)TextView phone;
     @BindView(R.id.description)TextView description;
+    @BindView(R.id.venue_activity_toolbar)Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,5 +29,11 @@ public class VenueActivity extends AppCompatActivity {
         setContentView(R.layout.activity_venue);
 
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.liked_menu, menu);
+        return true;
     }
 }
