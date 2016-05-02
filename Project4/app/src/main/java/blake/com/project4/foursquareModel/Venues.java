@@ -8,7 +8,7 @@ public class Venues {
     String name;
     ContactItems contact;
     LocationItems location;
-    CategoryItems categories;
+    CategoryItems[] categories;
     String url;
 
     public String getName() {
@@ -23,7 +23,7 @@ public class Venues {
         return location;
     }
 
-    public CategoryItems getCategories() {
+    public CategoryItems[] getCategories() {
         return categories;
     }
 

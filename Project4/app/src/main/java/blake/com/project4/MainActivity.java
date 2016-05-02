@@ -24,6 +24,7 @@ import java.util.Map;
 import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
+import blake.com.project4.foursquareModel.Root;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -202,28 +203,25 @@ public class MainActivity extends AppCompatActivity {
 
         FoursquareAPIService foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
 
-//        Calendar currentDate = Calendar.getInstance(); //Get the current date
-//        SimpleDateFormat formatter= new SimpleDateFormat("yyyyMMdd"); //format it as per your requirement
-//        String dateNow = formatter.format(currentDate.getTime());
-
-        Call<blake.com.project4.foursquareModel.Response> call =
+        Call<blake.com.project4.foursquareModel.Root> call =
                 foursquareAPIService.search("San Francisco", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
-        call.enqueue(new Callback<blake.com.project4.foursquareModel.Response>() {
+        call.enqueue(new Callback<Root>() {
             @Override
-            public void onResponse(Call<blake.com.project4.foursquareModel.Response> call, Response<blake.com.project4.foursquareModel.Response> response) {
+            public void onResponse(Call<blake.com.project4.foursquareModel.Root> call, Response<blake.com.project4.foursquareModel.Root> response) {
                 int error = response.code();
-                for (int i = 0; i < response.body().getResponse().length; i++) {
-                    String name = response.body().getResponse()[i].getName();
+                for (int i = 0; i < response.body().getResponse().getVenues().length; i++) {
+                    String name = response.body().getResponse().getVenues()[i].getName();
                     al.add(name);
+                    Log.d("MAIN ACTIVITY", name);
                 }
-                String code = Integer.toString(error);
 
-                Log.d("MAIN ACTIVITY", code);
+
             }
 
             @Override
-            public void onFailure(Call<blake.com.project4.foursquareModel.Response> call, Throwable t) {
+            public void onFailure(Call<blake.com.project4.foursquareModel.Root> call, Throwable t) {
                 Log.d("MAIN ACTIVITY", "Test Failed");
+                t.printStackTrace();
             }
         });
     }

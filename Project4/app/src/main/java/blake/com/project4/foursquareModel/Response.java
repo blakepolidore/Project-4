@@ -5,9 +5,9 @@ package blake.com.project4.foursquareModel;
  */
 public class Response {
 
-    Venues[] response;
+    Venues[] venues;
 
-    public Venues[] getResponse() {
-        return response;
+    public Venues[] getVenues() {
+        return venues;
     }
 }
