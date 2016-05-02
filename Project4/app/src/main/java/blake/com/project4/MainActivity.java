@@ -22,7 +22,10 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import blake.com.project4.apicalls.FoursquareAPIService;
+import blake.com.project4.cardModelAndAdapter.Cards;
+import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
+import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,15 +34,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-//    @BindView(R.id.main_activity_toolbar)Toolbar toolbar;
-//    @BindView(R.id.swipableImage)ImageView imageView;
-//    @BindView(R.id.card_title)TextView title;
+
+    @BindView(R.id.swipableImage)
     ImageView imageView;
+    @BindView(R.id.card_title)
     TextView title;
+//    ImageView imageView;
+//    TextView title;
+
+
     public static final String TITLE_TEXT = "TITLE TEXT";
 
     LinkedList<String> al;
+    LinkedList<Cards> cardsList;
     ArrayAdapter<String> arrayAdapter;
+    ArrayAdapter<Cards> cardsArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +58,14 @@ public class MainActivity extends AppCompatActivity {
         //ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
-        imageView = (ImageView) findViewById(R.id.swipableImage);
-        title = (TextView) findViewById(R.id.card_title);
+//        imageView = (ImageView) findViewById(R.id.swipableImage);
+//        title = (TextView) findViewById(R.id.card_title);
 //        toolbar.setLogo(R.drawable.nyt_logo);
 //        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+
+        cardsList = new LinkedList<>();
 
         al = new LinkedList<>();
         al.add("Taco");
@@ -67,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO Custom Adapter
         //choose your favorite adapter
         arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.card_title, al);
+        cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
         //set the listener and the adapter
         flingContainer.setAdapter(arrayAdapter);
@@ -114,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent venueIntent = new Intent(MainActivity.this, VenueActivity.class);
                 venueIntent.putExtra(TITLE_TEXT, al.get(0));
                 startActivity(venueIntent);
+
             }
         });
     }
@@ -154,6 +167,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 for (int i = 0; i < 20; i++) {
                     String name = response.body().businesses().get(i).name();
+                    String url = response.body().businesses().get(i).url();
+                    String phone = response.body().businesses().get(i).displayPhone();
+                    String address = response.body().businesses().get(i).location().displayAddress().get(0);
+                    String imageURL = response.body().businesses().get(i).imageUrl();
                     al.add(name);
                 }
 

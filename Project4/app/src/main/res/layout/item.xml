@@ -21,6 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:id="@+id/card_location"
+        android:textSize="30sp"
+        android:gravity="end|bottom"
+        android:layout_marginBottom="30dp"
+        tools:text="Location"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <View
         android:id="@+id/item_swipe_left_indicator"
         android:alpha="0"
