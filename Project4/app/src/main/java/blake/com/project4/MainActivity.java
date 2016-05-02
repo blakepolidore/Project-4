@@ -66,6 +66,26 @@ public class MainActivity extends AppCompatActivity {
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
         cardsList = new LinkedList<>();
+        Cards cards = new Cards();
+        cards.setImageUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_.png");
+        cards.setLocation("New York");
+        cards.setTitle("Park");
+        cardsList.add(cards);
+        Cards cards1 = new Cards();
+        cards.setImageUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_.png");
+        cards.setLocation("New York");
+        cards.setTitle("Park");
+        cardsList.add(cards1);
+        Cards cards2 = new Cards();
+        cards.setImageUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_.png");
+        cards.setLocation("New York");
+        cards.setTitle("Park");
+        cardsList.add(cards2);
+        Cards cards3 = new Cards();
+        cards.setImageUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_.png");
+        cards.setLocation("New York");
+        cards.setTitle("Park");
+        cardsList.add(cards3);
 
         al = new LinkedList<>();
         al.add("Taco");
@@ -73,22 +93,20 @@ public class MainActivity extends AppCompatActivity {
         al.add("Pizza");
         al.add("Steak");
         yelpAPISearchCall();
-        //foursquareAPICal();
+        //foursquareAPICall();
 
-        //TODO Custom Adapter
-        //choose your favorite adapter
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.card_title, al);
+        //arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.card_title, al);
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
         //set the listener and the adapter
-        flingContainer.setAdapter(arrayAdapter);
+        flingContainer.setAdapter(cardsArrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
-                al.remove(0);
-                arrayAdapter.notifyDataSetChanged();
+                cardsList.remove(0);
+                cardsArrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -143,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.liked_activities:
-                Intent likedVenuesIntent = new Intent(MainActivity.this, VenueActivity.class);
+                Intent likedVenuesIntent = new Intent(MainActivity.this, LikedActivity.class);
                 startActivity(likedVenuesIntent);
                 return true;
             default:
@@ -171,11 +189,12 @@ public class MainActivity extends AppCompatActivity {
                     String phone = response.body().businesses().get(i).displayPhone();
                     String address = response.body().businesses().get(i).location().displayAddress().get(0);
                     String imageURL = response.body().businesses().get(i).imageUrl();
-                    al.add(name);
+                    Cards cards = new Cards();
+                    cards.setTitle(name);
+                    cards.setLocation(address);
+                    cards.setImageUrl(imageURL);
+                    cardsList.add(i,cards);
                 }
-
-//                String imageURL = response.body().businesses().get(0).imageUrl();
-//                Picasso.with(MainActivity.this).load(imageURL).into(imageView);
             }
 
             @Override
