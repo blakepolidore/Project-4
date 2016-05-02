@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +23,7 @@ import blake.com.project4.R;
 public class CardsAdapter extends ArrayAdapter<Cards> {
 
     List<Cards> cardsList;
+    ImageLoader imageLoader = ImageLoader.getInstance();
 
     public CardsAdapter(Context context, LinkedList list) {
         super(context, -1, list);
@@ -36,7 +39,11 @@ public class CardsAdapter extends ArrayAdapter<Cards> {
         Cards cards = cardsList.get(position);
         titleText.setText(cards.title);
         locationText.setText(cards.location);
-        Picasso.with(parent.getContext()).load(cards.imageUrl).into(image);
+        //TODO add a placeholder image (.placeholder)
+        //Picasso.with(parent.getContext()).load(cards.imageUrl).resize(350, 350).into(image);
+        imageLoader.init(ImageLoaderConfiguration.createDefault(parent.getContext()));
+        ImageSize imageSize = new ImageSize(300,300);
+        imageLoader.displayImage(cards.imageUrl, image);
         return cardsView;
     }
 }

@@ -7,26 +7,17 @@
 
     <ImageView
         android:id="@+id/swipableImage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/smithriver"
         android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/card_title"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:gravity="start|bottom"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="75dp"
         tools:text="Test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <TextView
-        android:id="@+id/card_location"
-        android:textSize="30sp"
-        android:gravity="end|bottom"
-        android:layout_marginBottom="30dp"
-        tools:text="Location"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -46,5 +37,15 @@
         android:layout_margin="10dp"
         android:layout_gravity="right"
         android:background="#5AF" />
+
+    <TextView
+        android:id="@+id/card_location"
+        android:textSize="25sp"
+        android:gravity="bottom"
+        android:layout_marginBottom="15dp"
+        tools:text="Location"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|bottom" />
 
 </FrameLayout>

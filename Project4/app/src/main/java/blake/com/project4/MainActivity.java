@@ -26,6 +26,7 @@ import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //ButterKnife.bind(this);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
 //        imageView = (ImageView) findViewById(R.id.swipableImage);
@@ -67,25 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
         cardsList = new LinkedList<>();
         Cards cards = new Cards();
-        cards.setImageUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_.png");
+        cards.setImageUrl("https://pbs.twimg.com/profile_images/672132153900183553/zVFIAIDi.jpg");
         cards.setLocation("New York");
         cards.setTitle("Park");
         cardsList.add(cards);
-        Cards cards1 = new Cards();
-        cards.setImageUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_.png");
-        cards.setLocation("New York");
-        cards.setTitle("Park");
-        cardsList.add(cards1);
-        Cards cards2 = new Cards();
-        cards.setImageUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_.png");
-        cards.setLocation("New York");
-        cards.setTitle("Park");
-        cardsList.add(cards2);
-        Cards cards3 = new Cards();
-        cards.setImageUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/neighborhood_.png");
-        cards.setLocation("New York");
-        cards.setTitle("Park");
-        cardsList.add(cards3);
 
         al = new LinkedList<>();
         al.add("Taco");
@@ -93,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         al.add("Pizza");
         al.add("Steak");
         yelpAPISearchCall();
-        //foursquareAPICall();
+        foursquareAPICall();
 
         //arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.card_title, al);
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
@@ -142,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
                 Intent venueIntent = new Intent(MainActivity.this, VenueActivity.class);
-                venueIntent.putExtra(TITLE_TEXT, al.get(0));
+                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getTitle());
                 startActivity(venueIntent);
 
             }
@@ -189,10 +175,12 @@ public class MainActivity extends AppCompatActivity {
                     String phone = response.body().businesses().get(i).displayPhone();
                     String address = response.body().businesses().get(i).location().displayAddress().get(0);
                     String imageURL = response.body().businesses().get(i).imageUrl();
+                    String category = response.body().businesses().get(i).categories().get(0).name();
                     Cards cards = new Cards();
                     cards.setTitle(name);
                     cards.setLocation(address);
                     cards.setImageUrl(imageURL);
+                    cards.setCategory(category);
                     cardsList.add(i,cards);
                 }
             }
@@ -206,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void foursquareAPICal() {
+    private void foursquareAPICall() {
                 Retrofit retrofitFourSquare = new Retrofit.Builder()
                 .baseUrl("https://api.foursquare.com/v2/venues/")
                 .addConverterFactory(GsonConverterFactory.create())

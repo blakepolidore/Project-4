@@ -9,6 +9,17 @@ public class Cards {
     String imageUrl;
     String location;
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getCategory() {
+
+        return category;
+    }
+
+    String category;
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -19,5 +30,17 @@ public class Cards {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }
