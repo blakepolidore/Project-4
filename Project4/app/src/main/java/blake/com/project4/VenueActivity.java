@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ public class VenueActivity extends AppCompatActivity {
     ImageView imageView;
     @BindView(R.id.venue_dislike)Button dislike;
     @BindView(R.id.venue_like)Button like;
+    @BindView(R.id.share_button)Button share;
     @BindView(R.id.venue_title)TextView title;
     @BindView(R.id.location)TextView location;
     @BindView(R.id.website)TextView website;
@@ -61,5 +63,21 @@ public class VenueActivity extends AppCompatActivity {
         Intent venueIntent = getIntent();
         String titleString = venueIntent.getStringExtra(MainActivity.TITLE_TEXT);
         title.setText(titleString);
+    }
+
+    /**
+     * Sets up the functionality to allow user to share venue across different communication apps
+     */
+    private void setShareClickListener() {
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, "");//TODO add shareable url
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
+                startActivity(Intent.createChooser(intent, "Share"));
+            }
+        });
     }
 }
