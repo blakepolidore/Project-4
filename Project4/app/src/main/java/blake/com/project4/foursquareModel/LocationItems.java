@@ -12,6 +12,7 @@ public class LocationItems {
     String city;
     String state;
     String country;
+    String[] formattedAddress;
 
     public String getAddress() {
         return address;
@@ -39,5 +40,9 @@ public class LocationItems {
 
     public String getCountry() {
         return country;
+    }
+
+    public String[] getFormattedAddress() {
+        return formattedAddress;
     }
 }

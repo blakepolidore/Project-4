@@ -10,6 +10,7 @@ public class Venues {
     LocationItems location;
     CategoryItems[] categories;
     String url;
+    String id;
 
     public String getName() {
         return name;
@@ -29,5 +30,9 @@ public class Venues {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getId() {
+        return id;
     }
 }

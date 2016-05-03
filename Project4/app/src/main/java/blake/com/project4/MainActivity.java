@@ -25,6 +25,7 @@ import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.foursquareModel.Root;
+import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
 //    ImageView imageView;
 //    TextView title;
 
+    FoursquareAPIService foursquareAPIService;
+
 
     public static final String TITLE_TEXT = "TITLE TEXT";
 
-    LinkedList<String> al;
     LinkedList<Cards> cardsList;
-    ArrayAdapter<String> arrayAdapter;
     ArrayAdapter<Cards> cardsArrayAdapter;
 
     @Override
@@ -74,15 +75,10 @@ public class MainActivity extends AppCompatActivity {
         cards.setTitle("Park");
         cardsList.add(cards);
 
-        al = new LinkedList<>();
-        al.add("Taco");
-        al.add("Burrito");
-        al.add("Pizza");
-        al.add("Steak");
-        yelpAPISearchCall();
+
+        //yelpAPISearchCall();
         foursquareAPICall();
 
-        //arrayAdapter = new ArrayAdapter<String>(this, R.layout.item, R.id.card_title, al);
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
         //set the listener and the adapter
@@ -201,27 +197,57 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        FoursquareAPIService foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
+        foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
 
         Call<blake.com.project4.foursquareModel.Root> call =
                 foursquareAPIService.search("San Francisco", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
         call.enqueue(new Callback<Root>() {
             @Override
             public void onResponse(Call<blake.com.project4.foursquareModel.Root> call, Response<blake.com.project4.foursquareModel.Root> response) {
-                int error = response.code();
                 for (int i = 0; i < response.body().getResponse().getVenues().length; i++) {
                     String name = response.body().getResponse().getVenues()[i].getName();
-                    al.add(name);
-                    Log.d("MAIN ACTIVITY", name);
+                    String address = response.body().getResponse().getVenues()[i].getLocation().getFormattedAddress()[0];
+                    String category = "";
+                    if (response.body().getResponse().getVenues()[i].getCategories().length > 0) {
+                        category = response.body().getResponse().getVenues()[i].getCategories()[0].getName();
+                    }
+                    String id = response.body().getResponse().getVenues()[i].getId();
+                    getFourSquareImages(id, name, address, category);
                 }
-
-
             }
 
             @Override
             public void onFailure(Call<blake.com.project4.foursquareModel.Root> call, Throwable t) {
                 Log.d("MAIN ACTIVITY", "Test Failed");
                 t.printStackTrace();
+            }
+        });
+    }
+
+    private void getFourSquareImages(String id, final String name, final String address, final String category) {
+        final String[] image = new String[2];
+        Call<PhotoRoot> photoRootCall = foursquareAPIService.photoSearch(id, Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
+        photoRootCall.enqueue(new Callback<PhotoRoot>() {
+            @Override
+            public void onResponse(Call<PhotoRoot> call, Response<PhotoRoot> response) {
+                if (response.body().getResponse().getPhotos().getItems().length > 0) {
+                    String prefix = response.body().getResponse().getPhotos().getItems()[0].getPrefix();
+                    String suffix = response.body().getResponse().getPhotos().getItems()[0].getSuffix();
+                    image[0] = prefix;
+                    image[1] = suffix;
+                }
+                Cards cards = new Cards();
+                cards.setTitle(name);
+                cards.setLocation(address);
+                String imageURL = image[0] + "cap300" + image[1];
+                cards.setImageUrl(imageURL);
+                cards.setCategory(category);
+                cardsList.add(cards);
+            }
+
+            @Override
+            public void onFailure(Call<PhotoRoot> call, Throwable t) {
+                Log.d("onFailure", "Photo failure");
             }
         });
     }

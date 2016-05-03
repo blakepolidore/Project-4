@@ -11,7 +11,7 @@ import android.view.MenuInflater;
 import java.util.List;
 
 import blake.com.project4.cardModelAndAdapter.Cards;
-import blake.com.project4.recyclerviewAdapter.LikedFeedAdapter;
+import blake.com.project4.feedRecyclerviewAdapter.LikedFeedAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

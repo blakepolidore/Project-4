@@ -8,17 +8,11 @@ public class Cards {
     String title;
     String imageUrl;
     String location;
+    String category;
 
     public void setCategory(String category) {
         this.category = category;
     }
-
-    public String getCategory() {
-
-        return category;
-    }
-
-    String category;
 
     public void setTitle(String title) {
         this.title = title;
@@ -42,5 +36,10 @@ public class Cards {
 
     public String getLocation() {
         return location;
+    }
+
+    public String getCategory() {
+
+        return category;
     }
 }

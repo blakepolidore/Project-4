@@ -1,4 +1,4 @@
-package blake.com.project4.recyclerviewAdapter;
+package blake.com.project4.feedRecyclerviewAdapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;

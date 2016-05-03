@@ -1,8 +1,10 @@
 package blake.com.project4.apicalls;
 
 import blake.com.project4.foursquareModel.Root;
+import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -14,4 +16,9 @@ public interface FoursquareAPIService {
     Call<Root> search(@Query("near") String near, @Query("client_id") String clientID,
                       @Query("client_secret") String clientSecret, @Query("v") String date,
                       @Query("m") String responseMode);
+
+    @GET("{id}/photos")
+    Call<PhotoRoot> photoSearch(@Path("id") String id, @Query("client_id") String clientID,
+                                @Query("client_secret") String clientSecret, @Query("v") String date,
+                                @Query("m") String responseMode);
 }
