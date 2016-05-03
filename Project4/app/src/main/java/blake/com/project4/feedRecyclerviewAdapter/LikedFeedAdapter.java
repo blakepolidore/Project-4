@@ -19,16 +19,24 @@ import blake.com.project4.cardModelAndAdapter.Cards;
 
 /**
  * Created by Raiders on 5/2/16.
+ * Recycler adapter for the feed
  */
 public class LikedFeedAdapter extends RecyclerView.Adapter<LikedFeedAdapter.FeedViewHolder>{
 
     private List<Cards> cardsList;
 
+    /**
+     * View holder class
+     */
     public class FeedViewHolder extends RecyclerView.ViewHolder {
 
         TextView title, location, contact;
         ImageView image;
 
+        /**
+         * View holder constructor
+         * @param view
+         */
         public FeedViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.recycler_title);
@@ -38,10 +46,20 @@ public class LikedFeedAdapter extends RecyclerView.Adapter<LikedFeedAdapter.Feed
         }
     }
 
+    /**
+     * Constructor for the adapter
+     * @param cardsList
+     */
     public LikedFeedAdapter(List<Cards> cardsList) {
         this.cardsList = cardsList;
     }
 
+    /**
+     * Tells the adapter which layout to inflate
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public FeedViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -50,6 +68,11 @@ public class LikedFeedAdapter extends RecyclerView.Adapter<LikedFeedAdapter.Feed
         return new FeedViewHolder(itemView);
     }
 
+    /**
+     * Puts the pertinent data into the views
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(FeedViewHolder holder, int position) {
         Cards cards = cardsList.get(position);
@@ -63,6 +86,10 @@ public class LikedFeedAdapter extends RecyclerView.Adapter<LikedFeedAdapter.Feed
         holder.image.setImageBitmap(bitmap);
     }
 
+    /**
+     * Gets count of items in the list
+     * @return
+     */
     @Override
     public int getItemCount() {
         return cardsList.size();

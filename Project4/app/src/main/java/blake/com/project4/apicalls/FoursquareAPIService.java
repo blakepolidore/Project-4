@@ -9,6 +9,7 @@ import retrofit2.http.Query;
 
 /**
  * Created by Raiders on 4/29/16.
+ * Makes api calls to the foursquare server
  */
 public interface FoursquareAPIService {
 

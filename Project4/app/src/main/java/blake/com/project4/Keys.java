@@ -2,6 +2,7 @@ package blake.com.project4;
 
 /**
  * Created by Raiders on 4/29/16.
+ * API keys that are added to the gitignore
  */
 public class Keys {
 

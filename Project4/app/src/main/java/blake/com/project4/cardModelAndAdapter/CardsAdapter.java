@@ -19,17 +19,30 @@ import blake.com.project4.R;
 
 /**
  * Created by Raiders on 5/1/16.
+ * Custom adapter for the cards
  */
 public class CardsAdapter extends ArrayAdapter<Cards> {
 
     List<Cards> cardsList;
     ImageLoader imageLoader = ImageLoader.getInstance();
 
+    /**
+     * Constructor
+     * @param context
+     * @param list
+     */
     public CardsAdapter(Context context, LinkedList list) {
         super(context, -1, list);
         this.cardsList = list;
     }
 
+    /**
+     * Sets the views on the cards with approriate data
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View cardsView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);

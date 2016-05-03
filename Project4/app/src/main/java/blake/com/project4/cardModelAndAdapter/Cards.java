@@ -2,6 +2,7 @@ package blake.com.project4.cardModelAndAdapter;
 
 /**
  * Created by Raiders on 5/1/16.
+ * Model for the cards to be displayed and swiped
  */
 public class Cards {
 

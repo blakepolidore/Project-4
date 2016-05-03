@@ -16,7 +16,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Choose a location:"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
                 android:layout_gravity="center_vertical"/>
@@ -27,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:hint="San Francisco"
                 android:layout_column="1"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:textSize="12sp"/>
         </TableRow>
 
         <TableRow
@@ -37,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Use device location:"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
                 android:layout_gravity="start"/>
@@ -58,13 +59,13 @@
                 android:layout_height="wrap_content"
                 android:text="Choose search radius:"
                 android:layout_marginLeft="4dp"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_gravity="start"/>
 
             <SeekBar
                 android:id="@+id/search_radius_seekbar"
-                android:layout_width="190dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 />
@@ -79,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="Search Criteria"
                 android:layout_marginLeft="4dp"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_gravity="start"
                 android:textStyle="bold"/>
@@ -92,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Food:"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
                 android:layout_gravity="start"/>
@@ -112,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Drink"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
                 android:layout_gravity="start"/>
@@ -132,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Activities:"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
                 android:layout_gravity="start"/>
@@ -152,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Events:"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
                 android:layout_gravity="start"/>

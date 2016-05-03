@@ -13,10 +13,12 @@ import java.util.List;
 import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.feedRecyclerviewAdapter.LikedFeedAdapter;
 
+/**
+ * Activity that shows all the users favorited cards
+ */
 public class LikedActivity extends AppCompatActivity {
 
     private List<Cards> cardsList;
-    //@BindView(R.id.recyclerView)RecyclerView recyclerView;
     private LikedFeedAdapter likedFeedAdapter;
 
     @Override
@@ -26,7 +28,6 @@ public class LikedActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.liked_activity_toolbar);
         setSupportActionBar(toolbar);
-        //ButterKnife.bind(this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         likedFeedAdapter = new LikedFeedAdapter(cardsList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -35,6 +36,11 @@ public class LikedActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Creates toolbar for the activity
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

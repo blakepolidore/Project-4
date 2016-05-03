@@ -13,6 +13,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Activity that appears when a specific card is clicked on
+ */
 public class VenueActivity extends AppCompatActivity {
 
     @BindView(R.id.venue_image)
@@ -38,6 +41,11 @@ public class VenueActivity extends AppCompatActivity {
         getVenueInformation();
     }
 
+    /**
+     * Creates toolbar for the activity
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -46,6 +54,9 @@ public class VenueActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Gets information for the venue from the main activity
+     */
     private void getVenueInformation() {
         Intent venueIntent = getIntent();
         String titleString = venueIntent.getStringExtra(MainActivity.TITLE_TEXT);

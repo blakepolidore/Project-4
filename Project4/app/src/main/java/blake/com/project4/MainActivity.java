@@ -35,6 +35,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Main activity contains the swiped cards the user can play with.
+ * User can choose to save or dislike each card.
+ * Settings and liked cards can be accessed from this activity.
+ */
 public class MainActivity extends AppCompatActivity {
 
 
@@ -42,14 +47,9 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     @BindView(R.id.card_title)
     TextView title;
-//    ImageView imageView;
-//    TextView title;
-
+    SwipeFlingAdapterView flingContainer;
     FoursquareAPIService foursquareAPIService;
-
-
     public static final String TITLE_TEXT = "TITLE TEXT";
-
     LinkedList<Cards> cardsList;
     ArrayAdapter<Cards> cardsArrayAdapter;
 
@@ -61,12 +61,9 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
-//        imageView = (ImageView) findViewById(R.id.swipableImage);
-//        title = (TextView) findViewById(R.id.card_title);
 //        toolbar.setLogo(R.drawable.nyt_logo);
 //        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
-
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+        flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
         cardsList = new LinkedList<>();
         Cards cards = new Cards();
@@ -75,63 +72,20 @@ public class MainActivity extends AppCompatActivity {
         cards.setTitle("Park");
         cardsList.add(cards);
 
-
         //yelpAPISearchCall();
         foursquareAPICall();
 
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
-        //set the listener and the adapter
-        flingContainer.setAdapter(cardsArrayAdapter);
-        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
-            @Override
-            public void removeFirstObjectInAdapter() {
-                // this is the simplest way to delete an object from the Adapter (/AdapterView)
-                Log.d("LIST", "removed object!");
-                cardsList.remove(0);
-                cardsArrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onLeftCardExit(Object dataObject) {
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
-                Toast.makeText(MainActivity.this, "Left!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onRightCardExit(Object dataObject) {
-                Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdapterAboutToEmpty(int itemsInAdapter) {
-//                // Ask for more data here
-//                al.add("XML ".concat(String.valueOf(i)));
-//                arrayAdapter.notifyDataSetChanged();
-//                Log.d("LIST", "notified");
-//                i++;
-            }
-
-            @Override
-            public void onScroll(float scrollProgressPercent) {
-
-            }
-        });
-
-        // Optionally add an OnItemClickListener
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClicked(int itemPosition, Object dataObject) {
-                Intent venueIntent = new Intent(MainActivity.this, VenueActivity.class);
-                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getTitle());
-                startActivity(venueIntent);
-
-            }
-        });
+        intializeCardSwipes();
+        setCardClickListener();
     }
 
+    /**
+     * Creates toolbar for the activity
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -140,6 +94,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Creates methods for when items are selected in toolbar
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -152,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method makes API call to yelp and retrieves data based on search query
+     */
     private void yelpAPISearchCall() {
 
         Map<String, String> params = new HashMap<>();
@@ -191,6 +153,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method makes a call to foursquare and gets data based on search query
+     */
     private void foursquareAPICall() {
                 Retrofit retrofitFourSquare = new Retrofit.Builder()
                 .baseUrl("https://api.foursquare.com/v2/venues/")
@@ -224,6 +189,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method makes an api call to foursquare, gets photos based on venue id, then put the items into
+     * the list to be displayed to user
+     * @param id
+     * @param name
+     * @param address
+     * @param category
+     */
     private void getFourSquareImages(String id, final String name, final String address, final String category) {
         final String[] image = new String[2];
         Call<PhotoRoot> photoRootCall = foursquareAPIService.photoSearch(id, Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
@@ -248,6 +221,66 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PhotoRoot> call, Throwable t) {
                 Log.d("onFailure", "Photo failure");
+            }
+        });
+    }
+
+    /**
+     * Overrides the methods for when cards are swiped
+     */
+    private void intializeCardSwipes() {
+        //set the listener and the adapter
+        flingContainer.setAdapter(cardsArrayAdapter);
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+            @Override
+            public void removeFirstObjectInAdapter() {
+                // this is the simplest way to delete an object from the Adapter (/AdapterView)
+                Log.d("LIST", "removed object!");
+                cardsList.remove(0);
+                cardsArrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onLeftCardExit(Object dataObject) {
+                //Do something on the left!
+                //You also have access to the original object.
+                //If you want to use it just cast it (String) dataObject
+                Toast.makeText(MainActivity.this, "Left!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRightCardExit(Object dataObject) {
+                Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdapterAboutToEmpty(int itemsInAdapter) {
+//                // Ask for more data here
+//                al.add("XML ".concat(String.valueOf(i)));
+//                arrayAdapter.notifyDataSetChanged();
+//                Log.d("LIST", "notified");
+//                i++;
+            }
+
+            @Override
+            public void onScroll(float scrollProgressPercent) {
+
+            }
+        });
+    }
+
+    /**
+     * Initializes the card click listener
+     */
+    private void setCardClickListener() {
+        // Optionally add an OnItemClickListener
+        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int itemPosition, Object dataObject) {
+                Intent venueIntent = new Intent(MainActivity.this, VenueActivity.class);
+                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getTitle());
+                startActivity(venueIntent);
+
             }
         });
     }
