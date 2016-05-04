@@ -16,12 +16,14 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 
 public class Main3Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView navigationView;
     private ScrollView scrollView;
+    private TextView seekbarProgress;
     private EditText locationEditText;
     private SeekBar radiusSeekbar;
     private Switch deviceLocationSwitch;
@@ -62,6 +64,7 @@ public class Main3Activity extends AppCompatActivity
         setViews();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         locationSelection();
+        setSeekBar();
         checkVenueSwitches(foodSwitch);
         checkVenueSwitches(drinkSwitch);
         checkVenueSwitches(locationsSwitch);
@@ -81,6 +84,7 @@ public class Main3Activity extends AppCompatActivity
         drinkSwitch = (Switch) scrollView.findViewById(R.id.drink_search_switch);
         locationsSwitch = (Switch) scrollView.findViewById(R.id.activities_search_switch);
         eventsSwitch = (Switch) scrollView.findViewById(R.id.events_search_switch);
+        seekbarProgress = (TextView) scrollView.findViewById(R.id.seekbar_progress);
     }
 
     @Override
@@ -111,6 +115,26 @@ public class Main3Activity extends AppCompatActivity
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setSeekBar() {
+        radiusSeekbar.setMax(100);
+        radiusSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekbarProgress.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void locationSelection() {
@@ -166,8 +190,6 @@ public class Main3Activity extends AppCompatActivity
                 }
             }
         });
-
-
     }
 
     @Override
