@@ -12,11 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".VenueActivity" />
         <activity android:name=".LikedActivity" />
@@ -35,6 +31,11 @@
             android:name=".Main3Activity"
             android:label="@string/title_activity_main3"
             android:theme="@style/MyAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
