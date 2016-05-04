@@ -68,35 +68,35 @@
         android:text="Description:"
         android:layout_margin="4dp"/>
 
-    <GridLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2">
+        android:layout_height="match_parent">
 
         <ImageButton
             android:id="@+id/venue_dislike"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_columnWeight="1"/>
+            android:src="@drawable/cross"
+            android:layout_alignParentBottom="true"/>
 
         <ImageButton
             android:id="@+id/venue_like"
-            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_columnWeight="1"/>
-    </GridLayout>
+            android:src="@drawable/check"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignTop="@+id/venue_dislike"
+            android:layout_alignParentEnd="true" />
 
-    <ImageButton
-        android:id="@+id/share_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_share"/>
-
-
-
+        <ImageButton
+            android:id="@+id/share_button"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:src="@android:drawable/ic_menu_share"
+            android:layout_alignBottom="@+id/venue_like"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 </LinearLayout>

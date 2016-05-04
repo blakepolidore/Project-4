@@ -14,7 +14,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private ImageView imageView;
     @BindView(R.id.card_title)
     private TextView title;
+    @BindView(R.id.dislikeButton) private ImageButton dislikeButton;
+    @BindView(R.id.likeButton) private ImageButton likeButton;
     private SwipeFlingAdapterView flingContainer;
     private FoursquareAPIService foursquareAPIService;
     public static final String TITLE_TEXT = "TITLE TEXT";
@@ -95,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         intializeCardSwipes();
         setCardClickListener();
+        setLikeButton();
+        setDislikeButton();
     }
 
     /**
@@ -250,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
-                Log.d("LIST", "removed object!");
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
             }
@@ -294,6 +299,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onItemClicked(int itemPosition, Object dataObject) {
                 Intent venueIntent = new Intent(MainActivity.this, VenueActivity.class);
                 venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getTitle());
+                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getCategory());
+                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getImageUrl());
+                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getLocation());
                 startActivity(venueIntent);
 
             }
@@ -350,6 +358,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(MainActivity.this, "Cannot Connect to Google Location Services", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setDislikeButton() {
+        dislikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardsList.remove(0);
+                cardsArrayAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void setLikeButton() {
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardsList.remove(0);
+                cardsArrayAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
 
