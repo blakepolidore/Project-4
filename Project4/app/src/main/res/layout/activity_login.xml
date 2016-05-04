@@ -10,11 +10,10 @@
     android:orientation="vertical"
     tools:context="blake.com.project4.LoginActivity">
 
-    <Button
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/facebook_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Facebook Login"/>
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

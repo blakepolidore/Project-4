@@ -11,6 +11,7 @@ import android.view.View;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
@@ -35,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate called in LoginActivity");
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
 
         setFacebook();
@@ -50,11 +51,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setFacebook() {
         facebookCallbackManager = CallbackManager.Factory.create();
-        //facebookLoginButton = (LoginButton) findViewById(R.id.facebook_login);
+        facebookLoginButton = (LoginButton) findViewById(R.id.facebook_login);
         facebookAccessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                Log.d(TAG, "onCurrentAccessTokenChanged(~) called as callback");
+                Log.i(TAG, "Facebook.AccessTokenTracker.OnCurrentAccessTokenChanged");
                 LoginActivity.this.onFacebookAccessTokenChange(currentAccessToken);
             }
         };
@@ -119,13 +120,7 @@ public class LoginActivity extends AppCompatActivity {
             showErrorDialog(options.get("error"));
         } else {
             authProgressDialog.show();
-            if (provider.equals("twitter")) {
-                // if the provider is twitter, we pust pass in additional options, so use the options endpoint
-                firebaseRef.authWithOAuthToken(provider, options, new AuthResultHandler(provider));
-            } else {
-                // if the provider is not twitter, we just need to pass in the oauth_token
-                firebaseRef.authWithOAuthToken(provider, options.get("oauth_token"), new AuthResultHandler(provider));
-            }
+            firebaseRef.authWithOAuthToken(provider, options.get("oauth_token"), new AuthResultHandler(provider));
         }
     }
 
