@@ -49,6 +49,9 @@ public class Main3Activity extends AppCompatActivity
     private String locationInput;
     private final String LOCATION_INPUT_CODE = "user input";
 
+    private int seekBarValue;
+    private final String SEEKBAR_CODE = "seekbar";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +65,7 @@ public class Main3Activity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         setViews();
+        radiusSeekbar.setProgress(25);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         locationSelection();
         setSeekBar();
@@ -123,6 +127,7 @@ public class Main3Activity extends AppCompatActivity
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 seekbarProgress.setText(String.valueOf(progress));
+                seekBarValue = progress;
             }
 
             @Override
@@ -208,6 +213,7 @@ public class Main3Activity extends AppCompatActivity
         editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationToggle);
         locationInput = locationEditText.getText().toString();
         editor.putString(LOCATION_INPUT_CODE, locationInput);
+        editor.putInt(SEEKBAR_CODE, seekBarValue);
     }
 
     @Override
@@ -226,5 +232,6 @@ public class Main3Activity extends AppCompatActivity
         if (deviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
         }
+        radiusSeekbar.setProgress(sharedPreferences.getInt(SEEKBAR_CODE, seekBarValue));
     }
 }
