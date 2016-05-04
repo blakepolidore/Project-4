@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
@@ -113,48 +114,60 @@ public class Main3Activity extends AppCompatActivity
     }
 
     private void locationSelection() {
-        if (deviceLocationSwitch.isChecked()) {
-            deviceLocationToggle = true;
-            locationEditText.setEnabled(false);
-        } else {
-            deviceLocationToggle = false;
-            locationEditText.setEnabled(true);
-        }
+        deviceLocationSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deviceLocationSwitch.isChecked()) {
+                    deviceLocationToggle = true;
+                    locationEditText.setEnabled(false);
+                } else {
+                    deviceLocationToggle = false;
+                    locationEditText.setEnabled(true);
+                }
+            }
+        });
     }
 
-    private void checkVenueSwitches(Switch s) {
-        boolean toggled = s.isChecked();
-        switch (s.getId()) {
-            case R.id.food_search_switch:
-                if (toggled) {
-                    foodQueryToggle = true;
-                } else {
-                    foodQueryToggle = false;
+    private void checkVenueSwitches(final Switch s) {
+        s.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean toggled = s.isChecked();
+                switch (s.getId()) {
+                    case R.id.food_search_switch:
+                        if (toggled) {
+                            foodQueryToggle = true;
+                        } else {
+                            foodQueryToggle = false;
+                        }
+                        break;
+                    case R.id.drink_search_switch:
+                        if (toggled) {
+                            drinkQueryToggle = true;
+                        } else {
+                            drinkQueryToggle = false;
+                        }
+                        break;
+                    case R.id.activities_search_switch:
+                        if (toggled) {
+                            locationQueryToggle = true;
+                        } else {
+                            locationQueryToggle = false;
+                        }
+                        break;
+                    case R.id.events_search_switch:
+                        if (toggled) {
+                            eventsQueryToggle = true;
+                        } else {
+                            eventsQueryToggle = false;
+                        }
+                        break;
+                    default:
                 }
-                break;
-            case R.id.drink_search_switch:
-                if (toggled) {
-                    drinkQueryToggle = true;
-                } else {
-                    drinkQueryToggle = false;
-                }
-                break;
-            case R.id.activities_search_switch:
-                if (toggled) {
-                    locationQueryToggle = true;
-                } else {
-                    locationQueryToggle = false;
-                }
-                break;
-            case R.id.events_search_switch:
-                if (toggled) {
-                    eventsQueryToggle = true;
-                } else {
-                    eventsQueryToggle = false;
-                }
-                break;
-            default:
-        }
+            }
+        });
+
+
     }
 
     @Override
@@ -171,6 +184,8 @@ public class Main3Activity extends AppCompatActivity
         editor.putBoolean(LOCATION_BOOLEAN_CODE, locationQueryToggle);
         editor.putBoolean(EVENTS_BOOLEAN_CODE, eventsQueryToggle);
         editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationToggle);
+        locationInput = locationEditText.getText().toString();
+        editor.putString(LOCATION_INPUT_CODE, locationInput);
     }
 
     @Override
@@ -186,5 +201,8 @@ public class Main3Activity extends AppCompatActivity
         eventsSwitch.setChecked(eventsQueryToggle);
         deviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationToggle);
         deviceLocationSwitch.setChecked(deviceLocationToggle);
+        if (deviceLocationToggle) {
+            locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
+        }
     }
 }
