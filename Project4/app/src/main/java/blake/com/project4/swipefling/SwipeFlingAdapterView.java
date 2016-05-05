@@ -22,7 +22,7 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
 
     private int MAX_VISIBLE = 1;
     private int MIN_ADAPTER_STACK = 6;
-    private float ROTATION_DEGREES = 15.f;
+    private float ROTATION_DEGREES = 25.f;
 
     private Adapter mAdapter;
     private int LAST_OBJECT_IN_STACK = 0;

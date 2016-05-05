@@ -364,12 +364,12 @@ public class Main3Activity extends AppCompatActivity
     }
 
     /**
-     * Method makes API call to yelp and retrieves data based on search query
+     * Method makes API call to yelp and retrieves data based on search query and users coordinates
      */
-    private void yelpAPISearchCall() {
+    private void yelpAPISearchCallCoordinates(String query) {
 
         Map<String, String> params = new HashMap<>();
-        params.put("term", "park");
+        params.put("term", query);
         params.put("sort", "2");
         params.put("radius_filter", "10000");
 
@@ -405,9 +405,49 @@ public class Main3Activity extends AppCompatActivity
     }
 
     /**
+     * Method makes API call to yelp and retrieves data based on search query and users coordinates
+     */
+    private void yelpAPISearchCallLocation(String query) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("term", query);
+        params.put("sort", "2");
+        params.put("radius_filter", "10000");
+
+        YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
+        YelpAPI yelpAPI = apiFactory.createAPI();
+        Call<SearchResponse> call = yelpAPI.search(locationForQuery, params);
+
+        call.enqueue(new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                for (int i = 0; i < 20; i++) {
+                    String name = response.body().businesses().get(i).name();
+                    String url = response.body().businesses().get(i).url();
+                    String phone = response.body().businesses().get(i).displayPhone();
+                    String address = response.body().businesses().get(i).location().displayAddress().get(0);
+                    String imageURL = response.body().businesses().get(i).imageUrl();
+                    imageURL = imageURL.replaceAll("ms", "o");
+                    String category = response.body().businesses().get(i).categories().get(0).name();
+                    Cards cards = new Cards();
+                    cards.setTitle(name);
+                    cards.setLocation(address);
+                    cards.setImageUrl(imageURL);
+                    cards.setCategory(category);
+                    cardsList.add(i,cards);
+                }
+            }
+            @Override
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    /**
      * Method makes a call to foursquare and gets data based on search query and using a user specified location
      */
-    private void foursquareAPICallNear() {
+    private void foursquareAPICallNear(String query) {
         Retrofit retrofitFourSquare = new Retrofit.Builder()
                 .baseUrl("https://api.foursquare.com/v2/venues/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -416,7 +456,7 @@ public class Main3Activity extends AppCompatActivity
         foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
 
         Call<blake.com.project4.foursquareModel.Root> call =
-                foursquareAPIService.searchWithNear(locationForQuery, "", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
+                foursquareAPIService.searchWithNear(locationForQuery, query, Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
         call.enqueue(new Callback<Root>() {
             @Override
             public void onResponse(Call<blake.com.project4.foursquareModel.Root> call, Response<blake.com.project4.foursquareModel.Root> response) {
@@ -443,7 +483,7 @@ public class Main3Activity extends AppCompatActivity
     /**
      * Method makes a call to foursquare and gets data based on search query and using a user specified location
      */
-    private void foursquareAPICallLL() {
+    private void foursquareAPICallLL(String query) {
         Retrofit retrofitFourSquare = new Retrofit.Builder()
                 .baseUrl("https://api.foursquare.com/v2/venues/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -452,7 +492,7 @@ public class Main3Activity extends AppCompatActivity
         foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
 
         Call<blake.com.project4.foursquareModel.Root> call =
-                foursquareAPIService.searchWithLL(locationForQuery,"", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
+                foursquareAPIService.searchWithLL(locationForQuery,query, Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
         call.enqueue(new Callback<Root>() {
             @Override
             public void onResponse(Call<blake.com.project4.foursquareModel.Root> call, Response<blake.com.project4.foursquareModel.Root> response) {
@@ -591,7 +631,7 @@ public class Main3Activity extends AppCompatActivity
             longitude = String.valueOf(lastLocation.getLongitude());
             locationForQuery = latitude + "," + longitude;
             //Write API calls from here
-            yelpAPISearchCall();
+            //yelpAPISearchCallCoordinates();
         }
     }
 
@@ -647,13 +687,22 @@ public class Main3Activity extends AppCompatActivity
     private void setStartLocationOption() {
         if (deviceLocationSwitch.isChecked()) {
             locationForQuery = latitude + "," + longitude;
-            foursquareAPICallLL();
+            //foursquareAPICallLL();
             Log.d("locationSelection", locationForQuery);
         } else {
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
-                foursquareAPICallNear();
+                //foursquareAPICallNear();
                 Log.d("locationSelection", locationForQuery);
+            }
+        }
+    }
+
+    private void makeCoordinateAPICalls() {
+        if (deviceLocationToggle) {
+            if (foodQueryToggle) {
+                foursquareAPICallLL("food");
+                yelpAPISearchCallCoordinates("food");
             }
         }
     }

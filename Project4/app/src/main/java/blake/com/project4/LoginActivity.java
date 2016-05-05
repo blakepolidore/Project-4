@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
     private void setAuthenticatedUser(AuthData authData) {
         if (authData != null) {
             facebookLoginButton.setVisibility(View.GONE);
+            goToMainActivity();
             /* show a provider specific status text */
             String name = (String) authData.getProviderData().get("displayName");
         } else {
