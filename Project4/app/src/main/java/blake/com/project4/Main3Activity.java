@@ -701,8 +701,22 @@ public class Main3Activity extends AppCompatActivity
     private void makeCoordinateAPICalls() {
         if (deviceLocationToggle) {
             if (foodQueryToggle) {
-                foursquareAPICallLL("food");
                 yelpAPISearchCallCoordinates("food");
+                foursquareAPICallLL("food");
+            }
+            if (drinkQueryToggle) {
+                yelpAPISearchCallCoordinates("drink");
+                foursquareAPICallLL("drink");
+            }
+            if (eventsQueryToggle) {
+                yelpAPISearchCallCoordinates("movies");
+                foursquareAPICallLL("movies");
+            }
+            if (locationQueryToggle) {
+                yelpAPISearchCallCoordinates("park");
+                yelpAPISearchCallCoordinates("museum");
+                foursquareAPICallLL("park");
+                foursquareAPICallLL("museum");
             }
         }
     }
