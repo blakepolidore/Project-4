@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
             if(authData.getProviderData().containsKey("displayName")) {
                 map.put("displayName", authData.getProviderData().get("displayName").toString());
             }
-            firebaseRef.child("users").child(authData.getUid()).setValue(map);
+            firebaseRef.child("users").child(authData.getUid()).setValue(map);//Create if not exists
             goToMainActivity();
         }
 

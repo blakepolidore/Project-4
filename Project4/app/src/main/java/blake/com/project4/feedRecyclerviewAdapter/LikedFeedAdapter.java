@@ -28,10 +28,10 @@ public class LikedFeedAdapter extends RecyclerView.Adapter<LikedFeedAdapter.Feed
     /**
      * View holder class
      */
-    public class FeedViewHolder extends RecyclerView.ViewHolder {
+    public static class FeedViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, location, contact;
-        ImageView image;
+        public TextView title, location, contact;
+        public ImageView image;
 
         /**
          * View holder constructor

@@ -17,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
@@ -40,7 +38,6 @@ import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.foursquareModel.Root;
 import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,13 +52,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-
-    @BindView(R.id.swipableImage)
-    private ImageView imageView;
-    @BindView(R.id.card_title)
-    private TextView title;
-    @BindView(R.id.dislikeButton) private ImageButton dislikeButton;
-    @BindView(R.id.likeButton) private ImageButton likeButton;
+    private ImageButton dislikeButton;
+    private ImageButton likeButton;
     private SwipeFlingAdapterView flingContainer;
     private FoursquareAPIService foursquareAPIService;
     public static final String TITLE_TEXT = "TITLE TEXT";
@@ -84,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
+        setViews();
         String userID = getAuthData();
         firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
         firebaseCards = firebaseRef.child("cards");
@@ -107,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         intializeCardSwipes();
         setCardClickListener();
-        //setLikeButton();
-        //setDislikeButton();
+        setLikeButton();
+        setDislikeButton();
     }
 
     /**
@@ -139,6 +132,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setViews() {
+        dislikeButton = (ImageButton) findViewById(R.id.dislikeButton);
+        likeButton = (ImageButton) findViewById(R.id.likeButton);
     }
 
     /**
@@ -380,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                firebaseCards.push().setValue(cardsList.get(0));
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
             }

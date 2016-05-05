@@ -5,8 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import java.util.List;
 
@@ -18,8 +23,11 @@ import blake.com.project4.feedRecyclerviewAdapter.LikedFeedAdapter;
  */
 public class LikedActivity extends AppCompatActivity {
 
+    private static final String TAG = "LikedActivity: ";
+
     private List<Cards> cardsList;
     private LikedFeedAdapter likedFeedAdapter;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +36,10 @@ public class LikedActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.liked_activity_toolbar);
         setSupportActionBar(toolbar);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        likedFeedAdapter = new LikedFeedAdapter(cardsList);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(likedFeedAdapter);
-
+        setLikedCards();
     }
 
     /**
@@ -48,4 +54,33 @@ public class LikedActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
+    private void setLikedCards() {
+        String userID = getAuthData();
+        Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/");
+        FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder> adapter = new FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder>(Cards.class, R.layout.recycler_layout, LikedFeedAdapter.FeedViewHolder.class, firebase) {
+            @Override
+            protected void populateViewHolder(LikedFeedAdapter.FeedViewHolder feedViewHolder, Cards cards, int i) {
+                feedViewHolder.title.setText(cards.getTitle()); //Do for all
+            }
+        };
+
+        if (adapter.getItemCount() > 0){
+            for (int i=0; i<adapter.getItemCount(); i++){
+                Log.d(TAG, "Card object from Firebase: "+adapter.getItem(i).getTitle());
+            }
+        } else {
+            Log.d(TAG, "Adapter returned with 0 items in the list");
+        }
+
+        recyclerView.setAdapter(adapter);
+    }
+
+    private String getAuthData() {
+        Firebase firebase = new Firebase("https://datemate.firebaseio.com");
+        AuthData authData = firebase.getAuth();
+        String uID = authData.getUid();
+        return uID;
+    }
 }
+
