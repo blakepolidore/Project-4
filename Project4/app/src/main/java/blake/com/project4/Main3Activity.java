@@ -101,10 +101,10 @@ public class Main3Activity extends AppCompatActivity
 
     //region switch booleans
     private boolean deviceLocationToggle = true;
-    private boolean foodQueryToggle = false;
-    private boolean drinkQueryToggle = false;
-    private boolean locationQueryToggle = false;
-    private boolean eventsQueryToggle = false;
+    private boolean foodQueryToggle = true;
+    private boolean drinkQueryToggle = true;
+    private boolean locationQueryToggle = true;
+    private boolean eventsQueryToggle = true;
     //endregion switch booleans
 
     //region boolean codes
@@ -609,6 +609,7 @@ public class Main3Activity extends AppCompatActivity
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flingContainer.getTopCardListener().selectLeft();
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
             }
@@ -619,6 +620,7 @@ public class Main3Activity extends AppCompatActivity
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flingContainer.getTopCardListener().selectRight();
                 firebaseCards.push().setValue(cardsList.get(0));
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();

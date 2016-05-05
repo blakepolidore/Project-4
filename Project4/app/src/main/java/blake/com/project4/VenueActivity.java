@@ -7,28 +7,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Activity that appears when a specific card is clicked on
  */
 public class VenueActivity extends AppCompatActivity {
 
-    @BindView(R.id.venue_image)
     ImageView imageView;
-    @BindView(R.id.venue_dislike)Button dislike;
-    @BindView(R.id.venue_like)Button like;
-    @BindView(R.id.share_button)Button share;
-    @BindView(R.id.venue_title)TextView title;
-    @BindView(R.id.location)TextView location;
-    @BindView(R.id.website)TextView website;
-    @BindView(R.id.phone_number)TextView phone;
-    @BindView(R.id.description)TextView description;
+    ImageButton dislike;
+    ImageButton like;
+    ImageButton share;
+    TextView title;
+    TextView location;
+    TextView website;
+    TextView phone;
+    TextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +33,23 @@ public class VenueActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.venue_activity_toolbar);
         setSupportActionBar(toolbar);
+        setViews();
 
-        ButterKnife.bind(this);
-        title = (TextView) findViewById(R.id.venue_title);
         getVenueInformation();
+        setShareClickListener();
+    }
+
+    private void setViews() {
+        imageView = (ImageView) findViewById(R.id.venue_image);
+        dislike = (ImageButton) findViewById(R.id.venue_dislike);
+        like = (ImageButton) findViewById(R.id.venue_like);
+        title = (TextView) findViewById(R.id.venue_title);
+        location = (TextView) findViewById(R.id.location);
+        website = (TextView) findViewById(R.id.website);
+        phone = (TextView) findViewById(R.id.phone_number);
+        description = (TextView) findViewById(R.id.description);
+        share = (ImageButton) findViewById(R.id.share_button);
+
     }
 
     /**
@@ -75,7 +84,7 @@ public class VenueActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, "");//TODO add shareable url
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this place!");
                 startActivity(Intent.createChooser(intent, "Share"));
             }
         });
