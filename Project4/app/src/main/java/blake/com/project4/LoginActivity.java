@@ -11,13 +11,13 @@ import android.view.View;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
@@ -37,16 +37,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
 
         setFacebook();
-        //firebaseRef = new Firebase("https://datemate.firebaseio.com");
-        //setAuthProgressDialog();
-
-        /* Check if the user is authenticated with Firebase already. If this is the case we can set the authenticated
-         * user and hide hide any login buttons */
-        //firebaseRef.addAuthStateListener(authStateListener);
+        firebaseRef = new Firebase("https://datemate.firebaseio.com");
+        setAuthProgressDialog();
     }
 
     private void setFacebook() {
@@ -75,6 +70,9 @@ public class LoginActivity extends AppCompatActivity {
                 setAuthenticatedUser(authData);
             }
         };
+        /* Check if the user is authenticated with Firebase already. If this is the case we can set the authenticated
+         * user and hide hide any login buttons */
+        firebaseRef.addAuthStateListener(authStateListener);
     }
 
     @Override
@@ -83,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
         if (facebookAccessTokenTracker != null) {
             facebookAccessTokenTracker.stopTracking();
         }
-
         // if changing configurations, stop tracking firebase session.
         firebaseRef.removeAuthStateListener(authStateListener);
     }
@@ -112,29 +109,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * This method will attempt to authenticate a user to firebase given an oauth_token (and other
-     * necessary parameters depending on the provider)
-     */
-    private void authWithFirebase(final String provider, Map<String, String> options) {
-        if (options.containsKey("error")) {
-            showErrorDialog(options.get("error"));
-        } else {
-            authProgressDialog.show();
-            firebaseRef.authWithOAuthToken(provider, options.get("oauth_token"), new AuthResultHandler(provider));
-        }
-    }
-
-    /**
      * Once a user is logged in, take the mAuthData provided from Firebase and "use" it.
      */
     private void setAuthenticatedUser(AuthData authData) {
         if (authData != null) {
             facebookLoginButton.setVisibility(View.GONE);
-
             /* show a provider specific status text */
             String name = (String) authData.getProviderData().get("displayName");
-
-
         } else {
             /* No authenticated user show all the login buttons */
             facebookLoginButton.setVisibility(View.VISIBLE);
@@ -168,6 +149,13 @@ public class LoginActivity extends AppCompatActivity {
         public void onAuthenticated(AuthData authData) {
             authProgressDialog.hide();
             setAuthenticatedUser(authData);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("provider", authData.getProvider());
+            if(authData.getProviderData().containsKey("displayName")) {
+                map.put("displayName", authData.getProviderData().get("displayName").toString());
+            }
+            firebaseRef.child("users").child(authData.getUid()).setValue(map);
+            goToMainActivity();
         }
 
         @Override
@@ -188,5 +176,10 @@ public class LoginActivity extends AppCompatActivity {
                 setAuthenticatedUser(null);
             }
         }
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

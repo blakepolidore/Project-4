@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private String latitude;
     private String longitude;
 
+    Firebase firebaseRef;
+    Firebase firebaseCards;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -79,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
+        String userID = getAuthData();
+        firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
+        firebaseCards = firebaseRef.child("cards");
 //        toolbar.setLogo(R.drawable.nyt_logo);
 //        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
@@ -99,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         intializeCardSwipes();
         setCardClickListener();
-        setLikeButton();
-        setDislikeButton();
+        //setLikeButton();
+        //setDislikeButton();
     }
 
     /**
@@ -262,15 +270,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
                 Toast.makeText(MainActivity.this, "Left!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
                 Toast.makeText(MainActivity.this, "Right!", Toast.LENGTH_SHORT).show();
+                firebaseCards.push().setValue(cardsList.get(0));
             }
 
             @Override
@@ -378,6 +384,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 cardsArrayAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private String getAuthData() {
+        Firebase firebase = new Firebase("https://datemate.firebaseio.com");
+        AuthData authData = firebase.getAuth();
+        String uID = authData.getUid();
+        return uID;
     }
 }
 
