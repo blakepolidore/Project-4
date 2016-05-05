@@ -14,9 +14,14 @@ import retrofit2.http.Query;
 public interface FoursquareAPIService {
 
     @GET("search")
-    Call<Root> search(@Query("near") String near, @Query("client_id") String clientID,
-                      @Query("client_secret") String clientSecret, @Query("v") String date,
-                      @Query("m") String responseMode);
+    Call<Root> searchWithNear(@Query("near") String near, @Query("q") String query,
+                              @Query("client_id") String clientID, @Query("client_secret") String clientSecret,
+                              @Query("v") String date, @Query("m") String responseMode);
+
+    @GET("search")
+    Call<Root> searchWithLL(@Query("ll") String near, @Query("q") String query,
+                            @Query("client_id") String clientID, @Query("client_secret") String clientSecret,
+                            @Query("v") String date, @Query("m") String responseMode);
 
     @GET("{id}/photos")
     Call<PhotoRoot> photoSearch(@Path("id") String id, @Query("client_id") String clientID,

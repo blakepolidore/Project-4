@@ -38,7 +38,6 @@ import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.foursquareModel.Root;
 import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
-        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
         setViews();
@@ -192,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
 
         Call<blake.com.project4.foursquareModel.Root> call =
-                foursquareAPIService.search("San Francisco", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
+                foursquareAPIService.searchWithNear("San Francisco", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
         call.enqueue(new Callback<Root>() {
             @Override
             public void onResponse(Call<blake.com.project4.foursquareModel.Root> call, Response<blake.com.project4.foursquareModel.Root> response) {
