@@ -38,6 +38,7 @@ import com.google.android.gms.location.LocationServices;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.SearchResponse;
+import com.yelp.clientlib.entities.options.CoordinateOptions;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -152,7 +153,6 @@ public class Main3Activity extends AppCompatActivity
         toggle.syncState();
         setViews();
         locationEditText.setEnabled(false);
-        radiusSeekbar.setProgress(25);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         setSeekBar();
@@ -235,7 +235,7 @@ public class Main3Activity extends AppCompatActivity
         radiusSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekbarProgress.setText(String.valueOf(progress));
+                seekbarProgress.setText(progress + " miles");
                 seekBarValue = progress;
             }
 
@@ -341,7 +341,12 @@ public class Main3Activity extends AppCompatActivity
         if (!deviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
         }
-        radiusSeekbar.setProgress(sharedPreferences.getInt(SEEKBAR_CODE, seekBarValue));
+        int seekBarValue = sharedPreferences.getInt(SEEKBAR_CODE, 25);
+        if (seekBarValue == 0) {
+            radiusSeekbar.setProgress(25);
+        } else {
+            radiusSeekbar.setProgress(sharedPreferences.getInt(SEEKBAR_CODE, seekBarValue));
+        }
     }
 
     @Override
@@ -364,13 +369,14 @@ public class Main3Activity extends AppCompatActivity
     private void yelpAPISearchCall() {
 
         Map<String, String> params = new HashMap<>();
-        params.put("term", "food");
+        params.put("term", "park");
         params.put("sort", "2");
         params.put("radius_filter", "10000");
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
         YelpAPI yelpAPI = apiFactory.createAPI();
-        Call<SearchResponse> call = yelpAPI.search("San Francisco", params);
+        CoordinateOptions coordinateOptions = CoordinateOptions.builder().latitude(Double.valueOf(latitude)).longitude(Double.valueOf(longitude)).build();
+        Call<SearchResponse> call = yelpAPI.search(coordinateOptions, params);
 
         call.enqueue(new Callback<SearchResponse>() {
             @Override
@@ -381,7 +387,7 @@ public class Main3Activity extends AppCompatActivity
                     String phone = response.body().businesses().get(i).displayPhone();
                     String address = response.body().businesses().get(i).location().displayAddress().get(0);
                     String imageURL = response.body().businesses().get(i).imageUrl();
-                    imageURL.replaceAll("ms", "ls");
+                    imageURL = imageURL.replaceAll("ms", "o");
                     String category = response.body().businesses().get(i).categories().get(0).name();
                     Cards cards = new Cards();
                     cards.setTitle(name);
@@ -585,6 +591,7 @@ public class Main3Activity extends AppCompatActivity
             longitude = String.valueOf(lastLocation.getLongitude());
             locationForQuery = latitude + "," + longitude;
             //Write API calls from here
+            yelpAPISearchCall();
         }
     }
 

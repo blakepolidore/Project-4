@@ -53,7 +53,7 @@ public class CardsAdapter extends ArrayAdapter<Cards> {
         titleText.setText(cards.title);
         locationText.setText(cards.location);
         //TODO add a placeholder image (.placeholder)
-        //Picasso.with(parent.getContext()).load(cards.imageUrl).resize(350, 350).into(image);
+        //Picasso.with(parent.getContext()).load(cards.imageUrl).placeholder(R.drawable.smithriver).into(image);
         imageLoader.init(ImageLoaderConfiguration.createDefault(parent.getContext()));
         ImageSize imageSize = new ImageSize(300,300);
         imageLoader.displayImage(cards.imageUrl, image);

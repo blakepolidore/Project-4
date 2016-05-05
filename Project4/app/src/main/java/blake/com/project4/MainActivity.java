@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
 
         Call<blake.com.project4.foursquareModel.Root> call =
-                foursquareAPIService.searchWithNear("San Francisco", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
+                foursquareAPIService.searchWithNear("San Francisco", "", Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
         call.enqueue(new Callback<Root>() {
             @Override
             public void onResponse(Call<blake.com.project4.foursquareModel.Root> call, Response<blake.com.project4.foursquareModel.Root> response) {
