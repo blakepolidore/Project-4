@@ -209,6 +209,7 @@ public class Main3Activity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            setStartLocationOption();
         } else {
             super.onBackPressed();
         }
@@ -261,11 +262,9 @@ public class Main3Activity extends AppCompatActivity
                 if (deviceLocationSwitch.isChecked()) {
                     deviceLocationToggle = true;
                     locationEditText.setEnabled(false);
-                    setStartLocationOption();
                 } else {
                     deviceLocationToggle = false;
                     locationEditText.setEnabled(true);
-                    setStartLocationOption();
                 }
             }
         });
