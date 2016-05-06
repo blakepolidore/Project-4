@@ -391,13 +391,14 @@ public class Main3Activity extends AppCompatActivity
                     String name = response.body().businesses().get(i).name();
                     String url = response.body().businesses().get(i).url();
                     String phone = response.body().businesses().get(i).displayPhone();
+                    String snippet = response.body().businesses().get(i).snippetText();
                     String address = response.body().businesses().get(i).location().displayAddress().get(0);
                     String city = response.body().businesses().get(i).location().city();
                     String fullAddress = address + ", " + city;
                     String imageURL = response.body().businesses().get(i).imageUrl();
                     imageURL = imageURL.replaceAll("ms", "o");
                     String category = response.body().businesses().get(i).categories().get(0).name();
-                    createYelpCards(name, fullAddress, category, imageURL);
+                    createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                 }
             }
             @Override
@@ -428,13 +429,14 @@ public class Main3Activity extends AppCompatActivity
                     String name = response.body().businesses().get(i).name();
                     String url = response.body().businesses().get(i).url();
                     String phone = response.body().businesses().get(i).displayPhone();
+                    String snippet = response.body().businesses().get(i).snippetText();
                     String address = response.body().businesses().get(i).location().displayAddress().get(0);
                     String city = response.body().businesses().get(i).location().city();
                     String fullAddress = address + ", " + city;
                     String imageURL = response.body().businesses().get(i).imageUrl();
                     imageURL = imageURL.replaceAll("ms", "o");
                     String category = response.body().businesses().get(i).categories().get(0).name();
-                    createYelpCards(name, fullAddress, category, imageURL);
+                    createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                 }
             }
             @Override
@@ -559,12 +561,15 @@ public class Main3Activity extends AppCompatActivity
      * @param category
      * @param imageUrl
      */
-    private void createYelpCards(String name, String address, String category, String imageUrl) {
+    private void createYelpCards(String name, String address, String category, String imageUrl, String website, String phone, String description) {
         Cards cards = new Cards();
         cards.setTitle(name);
         cards.setLocation(address);
         cards.setImageUrl(imageUrl);
         cards.setCategory(category);
+        cards.setWebsite(website);
+        cards.setPhone(phone);
+        cards.setDescription(description);
         cardsList.add(cards);
     }
 
@@ -619,9 +624,12 @@ public class Main3Activity extends AppCompatActivity
             public void onItemClicked(int itemPosition, Object dataObject) {
                 Intent venueIntent = new Intent(Main3Activity.this, VenueActivity.class);
                 venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getTitle());
-//                venueIntent.putExtra(CATEGORY_TEXT, cardsList.get(0).getCategory());
-//                venueIntent.putExtra(IMAGE_TEXT, cardsList.get(0).getImageUrl());
-//                venueIntent.putExtra(LOCATION_TEXT, cardsList.get(0).getLocation());
+                venueIntent.putExtra(CATEGORY_TEXT, cardsList.get(0).getCategory());
+                venueIntent.putExtra(IMAGE_TEXT, cardsList.get(0).getImageUrl());
+                venueIntent.putExtra(LOCATION_TEXT, cardsList.get(0).getLocation());
+                venueIntent.putExtra(DESCRIPTION_TEXT, cardsList.get(0).getDescription());
+                venueIntent.putExtra(PHONE_TEXT, cardsList.get(0).getPhone());
+                venueIntent.putExtra(WEBSITE_TEXT, cardsList.get(0).getWebsite());
                 startActivity(venueIntent);
 
             }

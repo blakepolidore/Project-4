@@ -10,6 +10,21 @@ public class Cards {
     String imageUrl;
     String location;
     String category;
+    String website;
+    String phone;
+    String description;
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public void setCategory(String category) {
         this.category = category;
@@ -42,5 +57,17 @@ public class Cards {
     public String getCategory() {
 
         return category;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

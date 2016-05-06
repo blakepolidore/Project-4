@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * Activity that appears when a specific card is clicked on
  */
@@ -25,6 +27,7 @@ public class VenueActivity extends AppCompatActivity {
     TextView website;
     TextView phone;
     TextView description;
+    TextView category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +51,8 @@ public class VenueActivity extends AppCompatActivity {
         website = (TextView) findViewById(R.id.website);
         phone = (TextView) findViewById(R.id.phone_number);
         description = (TextView) findViewById(R.id.description);
+        category = (TextView) findViewById(R.id.category_venue);
         share = (ImageButton) findViewById(R.id.share_button);
-
     }
 
     /**
@@ -70,8 +73,20 @@ public class VenueActivity extends AppCompatActivity {
      */
     private void getVenueInformation() {
         Intent venueIntent = getIntent();
-        String titleString = venueIntent.getStringExtra(MainActivity.TITLE_TEXT);
+        String titleString = venueIntent.getStringExtra(Main3Activity.TITLE_TEXT);
         title.setText(titleString);
+        String imageURL = venueIntent.getStringExtra(Main3Activity.IMAGE_TEXT);
+        Picasso.with(getApplicationContext()).load(imageURL).placeholder(R.drawable.smithriver).into(imageView);
+        String categoryString = venueIntent.getStringExtra(Main3Activity.CATEGORY_TEXT);
+        category.setText(categoryString);
+        String locationString = venueIntent.getStringExtra(Main3Activity.LOCATION_TEXT);
+        location.setText(locationString);
+        String websiteString = venueIntent.getStringExtra(Main3Activity.WEBSITE_TEXT);
+        website.setText(websiteString);
+        String phoneString = venueIntent.getStringExtra(Main3Activity.PHONE_TEXT);
+        phone.setText(phoneString);
+        String descriptionString = venueIntent.getStringExtra(Main3Activity.DESCRIPTION_TEXT);
+        description.setText(descriptionString);
     }
 
     /**
