@@ -15,23 +15,30 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 /**
  * Activity that appears when a specific card is clicked on
  */
 public class VenueActivity extends AppCompatActivity {
 
-    ImageView imageView;
-    ImageButton dislike;
-    ImageButton like;
-    ImageButton share;
-    TextView title;
-    TextView location;
-    TextView website;
-    TextView phone;
-    TextView description;
-    TextView category;
+    private ImageView imageView;
+    private ImageButton dislike;
+    private ImageButton like;
+    private ImageButton share;
+    private TextView title;
+    private TextView location;
+    private TextView website;
+    private TextView phone;
+    private TextView description;
+    private TextView category;
+
+    private String websiteString;
+    public final static String IF_LIKE_INTENT = "LIKE INTENT";
+
+    private ImageLoader imageLoader = ImageLoader.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,8 @@ public class VenueActivity extends AppCompatActivity {
 
         getVenueInformation();
         setShareClickListener();
+        setLikeButton();
+        setDisikeButton();
     }
 
     private void setViews() {
@@ -84,12 +93,15 @@ public class VenueActivity extends AppCompatActivity {
         String titleString = venueIntent.getStringExtra(Main3Activity.TITLE_TEXT);
         title.setText(titleString);
         String imageURL = venueIntent.getStringExtra(Main3Activity.IMAGE_TEXT);
-        Picasso.with(getApplicationContext()).load(imageURL).placeholder(R.drawable.smithriver).into(imageView);
+        //Picasso.with(getApplicationContext()).load(imageURL).placeholder(R.drawable.smithriver).into(imageView);
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+        ImageSize imageSize = new ImageSize(300, 300);
+        imageLoader.displayImage(imageURL, imageView);
         String categoryString = venueIntent.getStringExtra(Main3Activity.CATEGORY_TEXT);
         category.setText("Category: " + categoryString);
         String locationString = venueIntent.getStringExtra(Main3Activity.LOCATION_TEXT);
         location.setText("Location: " + locationString);
-        String websiteString = venueIntent.getStringExtra(Main3Activity.WEBSITE_TEXT);
+        websiteString = venueIntent.getStringExtra(Main3Activity.WEBSITE_TEXT);
         String websiteLink = "<a href ='" + websiteString + "'> Reviews</a>";
         website.setText(Html.fromHtml(websiteLink));
         String phoneString = venueIntent.getStringExtra(Main3Activity.PHONE_TEXT);
@@ -110,7 +122,7 @@ public class VenueActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "");//TODO add shareable url
+                intent.putExtra(Intent.EXTRA_TEXT, websiteString);//TODO add shareable url
                 intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this place!");
                 startActivity(Intent.createChooser(intent, "Share"));
             }
@@ -124,6 +136,28 @@ public class VenueActivity extends AppCompatActivity {
                 Uri number = Uri.parse("tel:"+phoneNumber);
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
                 startActivity(callIntent);
+            }
+        });
+    }
+
+    private void setLikeButton() {
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
+                intent.putExtra(IF_LIKE_INTENT, true);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setDisikeButton() {
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
+                intent.putExtra(IF_LIKE_INTENT, false);
+                startActivity(intent);
             }
         });
     }

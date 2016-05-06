@@ -12,6 +12,9 @@ import android.view.MenuInflater;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 import java.util.List;
 
@@ -27,7 +30,8 @@ public class LikedActivity extends AppCompatActivity {
 
     private List<Cards> cardsList;
     private LikedFeedAdapter likedFeedAdapter;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private ImageLoader imageLoader = ImageLoader.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,14 @@ public class LikedActivity extends AppCompatActivity {
         FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder> adapter = new FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder>(Cards.class, R.layout.recycler_layout, LikedFeedAdapter.FeedViewHolder.class, firebase) {
             @Override
             protected void populateViewHolder(LikedFeedAdapter.FeedViewHolder feedViewHolder, Cards cards, int i) {
-                feedViewHolder.title.setText(cards.getTitle()); //Do for all
+                feedViewHolder.title.setText(cards.getTitle());
+                feedViewHolder.location.setText(cards.getLocation());
+                feedViewHolder.contact.setText(cards.getCategory());
+                String imageUrl = cards.getImageUrl();
+                imageUrl = imageUrl.replaceAll("/o.", "/ms.");
+                imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+                ImageSize imageSize = new ImageSize(100, 100);
+                imageLoader.displayImage(imageUrl, feedViewHolder.image, imageSize);
             }
         };
 

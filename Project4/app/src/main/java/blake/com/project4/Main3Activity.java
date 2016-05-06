@@ -618,7 +618,6 @@ public class Main3Activity extends AppCompatActivity
      * Initializes the card click listener
      */
     private void setCardClickListener() {
-        // Optionally add an OnItemClickListener
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
@@ -772,5 +771,22 @@ public class Main3Activity extends AppCompatActivity
             Collections.shuffle(cardsList);
         }
 
+    }
+
+    private void getIntentFromVenueActivity() {
+        Intent intentFromVenue = getIntent();
+        if (intentFromVenue != null) {
+            Boolean ifLiked = intentFromVenue.getBooleanExtra(VenueActivity.IF_LIKE_INTENT, false);
+            if (ifLiked) {
+                flingContainer.getTopCardListener().selectRight();
+                firebaseCards.push().setValue(cardsList.get(0));
+                cardsList.remove(0);
+                cardsArrayAdapter.notifyDataSetChanged();
+            } else if (!ifLiked) {
+                flingContainer.getTopCardListener().selectLeft();
+                cardsList.remove(0);
+                cardsArrayAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }
