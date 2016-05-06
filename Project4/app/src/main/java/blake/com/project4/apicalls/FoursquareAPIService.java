@@ -14,12 +14,12 @@ import retrofit2.http.Query;
 public interface FoursquareAPIService {
 
     @GET("search")
-    Call<Root> searchWithNear(@Query("near") String near, @Query("q") String query,
+    Call<Root> searchWithNear(@Query("near") String near, @Query("query") String query,
                               @Query("client_id") String clientID, @Query("client_secret") String clientSecret,
                               @Query("v") String date, @Query("m") String responseMode);
 
     @GET("search")
-    Call<Root> searchWithLL(@Query("ll") String near, @Query("q") String query,
+    Call<Root> searchWithLL(@Query("ll") String near, @Query("query") String query,
                             @Query("client_id") String clientID, @Query("client_secret") String clientSecret,
                             @Query("v") String date, @Query("m") String responseMode);
 

@@ -40,6 +40,7 @@ import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -389,12 +390,7 @@ public class Main3Activity extends AppCompatActivity
                     String imageURL = response.body().businesses().get(i).imageUrl();
                     imageURL = imageURL.replaceAll("ms", "o");
                     String category = response.body().businesses().get(i).categories().get(0).name();
-                    Cards cards = new Cards();
-                    cards.setTitle(name);
-                    cards.setLocation(address);
-                    cards.setImageUrl(imageURL);
-                    cards.setCategory(category);
-                    cardsList.add(i,cards);
+                    createYelpCards(name, address, category, imageURL);
                 }
             }
             @Override
@@ -429,12 +425,7 @@ public class Main3Activity extends AppCompatActivity
                     String imageURL = response.body().businesses().get(i).imageUrl();
                     imageURL = imageURL.replaceAll("ms", "o");
                     String category = response.body().businesses().get(i).categories().get(0).name();
-                    Cards cards = new Cards();
-                    cards.setTitle(name);
-                    cards.setLocation(address);
-                    cards.setImageUrl(imageURL);
-                    cards.setCategory(category);
-                    cardsList.add(i,cards);
+                    createYelpCards(name, address, category, imageURL);
                 }
             }
             @Override
@@ -552,6 +543,15 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
+    private void createYelpCards(String name, String address, String category, String imageUrl) {
+        Cards cards = new Cards();
+        cards.setTitle(name);
+        cards.setLocation(address);
+        cards.setImageUrl(imageUrl);
+        cards.setCategory(category);
+        cardsList.add(cards);
+    }
+
     /**
      * Overrides the methods for when cards are swiped
      */
@@ -631,7 +631,9 @@ public class Main3Activity extends AppCompatActivity
             longitude = String.valueOf(lastLocation.getLongitude());
             locationForQuery = latitude + "," + longitude;
             //Write API calls from here
-            //yelpAPISearchCallCoordinates();
+            //yelpAPISearchCallCoordinates("pizza");
+            //foursquareAPICallLL("food");
+            makeCoordinateAPICalls();
         }
     }
 
@@ -702,22 +704,26 @@ public class Main3Activity extends AppCompatActivity
         if (deviceLocationToggle) {
             if (foodQueryToggle) {
                 yelpAPISearchCallCoordinates("food");
-                foursquareAPICallLL("food");
+                //foursquareAPICallLL("restaurants");
             }
             if (drinkQueryToggle) {
-                yelpAPISearchCallCoordinates("drink");
-                foursquareAPICallLL("drink");
+                yelpAPISearchCallCoordinates("drinks");
+                //foursquareAPICallLL("bars");
             }
             if (eventsQueryToggle) {
                 yelpAPISearchCallCoordinates("movies");
-                foursquareAPICallLL("movies");
+                yelpAPISearchCallCoordinates("music");
+                yelpAPISearchCallCoordinates("concert");
+                yelpAPISearchCallCoordinates("auditorium");
+                //foursquareAPICallLL("movies");
             }
             if (locationQueryToggle) {
                 yelpAPISearchCallCoordinates("park");
                 yelpAPISearchCallCoordinates("museum");
-                foursquareAPICallLL("park");
-                foursquareAPICallLL("museum");
+                //foursquareAPICallLL("park");
+                //foursquareAPICallLL("museum");
             }
         }
+        Collections.shuffle(cardsList);
     }
 }
