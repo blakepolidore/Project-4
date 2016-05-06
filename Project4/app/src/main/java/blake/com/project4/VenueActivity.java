@@ -36,7 +36,8 @@ public class VenueActivity extends AppCompatActivity {
     private TextView category;
 
     private String websiteString;
-    public final static String IF_LIKE_INTENT = "LIKE INTENT";
+    public final static int RESULT_INTENT = 94;
+    public final static String IF_LIKE_INTENT = "LIKED INTENT";
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -48,7 +49,6 @@ public class VenueActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.venue_activity_toolbar);
         setSupportActionBar(toolbar);
         setViews();
-
         getVenueInformation();
         setShareClickListener();
         setLikeButton();
@@ -105,8 +105,10 @@ public class VenueActivity extends AppCompatActivity {
         String websiteLink = "<a href ='" + websiteString + "'> Reviews</a>";
         website.setText(Html.fromHtml(websiteLink));
         String phoneString = venueIntent.getStringExtra(Main3Activity.PHONE_TEXT);
-        phoneString = phoneString.substring(3);
-        phoneString =phoneString.replace("-", "");
+        if (phoneString != null) {
+            phoneString = phoneString.substring(3);
+            phoneString =phoneString.replace("-", "");
+        }
         phone.setText(phoneString);
         setPhoneCall(phoneString);
         String descriptionString = venueIntent.getStringExtra(Main3Activity.DESCRIPTION_TEXT);
@@ -146,18 +148,20 @@ public class VenueActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
                 intent.putExtra(IF_LIKE_INTENT, true);
-                startActivity(intent);
+                setResult(RESULT_INTENT, intent);
+                finish();
             }
         });
     }
 
     private void setDisikeButton() {
-        like.setOnClickListener(new View.OnClickListener() {
+        dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
                 intent.putExtra(IF_LIKE_INTENT, false);
-                startActivity(intent);
+                setResult(RESULT_INTENT, intent);
+                finish();
             }
         });
     }

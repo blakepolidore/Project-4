@@ -135,6 +135,7 @@ public class Main3Activity extends AppCompatActivity
 
     //region permissions
     private int PERMISSION_ACCESS_COARSE_LOCATION = 22;
+    public static int INTENT_FOR_RESULT = 23;
     //endregion permission
 
     @Override
@@ -629,7 +630,7 @@ public class Main3Activity extends AppCompatActivity
                 venueIntent.putExtra(DESCRIPTION_TEXT, cardsList.get(0).getDescription());
                 venueIntent.putExtra(PHONE_TEXT, cardsList.get(0).getPhone());
                 venueIntent.putExtra(WEBSITE_TEXT, cardsList.get(0).getWebsite());
-                startActivity(venueIntent);
+                startActivityForResult(venueIntent, INTENT_FOR_RESULT);
 
             }
         });
@@ -653,7 +654,7 @@ public class Main3Activity extends AppCompatActivity
             latitude = String.valueOf(lastLocation.getLatitude());
             longitude = String.valueOf(lastLocation.getLongitude());
             locationForQuery = latitude + "," + longitude;
-            setStartLocationOption();
+            //setStartLocationOption();
         }
     }
 
@@ -773,16 +774,17 @@ public class Main3Activity extends AppCompatActivity
 
     }
 
-    private void getIntentFromVenueActivity() {
-        Intent intentFromVenue = getIntent();
-        if (intentFromVenue != null) {
-            Boolean ifLiked = intentFromVenue.getBooleanExtra(VenueActivity.IF_LIKE_INTENT, false);
-            if (ifLiked) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data != null) {
+            Boolean venueBoolean = data.getBooleanExtra(VenueActivity.IF_LIKE_INTENT, false);
+            if (venueBoolean) {
                 flingContainer.getTopCardListener().selectRight();
                 firebaseCards.push().setValue(cardsList.get(0));
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
-            } else if (!ifLiked) {
+            } else {
                 flingContainer.getTopCardListener().selectLeft();
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
