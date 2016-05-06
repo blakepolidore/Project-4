@@ -1,109 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="blake.com.project4.VenueActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/venue_activity_toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </android.support.v7.widget.Toolbar>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/venue_image"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/venue_activity_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/smithriver"
-            android:scaleType="fitXY"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        </android.support.v7.widget.Toolbar>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/venue_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/smithriver"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:id="@+id/venue_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textSize="22sp"
+                android:layout_gravity="left|bottom"
+                android:textColor="@android:color/white"
+                android:paddingLeft="10dp"
+                android:paddingBottom="8dp"/>
+        </FrameLayout>
 
         <TextView
-            android:id="@+id/venue_title"
+            android:id="@+id/category_venue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="22sp"
-            android:layout_gravity="left|bottom"
-            android:textColor="@android:color/white"
-            android:paddingLeft="10dp"
-            android:paddingBottom="8dp"/>
-    </FrameLayout>
+            android:text="Category:"
+            android:layout_margin="4dp"/>
 
-    <TextView
-        android:id="@+id/category_venue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location:"
-        android:layout_margin="4dp"/>
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location:"
-        android:layout_margin="4dp"/>
-
-    <TextView
-        android:id="@+id/website"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Website:"
-        android:layout_margin="4dp"/>
-
-    <TextView
-        android:id="@+id/phone_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Phone:"
-        android:layout_margin="4dp"/>
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description:"
-        android:layout_margin="4dp"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageButton
-            android:id="@+id/venue_dislike"
-            android:layout_margin="10dp"
+        <TextView
+            android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/cross"
-            android:layout_alignParentBottom="true"/>
+            android:text="Location:"
+            android:layout_margin="4dp"/>
 
-        <ImageButton
-            android:id="@+id/venue_like"
+        <TextView
+            android:id="@+id/phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/check"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_alignTop="@+id/venue_dislike"
-            android:layout_alignParentEnd="true" />
+            android:text="Phone:"
+            android:layout_margin="4dp"
+            android:textColor="@color/colorAccent"/>
 
-        <ImageButton
-            android:id="@+id/share_button"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:src="@android:drawable/ic_menu_share"
-            android:layout_alignBottom="@+id/venue_like"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:layout_margin="4dp"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Website:"
+            android:layout_margin="4dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/venue_dislike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cross"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true" />
+
+            <ImageButton
+                android:id="@+id/venue_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignTop="@+id/venue_dislike"
+                android:layout_alignParentEnd="true" />
+
+            <ImageButton
+                android:id="@+id/share_button"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:src="@android:drawable/ic_menu_share"
+                android:layout_alignBottom="@+id/venue_like"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,9 +1,13 @@
 package blake.com.project4;
 
 import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -49,7 +53,11 @@ public class VenueActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.venue_title);
         location = (TextView) findViewById(R.id.location);
         website = (TextView) findViewById(R.id.website);
+        website.setClickable(true);
+        website.setMovementMethod(LinkMovementMethod.getInstance());
         phone = (TextView) findViewById(R.id.phone_number);
+        phone.setClickable(true);
+        phone.setPaintFlags(phone.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         description = (TextView) findViewById(R.id.description);
         category = (TextView) findViewById(R.id.category_venue);
         share = (ImageButton) findViewById(R.id.share_button);
@@ -78,15 +86,19 @@ public class VenueActivity extends AppCompatActivity {
         String imageURL = venueIntent.getStringExtra(Main3Activity.IMAGE_TEXT);
         Picasso.with(getApplicationContext()).load(imageURL).placeholder(R.drawable.smithriver).into(imageView);
         String categoryString = venueIntent.getStringExtra(Main3Activity.CATEGORY_TEXT);
-        category.setText(categoryString);
+        category.setText("Category: " + categoryString);
         String locationString = venueIntent.getStringExtra(Main3Activity.LOCATION_TEXT);
-        location.setText(locationString);
+        location.setText("Location: " + locationString);
         String websiteString = venueIntent.getStringExtra(Main3Activity.WEBSITE_TEXT);
-        website.setText(websiteString);
+        String websiteLink = "<a href ='" + websiteString + "'> Reviews</a>";
+        website.setText(Html.fromHtml(websiteLink));
         String phoneString = venueIntent.getStringExtra(Main3Activity.PHONE_TEXT);
+        phoneString = phoneString.substring(3);
+        phoneString =phoneString.replace("-", "");
         phone.setText(phoneString);
+        setPhoneCall(phoneString);
         String descriptionString = venueIntent.getStringExtra(Main3Activity.DESCRIPTION_TEXT);
-        description.setText(descriptionString);
+        description.setText("Description: " + descriptionString);
     }
 
     /**
@@ -101,6 +113,17 @@ public class VenueActivity extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_TEXT, "");//TODO add shareable url
                 intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this place!");
                 startActivity(Intent.createChooser(intent, "Share"));
+            }
+        });
+    }
+
+    private void setPhoneCall(final String phoneNumber) {
+        phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri number = Uri.parse("tel:"+phoneNumber);
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                startActivity(callIntent);
             }
         });
     }
