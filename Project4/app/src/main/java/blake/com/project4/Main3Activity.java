@@ -82,6 +82,12 @@ public class Main3Activity extends AppCompatActivity
 
     //region intent strings
     public static final String TITLE_TEXT = "TITLE TEXT";
+    public static final String LOCATION_TEXT = "LOCATION TEXT";
+    public static final String WEBSITE_TEXT = "WEBSITE TEXT";
+    public static final String PHONE_TEXT = "PHONE TEXT";
+    public static final String DESCRIPTION_TEXT = "DESCRIPTION TEXT";
+    public static final String IMAGE_TEXT = "IMAGE TEXT";
+    public static final String CATEGORY_TEXT = "CATEGORY TEXT";
     //endregion intent strings
 
     //region googlelocation
@@ -172,11 +178,6 @@ public class Main3Activity extends AppCompatActivity
 
         setGoogleServices();
         toggleLocationUIChoice();
-        //setStartLocationOption();
-        //foursquareAPICallLL();
-
-        //yelpAPISearchCall();
-        //foursquareAPICallNear();
 
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
@@ -392,10 +393,12 @@ public class Main3Activity extends AppCompatActivity
                     String url = response.body().businesses().get(i).url();
                     String phone = response.body().businesses().get(i).displayPhone();
                     String address = response.body().businesses().get(i).location().displayAddress().get(0);
+                    String city = response.body().businesses().get(i).location().city();
+                    String fullAddress = address + ", " + city;
                     String imageURL = response.body().businesses().get(i).imageUrl();
                     imageURL = imageURL.replaceAll("ms", "o");
                     String category = response.body().businesses().get(i).categories().get(0).name();
-                    createYelpCards(name, address, category, imageURL);
+                    createYelpCards(name, fullAddress, category, imageURL);
                 }
             }
             @Override
@@ -427,10 +430,12 @@ public class Main3Activity extends AppCompatActivity
                     String url = response.body().businesses().get(i).url();
                     String phone = response.body().businesses().get(i).displayPhone();
                     String address = response.body().businesses().get(i).location().displayAddress().get(0);
+                    String city = response.body().businesses().get(i).location().city();
+                    String fullAddress = address + ", " + city;
                     String imageURL = response.body().businesses().get(i).imageUrl();
                     imageURL = imageURL.replaceAll("ms", "o");
                     String category = response.body().businesses().get(i).categories().get(0).name();
-                    createYelpCards(name, address, category, imageURL);
+                    createYelpCards(name, fullAddress, category, imageURL);
                 }
             }
             @Override
@@ -615,9 +620,9 @@ public class Main3Activity extends AppCompatActivity
             public void onItemClicked(int itemPosition, Object dataObject) {
                 Intent venueIntent = new Intent(Main3Activity.this, VenueActivity.class);
                 venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getTitle());
-                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getCategory());
-                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getImageUrl());
-                venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getLocation());
+//                venueIntent.putExtra(CATEGORY_TEXT, cardsList.get(0).getCategory());
+//                venueIntent.putExtra(IMAGE_TEXT, cardsList.get(0).getImageUrl());
+//                venueIntent.putExtra(LOCATION_TEXT, cardsList.get(0).getLocation());
                 startActivity(venueIntent);
 
             }
@@ -710,57 +715,55 @@ public class Main3Activity extends AppCompatActivity
     }
 
     private void makeCoordinateAPICalls() {
-        if (deviceLocationToggle) {
-            if (foodQueryToggle) {
-                yelpAPISearchCallCoordinates("food");
-                //foursquareAPICallLL("restaurants");
-                Collections.shuffle(cardsList);
-            }
-            if (drinkQueryToggle) {
-                yelpAPISearchCallCoordinates("drinks");
-                //foursquareAPICallLL("bars");
-                Collections.shuffle(cardsList);
-            }
-            if (eventsQueryToggle) {
-                yelpAPISearchCallCoordinates("movies");
-                yelpAPISearchCallCoordinates("music");
-                yelpAPISearchCallCoordinates("concert");
-                yelpAPISearchCallCoordinates("auditorium");
-                //foursquareAPICallLL("movies");
-                Collections.shuffle(cardsList);
-            }
-            if (locationQueryToggle) {
-                yelpAPISearchCallCoordinates("park");
-                yelpAPISearchCallCoordinates("museum");
-                //foursquareAPICallLL("park");
-                //foursquareAPICallLL("museum");
-                Collections.shuffle(cardsList);
-            }
+        if (foodQueryToggle) {
+            yelpAPISearchCallCoordinates("food");
+            //foursquareAPICallLL("restaurants");
+            Collections.shuffle(cardsList);
         }
+        if (drinkQueryToggle) {
+            yelpAPISearchCallCoordinates("drinks");
+            //foursquareAPICallLL("bars");
+            Collections.shuffle(cardsList);
+        }
+        if (eventsQueryToggle) {
+            yelpAPISearchCallCoordinates("movies");
+            yelpAPISearchCallCoordinates("music");
+            yelpAPISearchCallCoordinates("concert");
+            yelpAPISearchCallCoordinates("auditorium");
+            //foursquareAPICallLL("movies");
+            Collections.shuffle(cardsList);
+        }
+        if (locationQueryToggle) {
+            yelpAPISearchCallCoordinates("park");
+            yelpAPISearchCallCoordinates("museum");
+            //foursquareAPICallLL("park");
+            //foursquareAPICallLL("museum");
+            Collections.shuffle(cardsList);
+        }
+
     }
 
     private void makeUserLocationInputAPICalls() {
-        if (deviceLocationToggle) {
-            if (foodQueryToggle) {
-                yelpAPISearchCallLocation("food");
-                Collections.shuffle(cardsList);
-            }
-            if (drinkQueryToggle) {
-                yelpAPISearchCallLocation("drinks");
-                Collections.shuffle(cardsList);
-            }
-            if (eventsQueryToggle) {
-                yelpAPISearchCallLocation("movies");
-                yelpAPISearchCallLocation("music");
-                yelpAPISearchCallLocation("concert");
-                yelpAPISearchCallLocation("auditorium");
-                Collections.shuffle(cardsList);
-            }
-            if (locationQueryToggle) {
-                yelpAPISearchCallLocation("park");
-                yelpAPISearchCallLocation("museum");
-                Collections.shuffle(cardsList);
-            }
+        if (foodQueryToggle) {
+            yelpAPISearchCallLocation("food");
+            Collections.shuffle(cardsList);
         }
+        if (drinkQueryToggle) {
+            yelpAPISearchCallLocation("drinks");
+            Collections.shuffle(cardsList);
+        }
+        if (eventsQueryToggle) {
+            yelpAPISearchCallLocation("movies");
+            yelpAPISearchCallLocation("music");
+            yelpAPISearchCallLocation("concert");
+            yelpAPISearchCallLocation("auditorium");
+            Collections.shuffle(cardsList);
+        }
+        if (locationQueryToggle) {
+            yelpAPISearchCallLocation("park");
+            yelpAPISearchCallLocation("museum");
+            Collections.shuffle(cardsList);
+        }
+
     }
 }
