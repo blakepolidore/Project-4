@@ -164,13 +164,14 @@ public class Main3Activity extends AppCompatActivity
 
         cardsList = new LinkedList<>();
         Cards cards = new Cards();
-        cards.setImageUrl("https://pbs.twimg.com/profile_images/672132153900183553/zVFIAIDi.jpg");
-        cards.setLocation("New York");
-        cards.setTitle("Park");
+        cards.setImageUrl("http://www.blastr.com/sites/blastr/files/Marvel-Civil-War-alternate-poster.jpg");
+        cards.setLocation("At A Theater Near You!");
+        cards.setTitle("Captain America: Civil War");
+        cards.setCategory("Movie");
         cardsList.add(cards);
 
         setGoogleServices();
-        locationSelection();
+        toggleLocationUIChoice();
         //setStartLocationOption();
         //foursquareAPICallLL();
 
@@ -252,16 +253,18 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
-    private void locationSelection() {
+    private void toggleLocationUIChoice() {
         deviceLocationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (deviceLocationSwitch.isChecked()) {
                     deviceLocationToggle = true;
                     locationEditText.setEnabled(false);
+                    setStartLocationOption();
                 } else {
                     deviceLocationToggle = false;
                     locationEditText.setEnabled(true);
+                    setStartLocationOption();
                 }
             }
         });
@@ -321,7 +324,9 @@ public class Main3Activity extends AppCompatActivity
         editor.putBoolean(LOCATION_BOOLEAN_CODE, locationQueryToggle);
         editor.putBoolean(EVENTS_BOOLEAN_CODE, eventsQueryToggle);
         editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationToggle);
-        locationInput = locationEditText.getText().toString();
+        if (!deviceLocationToggle) {
+            locationInput = locationEditText.getText().toString();
+        }
         editor.putString(LOCATION_INPUT_CODE, locationInput);
         editor.putInt(SEEKBAR_CODE, seekBarValue);
     }
@@ -543,6 +548,13 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
+    /**
+     * Creates cards objects from yelp api call and puts in cardslist
+     * @param name
+     * @param address
+     * @param category
+     * @param imageUrl
+     */
     private void createYelpCards(String name, String address, String category, String imageUrl) {
         Cards cards = new Cards();
         cards.setTitle(name);
@@ -630,10 +642,7 @@ public class Main3Activity extends AppCompatActivity
             latitude = String.valueOf(lastLocation.getLatitude());
             longitude = String.valueOf(lastLocation.getLongitude());
             locationForQuery = latitude + "," + longitude;
-            //Write API calls from here
-            //yelpAPISearchCallCoordinates("pizza");
-            //foursquareAPICallLL("food");
-            makeCoordinateAPICalls();
+            setStartLocationOption();
         }
     }
 
@@ -689,13 +698,13 @@ public class Main3Activity extends AppCompatActivity
     private void setStartLocationOption() {
         if (deviceLocationSwitch.isChecked()) {
             locationForQuery = latitude + "," + longitude;
-            //foursquareAPICallLL();
-            Log.d("locationSelection", locationForQuery);
+            cardsList.clear();
+            makeCoordinateAPICalls();
         } else {
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
-                //foursquareAPICallNear();
-                Log.d("locationSelection", locationForQuery);
+                cardsList.clear();
+                makeUserLocationInputAPICalls();
             }
         }
     }
@@ -705,10 +714,12 @@ public class Main3Activity extends AppCompatActivity
             if (foodQueryToggle) {
                 yelpAPISearchCallCoordinates("food");
                 //foursquareAPICallLL("restaurants");
+                Collections.shuffle(cardsList);
             }
             if (drinkQueryToggle) {
                 yelpAPISearchCallCoordinates("drinks");
                 //foursquareAPICallLL("bars");
+                Collections.shuffle(cardsList);
             }
             if (eventsQueryToggle) {
                 yelpAPISearchCallCoordinates("movies");
@@ -716,14 +727,40 @@ public class Main3Activity extends AppCompatActivity
                 yelpAPISearchCallCoordinates("concert");
                 yelpAPISearchCallCoordinates("auditorium");
                 //foursquareAPICallLL("movies");
+                Collections.shuffle(cardsList);
             }
             if (locationQueryToggle) {
                 yelpAPISearchCallCoordinates("park");
                 yelpAPISearchCallCoordinates("museum");
                 //foursquareAPICallLL("park");
                 //foursquareAPICallLL("museum");
+                Collections.shuffle(cardsList);
             }
         }
-        Collections.shuffle(cardsList);
+    }
+
+    private void makeUserLocationInputAPICalls() {
+        if (deviceLocationToggle) {
+            if (foodQueryToggle) {
+                yelpAPISearchCallLocation("food");
+                Collections.shuffle(cardsList);
+            }
+            if (drinkQueryToggle) {
+                yelpAPISearchCallLocation("drinks");
+                Collections.shuffle(cardsList);
+            }
+            if (eventsQueryToggle) {
+                yelpAPISearchCallLocation("movies");
+                yelpAPISearchCallLocation("music");
+                yelpAPISearchCallLocation("concert");
+                yelpAPISearchCallLocation("auditorium");
+                Collections.shuffle(cardsList);
+            }
+            if (locationQueryToggle) {
+                yelpAPISearchCallLocation("park");
+                yelpAPISearchCallLocation("museum");
+                Collections.shuffle(cardsList);
+            }
+        }
     }
 }
