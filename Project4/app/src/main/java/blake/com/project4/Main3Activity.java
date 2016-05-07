@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
@@ -30,6 +31,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
@@ -78,6 +80,7 @@ public class Main3Activity extends AppCompatActivity
     private FoursquareAPIService foursquareAPIService;
     private LinkedList<Cards> cardsList;
     private ArrayAdapter<Cards> cardsArrayAdapter;
+    private Button logOut;
     //endregion views
 
     //region intent strings
@@ -186,6 +189,7 @@ public class Main3Activity extends AppCompatActivity
         setCardClickListener();
         setLikeButton();
         setDislikeButton();
+        setLogOut();
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        drawer.closeDrawer(GravityCompat.START);
     }
@@ -200,6 +204,7 @@ public class Main3Activity extends AppCompatActivity
         drinkSwitch = (Switch) scrollView.findViewById(R.id.drink_search_switch);
         locationsSwitch = (Switch) scrollView.findViewById(R.id.activities_search_switch);
         eventsSwitch = (Switch) scrollView.findViewById(R.id.events_search_switch);
+        logOut = (Button) scrollView.findViewById(R.id.logoutButton);
         seekbarProgress = (TextView) scrollView.findViewById(R.id.seekbar_progress);
         dislikeButton = (ImageButton) findViewById(R.id.dislikeButton);
         likeButton = (ImageButton) findViewById(R.id.likeButton);
@@ -796,5 +801,21 @@ public class Main3Activity extends AppCompatActivity
             radiusValue = seekBarValue * 1609;
         }
         return String.valueOf(radiusValue);
+    }
+
+    private void setLogOut() {
+        final Firebase firebase = new Firebase("https://datemate.firebaseio.com");
+        final AuthData authData = firebase.getAuth();
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (authData != null) {
+                    firebase.unauth();
+                    LoginManager.getInstance().logOut();
+                    Intent loginIntent = new Intent(Main3Activity.this, LoginActivity.class);
+                    startActivity(loginIntent);
+                }
+            }
+        });
     }
 }

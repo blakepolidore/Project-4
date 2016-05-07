@@ -183,6 +183,17 @@
                 android:layout_gravity="center"/>
         </TableRow>
 
+        <TableRow
+            android:layout_margin="4dp">
+
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                />
+        </TableRow>
+
     </TableLayout>
 
 </ScrollView>
