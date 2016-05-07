@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -52,6 +54,7 @@ import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.foursquareModel.Root;
 import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
+import blake.com.project4.fragments.LoginFragment;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -141,6 +144,11 @@ public class Main3Activity extends AppCompatActivity
     public static int INTENT_FOR_RESULT = 23;
     //endregion permission
 
+    //region login fragment
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    //endregion login fragment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +162,12 @@ public class Main3Activity extends AppCompatActivity
 //        toolbar.setLogo(R.drawable.nyt_logo);
 //        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+
+        LoginFragment loginFragment = new LoginFragment();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.login_fragment_container, loginFragment);
+        fragmentTransaction.commit();
 
         checkPermissions();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -734,11 +748,11 @@ public class Main3Activity extends AppCompatActivity
             Collections.shuffle(cardsList);
         }
         if (eventsQueryToggle) {
-            yelpAPISearchCallCoordinates("movies");
+            yelpAPISearchCallCoordinates("Movies");
             yelpAPISearchCallCoordinates("music");
             yelpAPISearchCallCoordinates("concert");
             yelpAPISearchCallCoordinates("auditorium");
-            //foursquareAPICallLL("movies");
+            //foursquareAPICallLL("Movies");
             Collections.shuffle(cardsList);
         }
         if (locationQueryToggle) {
@@ -761,7 +775,7 @@ public class Main3Activity extends AppCompatActivity
             Collections.shuffle(cardsList);
         }
         if (eventsQueryToggle) {
-            yelpAPISearchCallLocation("movies");
+            yelpAPISearchCallLocation("Movies");
             yelpAPISearchCallLocation("music");
             yelpAPISearchCallLocation("concert");
             yelpAPISearchCallLocation("auditorium");

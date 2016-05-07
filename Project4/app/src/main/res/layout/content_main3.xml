@@ -4,8 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
 
-
-
     <blake.com.project4.swipefling.SwipeFlingAdapterView
         android:id="@+id/frame"
         android:background="#ffeee9e2"
