@@ -378,7 +378,7 @@ public class Main3Activity extends AppCompatActivity
         Map<String, String> params = new HashMap<>();
         params.put("term", query);
         params.put("sort", "2");
-        params.put("radius_filter", "10000");
+        params.put("radius_filter", convertRadiusToKM());
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
         YelpAPI yelpAPI = apiFactory.createAPI();
@@ -417,7 +417,7 @@ public class Main3Activity extends AppCompatActivity
         Map<String, String> params = new HashMap<>();
         params.put("term", query);
         params.put("sort", "2");
-        params.put("radius_filter", "10000");
+        params.put("radius_filter", convertRadiusToKM());
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
         YelpAPI yelpAPI = apiFactory.createAPI();
@@ -590,22 +590,16 @@ public class Main3Activity extends AppCompatActivity
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-                Toast.makeText(Main3Activity.this, "Left!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(Main3Activity.this, "Right!", Toast.LENGTH_SHORT).show();
                 firebaseCards.push().setValue(cardsList.get(0));
             }
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-//                // Ask for more data here
-//                al.add("XML ".concat(String.valueOf(i)));
-//                arrayAdapter.notifyDataSetChanged();
-//                Log.d("LIST", "notified");
-//                i++;
+                //setStartLocationOption();
             }
 
             @Override
@@ -654,7 +648,9 @@ public class Main3Activity extends AppCompatActivity
             latitude = String.valueOf(lastLocation.getLatitude());
             longitude = String.valueOf(lastLocation.getLongitude());
             locationForQuery = latitude + "," + longitude;
-            //setStartLocationOption();
+            if (cardsList.size() == 1) {
+                setStartLocationOption();
+            }
         }
     }
 
@@ -790,5 +786,15 @@ public class Main3Activity extends AppCompatActivity
                 cardsArrayAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    private String convertRadiusToKM() {
+        int radiusValue = 0;
+        if (seekBarValue > 25) {
+            radiusValue = 25;
+        } else {
+            radiusValue = seekBarValue;
+        }
+        return String.valueOf(radiusValue);
     }
 }
