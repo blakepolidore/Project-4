@@ -37,6 +37,7 @@ public class LikedActivity extends AppCompatActivity {
     private LikedFeedAdapter likedFeedAdapter;
     private RecyclerView recyclerView;
     private ImageLoader imageLoader = ImageLoader.getInstance();
+    Firebase firebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class LikedActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
         recyclerView.setLayoutManager(layoutManager);
         setLikedCards();
         setListClickListener();
@@ -67,7 +69,7 @@ public class LikedActivity extends AppCompatActivity {
 
     private void setLikedCards() {
         String userID = getAuthData();
-        Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/");
+        firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/");
         FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder> adapter = new FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder>(Cards.class, R.layout.recycler_layout, LikedFeedAdapter.FeedViewHolder.class, firebase) {
             @Override
             protected void populateViewHolder(LikedFeedAdapter.FeedViewHolder feedViewHolder, Cards cards, int i) {
@@ -76,7 +78,6 @@ public class LikedActivity extends AppCompatActivity {
                 feedViewHolder.contact.setText(cards.getCategory());
                 String imageUrl = cards.getImageUrl();
                 imageUrl = imageUrl.replaceAll("/o.", "/ms.");
-                imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
                 ImageSize imageSize = new ImageSize(100, 100);
                 imageLoader.displayImage(imageUrl, feedViewHolder.image, imageSize);
                 cardsList.add(cards);
@@ -118,7 +119,10 @@ public class LikedActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
+                String userID = getAuthData();
+                Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/category/");
 
+                Log.d(TAG, firebase.getRoot().toString());
             }
         }));
     }
