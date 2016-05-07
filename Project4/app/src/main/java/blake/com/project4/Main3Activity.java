@@ -791,9 +791,9 @@ public class Main3Activity extends AppCompatActivity
     private String convertRadiusToKM() {
         int radiusValue = 0;
         if (seekBarValue > 25) {
-            radiusValue = 25;
+            radiusValue = 25 * 1609;
         } else {
-            radiusValue = seekBarValue;
+            radiusValue = seekBarValue * 1609;
         }
         return String.valueOf(radiusValue);
     }
