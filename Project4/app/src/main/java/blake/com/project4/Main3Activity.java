@@ -603,17 +603,20 @@ public class Main3Activity extends AppCompatActivity
             @Override
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
+
+            }
+
+            @Override
+            public void onLeftCardExit(Object dataObject) {
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onLeftCardExit(Object dataObject) {
-            }
-
-            @Override
             public void onRightCardExit(Object dataObject) {
                 firebaseCards.push().setValue(cardsList.get(0));
+                cardsList.remove(0);
+                cardsArrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -688,8 +691,6 @@ public class Main3Activity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 flingContainer.getTopCardListener().selectLeft();
-                cardsList.remove(0);
-                cardsArrayAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -699,9 +700,6 @@ public class Main3Activity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 flingContainer.getTopCardListener().selectRight();
-                firebaseCards.push().setValue(cardsList.get(0));
-                cardsList.remove(0);
-                cardsArrayAdapter.notifyDataSetChanged();
             }
         });
     }
