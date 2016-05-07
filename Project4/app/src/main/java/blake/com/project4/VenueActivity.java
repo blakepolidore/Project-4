@@ -14,7 +14,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
@@ -36,8 +39,11 @@ public class VenueActivity extends AppCompatActivity {
     private TextView category;
 
     private String websiteString;
+    private String firebaseKey;
     public final static int RESULT_INTENT = 94;
     public final static String IF_LIKE_INTENT = "LIKED INTENT";
+
+    private boolean hasBeenLiked = false;
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -53,6 +59,7 @@ public class VenueActivity extends AppCompatActivity {
         setShareClickListener();
         setLikeButton();
         setDisikeButton();
+        setButtonsClickable();
     }
 
     private void setViews() {
@@ -113,6 +120,8 @@ public class VenueActivity extends AppCompatActivity {
         setPhoneCall(phoneString);
         String descriptionString = venueIntent.getStringExtra(Main3Activity.DESCRIPTION_TEXT);
         description.setText("Description: " + descriptionString);
+        hasBeenLiked = venueIntent.getBooleanExtra(LikedActivity.BOOLEAN_INTENT, false);
+        firebaseKey = venueIntent.getStringExtra(LikedActivity.FIREBASE_ID);
     }
 
     /**
@@ -124,7 +133,7 @@ public class VenueActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, websiteString);//TODO add shareable url
+                intent.putExtra(Intent.EXTRA_TEXT, websiteString);
                 intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this place!");
                 startActivity(Intent.createChooser(intent, "Share"));
             }
@@ -158,11 +167,29 @@ public class VenueActivity extends AppCompatActivity {
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
-                intent.putExtra(IF_LIKE_INTENT, false);
-                setResult(RESULT_INTENT, intent);
-                finish();
+                if (hasBeenLiked) {
+                    Toast.makeText(VenueActivity.this, "Item Removed From Liked List", Toast.LENGTH_SHORT).show();
+                    Firebase firebaseRef = new Firebase("https://datemate.firebaseio.com");
+                    AuthData authData = firebaseRef.getAuth();
+                    String uID = authData.getUid();
+                    Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + uID + "/cards/" + firebaseKey + "/");
+                    firebase.removeValue();
+                    Intent backToLikeIntent = new Intent(VenueActivity.this, LikedActivity.class);
+                    startActivity(backToLikeIntent);
+                } else {
+                    Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
+                    intent.putExtra(IF_LIKE_INTENT, false);
+                    setResult(RESULT_INTENT, intent);
+                    finish();
+                }
             }
         });
+    }
+
+    private void setButtonsClickable() {
+        if (hasBeenLiked) {
+            like.setClickable(false);
+            like.setAlpha(0.0f);
+        }
     }
 }

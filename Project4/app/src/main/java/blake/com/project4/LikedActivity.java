@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -32,6 +33,8 @@ import blake.com.project4.feedRecyclerviewAdapter.RecyclerTouchListener;
 public class LikedActivity extends AppCompatActivity {
 
     private static final String TAG = "LikedActivity: ";
+    public static final String BOOLEAN_INTENT = "Venue has been liked";
+    public static final String FIREBASE_ID = "Firebase id";
 
     private List<Cards> cardsList = new ArrayList<>();
     private LikedFeedAdapter likedFeedAdapter;
@@ -114,30 +117,20 @@ public class LikedActivity extends AppCompatActivity {
                 venueIntent.putExtra(Main3Activity.DESCRIPTION_TEXT, cardsList.get(position).getDescription());
                 venueIntent.putExtra(Main3Activity.PHONE_TEXT, cardsList.get(position).getPhone());
                 venueIntent.putExtra(Main3Activity.WEBSITE_TEXT, cardsList.get(position).getWebsite());
-                startActivityForResult(venueIntent, Main3Activity.INTENT_FOR_RESULT);
+                venueIntent.putExtra(FIREBASE_ID, cardsList.get(position).getUniqueFirebaseKey());
+                venueIntent.putExtra(BOOLEAN_INTENT, true);
+                startActivity(venueIntent);
             }
 
             @Override
             public void onLongClick(View view, int position) {
+                Toast.makeText(LikedActivity.this, "Item Removed From Liked List", Toast.LENGTH_SHORT).show();
+                String uniqueID = cardsList.get(position).getUniqueFirebaseKey();
                 String userID = getAuthData();
-                Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/category/");
-
-                Log.d(TAG, firebase.getRoot().toString());
+                Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/" + uniqueID + "/");
+                firebase.removeValue();
             }
         }));
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(data != null) {
-            Boolean venueBoolean = data.getBooleanExtra(VenueActivity.IF_LIKE_INTENT, false);
-            if (venueBoolean) {
-
-            } else {
-
-            }
-        }
     }
 }
 

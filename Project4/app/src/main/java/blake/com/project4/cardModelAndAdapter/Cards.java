@@ -13,6 +13,11 @@ public class Cards {
     String website;
     String phone;
     String description;
+    String uniqueFirebaseKey;
+
+    public void setUniqueFirebaseKey(String uniqueFirebaseKey) {
+        this.uniqueFirebaseKey = uniqueFirebaseKey;
+    }
 
     public void setWebsite(String website) {
         this.website = website;
@@ -69,5 +74,9 @@ public class Cards {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getUniqueFirebaseKey() {
+        return uniqueFirebaseKey;
     }
 }

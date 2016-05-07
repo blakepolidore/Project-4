@@ -66,6 +66,8 @@ public class Main3Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String TAG = "Main Activity";
+
     //region views
     private NavigationView navigationView;
     private ScrollView scrollView;
@@ -614,7 +616,9 @@ public class Main3Activity extends AppCompatActivity
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                firebaseCards.push().setValue(cardsList.get(0));
+                Firebase firebaseRef = firebaseCards.push();
+                cardsList.get(0).setUniqueFirebaseKey(firebaseRef.getKey());
+                firebaseRef.setValue(cardsList.get(0));
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
             }

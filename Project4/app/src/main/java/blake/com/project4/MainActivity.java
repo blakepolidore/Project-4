@@ -7,6 +7,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +39,7 @@ import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.foursquareModel.Root;
 import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
+import blake.com.project4.fragments.LoginFragment;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,6 +70,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     Firebase firebaseRef;
     Firebase firebaseCards;
 
+    //region login fragment
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    //endregion login fragment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -80,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         firebaseCards = firebaseRef.child("cards");
 //        toolbar.setLogo(R.drawable.nyt_logo);
 //        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
+
+        LoginFragment loginFragment = new LoginFragment();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.login_fragment_container, loginFragment);
+        fragmentTransaction.commit();
+
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
         cardsList = new LinkedList<>();
