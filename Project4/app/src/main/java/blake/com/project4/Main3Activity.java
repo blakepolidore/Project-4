@@ -72,6 +72,7 @@ public class Main3Activity extends AppCompatActivity
     private ScrollView scrollView;
     private TextView seekbarProgress;
     private EditText locationEditText;
+    private EditText userQueryEditText;
     private SeekBar radiusSeekbar;
     private Switch deviceLocationSwitch;
     private Switch foodSwitch;
@@ -207,6 +208,7 @@ public class Main3Activity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         scrollView = (ScrollView) navigationView.findViewById(R.id.nav_scrollview);
         locationEditText = (EditText) scrollView.findViewById(R.id.location_editText);
+        userQueryEditText = (EditText) scrollView.findViewById(R.id.userQuery_editText);
         radiusSeekbar = (SeekBar) scrollView.findViewById(R.id.search_radius_seekbar);
         deviceLocationSwitch = (Switch) scrollView.findViewById(R.id.phone_location_switch);
         foodSwitch = (Switch) scrollView.findViewById(R.id.food_search_switch);
@@ -403,17 +405,19 @@ public class Main3Activity extends AppCompatActivity
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 for (int i = 0; i < 20; i++) {
-                    String name = response.body().businesses().get(i).name();
-                    String url = response.body().businesses().get(i).url();
-                    String phone = response.body().businesses().get(i).displayPhone();
-                    String snippet = response.body().businesses().get(i).snippetText();
-                    String address = response.body().businesses().get(i).location().displayAddress().get(0);
-                    String city = response.body().businesses().get(i).location().city();
-                    String fullAddress = address + ", " + city;
-                    String imageURL = response.body().businesses().get(i).imageUrl();
-                    imageURL = imageURL.replaceAll("ms", "o");
-                    String category = response.body().businesses().get(i).categories().get(0).name();
-                    createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
+                    if (response.body() != null) {
+                        String name = response.body().businesses().get(i).name();
+                        String url = response.body().businesses().get(i).url();
+                        String phone = response.body().businesses().get(i).displayPhone();
+                        String snippet = response.body().businesses().get(i).snippetText();
+                        String address = response.body().businesses().get(i).location().displayAddress().get(0);
+                        String city = response.body().businesses().get(i).location().city();
+                        String fullAddress = address + ", " + city;
+                        String imageURL = response.body().businesses().get(i).imageUrl();
+                        imageURL = imageURL.replaceAll("ms", "o");
+                        String category = response.body().businesses().get(i).categories().get(0).name();
+                        createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
+                    }
                 }
             }
             @Override
@@ -441,17 +445,19 @@ public class Main3Activity extends AppCompatActivity
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 for (int i = 0; i < 20; i++) {
-                    String name = response.body().businesses().get(i).name();
-                    String url = response.body().businesses().get(i).url();
-                    String phone = response.body().businesses().get(i).displayPhone();
-                    String snippet = response.body().businesses().get(i).snippetText();
-                    String address = response.body().businesses().get(i).location().displayAddress().get(0);
-                    String city = response.body().businesses().get(i).location().city();
-                    String fullAddress = address + ", " + city;
-                    String imageURL = response.body().businesses().get(i).imageUrl();
-                    imageURL = imageURL.replaceAll("ms", "o");
-                    String category = response.body().businesses().get(i).categories().get(0).name();
-                    createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
+                    if (response.body() != null) {
+                        String name = response.body().businesses().get(i).name();
+                        String url = response.body().businesses().get(i).url();
+                        String phone = response.body().businesses().get(i).displayPhone();
+                        String snippet = response.body().businesses().get(i).snippetText();
+                        String address = response.body().businesses().get(i).location().displayAddress().get(0);
+                        String city = response.body().businesses().get(i).location().city();
+                        String fullAddress = address + ", " + city;
+                        String imageURL = response.body().businesses().get(i).imageUrl();
+                        imageURL = imageURL.replaceAll("ms", "o");
+                        String category = response.body().businesses().get(i).categories().get(0).name();
+                        createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
+                    }
                 }
             }
             @Override
@@ -770,7 +776,10 @@ public class Main3Activity extends AppCompatActivity
             //foursquareAPICallLL("museum");
             Collections.shuffle(cardsList);
         }
-
+        if (!userQueryEditText.getText().toString().isEmpty()) {
+            yelpAPISearchCallLocation(userQueryEditText.getText().toString());
+            Collections.shuffle(cardsList);
+        }
     }
 
     private void makeUserLocationInputAPICalls() {
@@ -794,7 +803,10 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallLocation("museum");
             Collections.shuffle(cardsList);
         }
-
+        if (!userQueryEditText.getText().toString().isEmpty()) {
+            yelpAPISearchCallLocation(userQueryEditText.getText().toString());
+            Collections.shuffle(cardsList);
+        }
     }
 
     @Override

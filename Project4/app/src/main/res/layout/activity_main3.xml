@@ -25,7 +25,7 @@
             layout="@layout/nav_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"></include>
+            android:layout_marginTop="160dp"></include>
 
     </android.support.design.widget.NavigationView>
 
