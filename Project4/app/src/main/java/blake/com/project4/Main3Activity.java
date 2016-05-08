@@ -161,8 +161,10 @@ public class Main3Activity extends AppCompatActivity
     //endregion login fragment
 
     //region counter
-    private int timesAPICalled =0;
-    private final String COUNTER_KEY = "counter";
+    private int timesAPICalledCoordinates =0;
+    private final String COORDINATES_COUNTER_KEY = "counter coordinates";
+    private int timesAPICalledUserLocation =0;
+    private final String USERPICK_COUNTER_KEY = "counter user location";
     //endregion counter
 
     @Override
@@ -398,7 +400,8 @@ public class Main3Activity extends AppCompatActivity
         editor.putBoolean(LOCATION_BOOLEAN_CODE, isLocationQueryToggle);
         editor.putBoolean(EVENTS_BOOLEAN_CODE, isEventsQueryToggle);
         editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
-        editor.putInt(COUNTER_KEY, timesAPICalled);
+        editor.putInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
+        editor.putInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
         if (!isDeviceLocationToggle) {
             locationInput = locationEditText.getText().toString();
             editor.putString(LOCATION_INPUT_CODE, locationInput);
@@ -431,7 +434,8 @@ public class Main3Activity extends AppCompatActivity
         } else {
             radiusSeekbar.setProgress(sharedPreferences.getInt(SEEKBAR_CODE, seekBarValue));
         }
-        timesAPICalled = sharedPreferences.getInt(COUNTER_KEY, timesAPICalled);
+        timesAPICalledCoordinates = sharedPreferences.getInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
+        timesAPICalledUserLocation = sharedPreferences.getInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
     }
 
     /**
@@ -462,6 +466,7 @@ public class Main3Activity extends AppCompatActivity
         Map<String, String> params = new HashMap<>();
         params.put("term", query);
         params.put("sort", "2");
+        params.put("offset", String.valueOf(timesAPICalledCoordinates));
         params.put("radius_filter", convertRadiusToKM());
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
@@ -508,6 +513,7 @@ public class Main3Activity extends AppCompatActivity
         Map<String, String> params = new HashMap<>();
         params.put("term", query);
         params.put("sort", "2");
+        params.put("offset", String.valueOf(timesAPICalledUserLocation));
         params.put("radius_filter", convertRadiusToKM());
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
@@ -891,6 +897,7 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());
             Collections.shuffle(cardsList);
         }
+        timesAPICalledCoordinates += 10;
     }
 
     /**
@@ -921,6 +928,7 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());
             Collections.shuffle(cardsList);
         }
+        timesAPICalledUserLocation += 10;
     }
 
     /**
