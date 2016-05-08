@@ -164,12 +164,6 @@ public class Main3Activity extends AppCompatActivity
 //        toolbar.setLogoDescription("DateMate");
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
-//        LoginFragment loginFragment = new LoginFragment();
-//        fragmentManager = getSupportFragmentManager();
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.add(R.id.login_fragment_container, loginFragment);
-//        fragmentTransaction.commit();
-
         checkPermissions();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -347,8 +341,8 @@ public class Main3Activity extends AppCompatActivity
         editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationToggle);
         if (!deviceLocationToggle) {
             locationInput = locationEditText.getText().toString();
+            editor.putString(LOCATION_INPUT_CODE, locationInput);
         }
-        editor.putString(LOCATION_INPUT_CODE, locationInput);
         editor.putInt(SEEKBAR_CODE, seekBarValue);
     }
 
@@ -368,7 +362,7 @@ public class Main3Activity extends AppCompatActivity
         if (!deviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
         }
-        int seekBarValue = sharedPreferences.getInt(SEEKBAR_CODE, 25);
+        seekBarValue = sharedPreferences.getInt(SEEKBAR_CODE, 25);
         if (seekBarValue == 0) {
             radiusSeekbar.setProgress(25);
         } else {
@@ -650,7 +644,20 @@ public class Main3Activity extends AppCompatActivity
                 venueIntent.putExtra(PHONE_TEXT, cardsList.get(0).getPhone());
                 venueIntent.putExtra(WEBSITE_TEXT, cardsList.get(0).getWebsite());
                 startActivityForResult(venueIntent, INTENT_FOR_RESULT);
-
+//                VenueFragment venueFragment = new VenueFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putString(TITLE_TEXT, cardsList.get(0).getTitle());
+//                bundle.putString(CATEGORY_TEXT, cardsList.get(0).getCategory());
+//                bundle.putString(IMAGE_TEXT, cardsList.get(0).getImageUrl());
+//                bundle.putString(LOCATION_TEXT, cardsList.get(0).getLocation());
+//                bundle.putString(DESCRIPTION_TEXT, cardsList.get(0).getDescription());
+//                bundle.putString(PHONE_TEXT, cardsList.get(0).getPhone());
+//                bundle.putString(WEBSITE_TEXT, cardsList.get(0).getWebsite());
+//                venueFragment.setArguments(bundle);
+//                fragmentManager = getSupportFragmentManager();
+//                fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.add(R.id.login_fragment_container, venueFragment);
+//                fragmentTransaction.commit();
             }
         });
     }
