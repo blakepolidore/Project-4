@@ -39,7 +39,6 @@ import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.foursquareModel.Root;
 import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
-import blake.com.project4.fragments.LoginFragment;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,12 +87,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         firebaseCards = firebaseRef.child("cards");
 //        toolbar.setLogo(R.drawable.nyt_logo);
 //        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
-
-        LoginFragment loginFragment = new LoginFragment();
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.login_fragment_container, loginFragment);
-        fragmentTransaction.commit();
 
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 

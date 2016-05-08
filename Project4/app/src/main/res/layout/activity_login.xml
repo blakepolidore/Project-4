@@ -7,8 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@android:color/holo_blue_light"
+    android:background="@color/colorPrimary"
     tools:context="blake.com.project4.LoginActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_icon"
+        android:scaleX="5"
+        android:scaleY="5"
+        android:layout_above="@+id/facebook_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="109dp" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/facebook_login"

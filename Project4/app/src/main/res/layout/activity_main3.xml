@@ -8,12 +8,6 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <FrameLayout
-        android:id="@+id/login_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
-
     <include
         layout="@layout/app_bar_main3"
         android:layout_width="match_parent"
@@ -34,5 +28,12 @@
             android:layout_marginTop="180dp"></include>
 
     </android.support.design.widget.NavigationView>
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/login_fragment_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</FrameLayout>-->
+
 
 </android.support.v4.widget.DrawerLayout>

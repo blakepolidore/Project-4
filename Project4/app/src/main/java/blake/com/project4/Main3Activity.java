@@ -54,7 +54,6 @@ import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
 import blake.com.project4.foursquareModel.Root;
 import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
-import blake.com.project4.fragments.LoginFragment;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -161,15 +160,15 @@ public class Main3Activity extends AppCompatActivity
 
         firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
         firebaseCards = firebaseRef.child("cards");
-//        toolbar.setLogo(R.drawable.nyt_logo);
-//        toolbar.setLogoDescription(getResources().getString(R.string.logo_desc));
+//        toolbar.setLogo(R.drawable.ic_action_icon);
+//        toolbar.setLogoDescription("DateMate");
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
-        LoginFragment loginFragment = new LoginFragment();
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.login_fragment_container, loginFragment);
-        fragmentTransaction.commit();
+//        LoginFragment loginFragment = new LoginFragment();
+//        fragmentManager = getSupportFragmentManager();
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.add(R.id.login_fragment_container, loginFragment);
+//        fragmentTransaction.commit();
 
         checkPermissions();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
