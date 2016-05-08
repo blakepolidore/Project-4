@@ -27,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -91,6 +92,9 @@ public class Main3Activity extends AppCompatActivity
     private LinkedList<Cards> cardsList;
     private ArrayAdapter<Cards> cardsArrayAdapter;
     private Button logOut;
+    private TextView titleText;
+    private TextView locationText;
+    private ImageView image;
     //endregion views
 
     //region intent strings
@@ -156,6 +160,11 @@ public class Main3Activity extends AppCompatActivity
     FragmentTransaction fragmentTransaction;
     //endregion login fragment
 
+    //region counter
+    private int timesAPICalled =0;
+    private final String COUNTER_KEY = "counter";
+    //endregion counter
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,12 +197,12 @@ public class Main3Activity extends AppCompatActivity
         checkVenueSwitches(eventsSwitch);
 
         cardsList = new LinkedList<>();
-//        Cards cards = new Cards();
-//        cards.setImageUrl("http://www.blastr.com/sites/blastr/files/Marvel-Civil-War-alternate-poster.jpg");
-//        cards.setLocation("At A Theater Near You!");
-//        cards.setTitle("Captain America: Civil War");
-//        cards.setCategory("Movie");
-//        cardsList.add(cards);
+        Cards cards = new Cards();
+        cards.setImageUrl("http://www.blastr.com/sites/blastr/files/Marvel-Civil-War-alternate-poster.jpg");
+        cards.setLocation("At A Theater Near You!");
+        cards.setTitle("Captain America: Civil War");
+        cards.setCategory("Movie");
+        cardsList.add(cards);
 
         setGoogleServices();
         toggleLocationUIChoice();
@@ -227,6 +236,9 @@ public class Main3Activity extends AppCompatActivity
         seekbarProgress = (TextView) scrollView.findViewById(R.id.seekbar_progress);
         dislikeButton = (ImageButton) findViewById(R.id.dislikeButton);
         likeButton = (ImageButton) findViewById(R.id.likeButton);
+        titleText = (TextView) flingContainer.findViewById(R.id.card_title);
+        locationText = (TextView) flingContainer.findViewById(R.id.card_location);
+        image = (ImageView) flingContainer.findViewById(R.id.swipableImage);
     }
 
     /**
@@ -237,6 +249,10 @@ public class Main3Activity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+//            titleText.setText("");
+//            locationText.setText("");
+//            image.setImageResource(R.drawable.ic_action_icon);
+            cardsList.clear();
             setStartLocationOption();
         } else {
             super.onBackPressed();
@@ -382,6 +398,7 @@ public class Main3Activity extends AppCompatActivity
         editor.putBoolean(LOCATION_BOOLEAN_CODE, isLocationQueryToggle);
         editor.putBoolean(EVENTS_BOOLEAN_CODE, isEventsQueryToggle);
         editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
+        editor.putInt(COUNTER_KEY, timesAPICalled);
         if (!isDeviceLocationToggle) {
             locationInput = locationEditText.getText().toString();
             editor.putString(LOCATION_INPUT_CODE, locationInput);
@@ -414,6 +431,7 @@ public class Main3Activity extends AppCompatActivity
         } else {
             radiusSeekbar.setProgress(sharedPreferences.getInt(SEEKBAR_CODE, seekBarValue));
         }
+        timesAPICalled = sharedPreferences.getInt(COUNTER_KEY, timesAPICalled);
     }
 
     /**
@@ -684,7 +702,9 @@ public class Main3Activity extends AppCompatActivity
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                //setStartLocationOption();
+                if (cardsList.size() > 3) {
+                    setStartLocationOption();
+                }
             }
 
             @Override
@@ -827,13 +847,13 @@ public class Main3Activity extends AppCompatActivity
     private void setStartLocationOption() {
         if (deviceLocationSwitch.isChecked()) {
             locationForQuery = latitude + "," + longitude;
-            cardsList.clear();
             makeCoordinateAPICalls();
         } else {
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
-                cardsList.clear();
                 makeUserLocationInputAPICalls();
+            } else {
+                Toast.makeText(Main3Activity.this, R.string.enter_valid_location, Toast.LENGTH_SHORT).show();
             }
         }
     }

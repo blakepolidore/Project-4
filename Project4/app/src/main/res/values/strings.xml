@@ -7,4 +7,5 @@
     <string name="facebook_app_id">1125954750780745</string>
     <string name="fb_login_protocol_scheme">fb1125954750780745</string>
     <string name="title_activity_main3">Main3Activity</string>
+    <string name="enter_valid_location">Please enter a valid location</string>
 </resources>
