@@ -199,12 +199,12 @@ public class Main3Activity extends AppCompatActivity
         checkVenueSwitches(eventsSwitch);
 
         cardsList = new LinkedList<>();
-        Cards cards = new Cards();
-        cards.setImageUrl("http://www.blastr.com/sites/blastr/files/Marvel-Civil-War-alternate-poster.jpg");
-        cards.setLocation("At A Theater Near You!");
-        cards.setTitle("Captain America: Civil War");
-        cards.setCategory("Movie");
-        cardsList.add(cards);
+//        Cards cards = new Cards();
+//        cards.setImageUrl("http://www.blastr.com/sites/blastr/files/Marvel-Civil-War-alternate-poster.jpg");
+//        cards.setLocation("At A Theater Near You!");
+//        cards.setTitle("Captain America: Civil War");
+//        cards.setCategory("Movie");
+//        cardsList.add(cards);
 
         setGoogleServices();
         toggleLocationUIChoice();
@@ -709,6 +709,8 @@ public class Main3Activity extends AppCompatActivity
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 if (cardsList.size() > 3) {
+                    timesAPICalledUserLocation += 10;
+                    timesAPICalledCoordinates += 10;
                     setStartLocationOption();
                 }
             }
@@ -776,7 +778,7 @@ public class Main3Activity extends AppCompatActivity
             latitude = String.valueOf(lastLocation.getLatitude());
             longitude = String.valueOf(lastLocation.getLongitude());
             locationForQuery = latitude + "," + longitude;
-            if (cardsList.size() == 1) {
+            if (cardsList.size() == 0) {
                 setStartLocationOption();
             }
         }
