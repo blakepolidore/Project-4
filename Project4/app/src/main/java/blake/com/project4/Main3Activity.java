@@ -61,6 +61,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Main Activity for the app
+ * Has a nav drawer for the user queries
+ * Shows cards based on use queries
+ */
 public class Main3Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -115,11 +120,11 @@ public class Main3Activity extends AppCompatActivity
     //endregion sharedpreferences
 
     //region switch booleans
-    private boolean deviceLocationToggle = true;
-    private boolean foodQueryToggle = true;
-    private boolean drinkQueryToggle = true;
-    private boolean locationQueryToggle = true;
-    private boolean eventsQueryToggle = true;
+    private boolean isDeviceLocationToggle = true;
+    private boolean isFoodQueryToggle = true;
+    private boolean isDrinkQueryToggle = true;
+    private boolean isLocationQueryToggle = true;
+    private boolean isEventsQueryToggle = true;
     //endregion switch booleans
 
     //region boolean codes
@@ -204,6 +209,9 @@ public class Main3Activity extends AppCompatActivity
 //        drawer.closeDrawer(GravityCompat.START);
     }
 
+    /**
+     * Instantiate views in the activity
+     */
     private void setViews() {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         scrollView = (ScrollView) navigationView.findViewById(R.id.nav_scrollview);
@@ -221,6 +229,9 @@ public class Main3Activity extends AppCompatActivity
         likeButton = (ImageButton) findViewById(R.id.likeButton);
     }
 
+    /**
+     * Creates the api calls when the nav drawer is closed
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -232,6 +243,11 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * Inflates the menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -239,6 +255,11 @@ public class Main3Activity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Creates intents when options are clicked on
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -251,6 +272,9 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * Sets and grabs the seek bar value and places into the textview and the seekBarValue int
+     */
     private void setSeekBar() {
         radiusSeekbar.setMax(100);
         radiusSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -272,21 +296,30 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
+    /**
+     * Sets the on click for the location switch.
+     * Disables or enables the edit text depeding on whether the user wants to use the phones
+     * location or a custom location for the query
+     */
     private void toggleLocationUIChoice() {
         deviceLocationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (deviceLocationSwitch.isChecked()) {
-                    deviceLocationToggle = true;
+                    isDeviceLocationToggle = true;
                     locationEditText.setEnabled(false);
                 } else {
-                    deviceLocationToggle = false;
+                    isDeviceLocationToggle = false;
                     locationEditText.setEnabled(true);
                 }
             }
         });
     }
 
+    /**
+     * Switches the associated booleans with the switch when the switch is toggled
+     * @param s
+     */
     private void checkVenueSwitches(final Switch s) {
         s.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -295,30 +328,30 @@ public class Main3Activity extends AppCompatActivity
                 switch (s.getId()) {
                     case R.id.food_search_switch:
                         if (toggled) {
-                            foodQueryToggle = true;
+                            isFoodQueryToggle = true;
                         } else {
-                            foodQueryToggle = false;
+                            isFoodQueryToggle = false;
                         }
                         break;
                     case R.id.drink_search_switch:
                         if (toggled) {
-                            drinkQueryToggle = true;
+                            isDrinkQueryToggle = true;
                         } else {
-                            drinkQueryToggle = false;
+                            isDrinkQueryToggle = false;
                         }
                         break;
                     case R.id.activities_search_switch:
                         if (toggled) {
-                            locationQueryToggle = true;
+                            isLocationQueryToggle = true;
                         } else {
-                            locationQueryToggle = false;
+                            isLocationQueryToggle = false;
                         }
                         break;
                     case R.id.events_search_switch:
                         if (toggled) {
-                            eventsQueryToggle = true;
+                            isEventsQueryToggle = true;
                         } else {
-                            eventsQueryToggle = false;
+                            isEventsQueryToggle = false;
                         }
                         break;
                     default:
@@ -327,41 +360,52 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
+    /**
+     * Navigation item selected override
+     * @param item
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         return false;
     }
 
+    /**
+     * Places switch booleans and navigation drawer values into shared preferences
+     */
     @Override
     protected void onPause() {
         super.onPause();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(FOOD_BOOLEAN_CODE, foodQueryToggle);
-        editor.putBoolean(DRINK_BOOLEAN_CODE, drinkQueryToggle);
-        editor.putBoolean(LOCATION_BOOLEAN_CODE, locationQueryToggle);
-        editor.putBoolean(EVENTS_BOOLEAN_CODE, eventsQueryToggle);
-        editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationToggle);
-        if (!deviceLocationToggle) {
+        editor.putBoolean(FOOD_BOOLEAN_CODE, isFoodQueryToggle);
+        editor.putBoolean(DRINK_BOOLEAN_CODE, isDrinkQueryToggle);
+        editor.putBoolean(LOCATION_BOOLEAN_CODE, isLocationQueryToggle);
+        editor.putBoolean(EVENTS_BOOLEAN_CODE, isEventsQueryToggle);
+        editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
+        if (!isDeviceLocationToggle) {
             locationInput = locationEditText.getText().toString();
             editor.putString(LOCATION_INPUT_CODE, locationInput);
         }
         editor.putInt(SEEKBAR_CODE, seekBarValue);
     }
 
+    /**
+     * Grabs the values in the shared preferences and sets the items in the nav drawer with the values
+     */
     @Override
     protected void onResume() {
         super.onResume();
-        foodQueryToggle = sharedPreferences.getBoolean(FOOD_BOOLEAN_CODE, foodQueryToggle);
-        foodSwitch.setChecked(foodQueryToggle);
-        drinkQueryToggle = sharedPreferences.getBoolean(DRINK_BOOLEAN_CODE, drinkQueryToggle);
-        drinkSwitch.setChecked(drinkQueryToggle);
-        locationQueryToggle = sharedPreferences.getBoolean(LOCATION_BOOLEAN_CODE, locationQueryToggle);
-        locationsSwitch.setChecked(locationQueryToggle);
-        eventsQueryToggle = sharedPreferences.getBoolean(EVENTS_BOOLEAN_CODE, eventsQueryToggle);
-        eventsSwitch.setChecked(eventsQueryToggle);
-        deviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationToggle);
-        deviceLocationSwitch.setChecked(deviceLocationToggle);
-        if (!deviceLocationToggle) {
+        isFoodQueryToggle = sharedPreferences.getBoolean(FOOD_BOOLEAN_CODE, isFoodQueryToggle);
+        foodSwitch.setChecked(isFoodQueryToggle);
+        isDrinkQueryToggle = sharedPreferences.getBoolean(DRINK_BOOLEAN_CODE, isDrinkQueryToggle);
+        drinkSwitch.setChecked(isDrinkQueryToggle);
+        isLocationQueryToggle = sharedPreferences.getBoolean(LOCATION_BOOLEAN_CODE, isLocationQueryToggle);
+        locationsSwitch.setChecked(isLocationQueryToggle);
+        isEventsQueryToggle = sharedPreferences.getBoolean(EVENTS_BOOLEAN_CODE, isEventsQueryToggle);
+        eventsSwitch.setChecked(isEventsQueryToggle);
+        isDeviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
+        deviceLocationSwitch.setChecked(isDeviceLocationToggle);
+        if (!isDeviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
         }
         seekBarValue = sharedPreferences.getInt(SEEKBAR_CODE, 25);
@@ -372,6 +416,9 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * Connects the google api client
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -380,6 +427,9 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * disconnects the google api client
+     */
     @Override
     protected void onStop() {
         googleApiClient.disconnect();
@@ -678,6 +728,10 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * When the device is connected the google services, the devices location is received and an api call is made
+     * @param bundle
+     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -692,16 +746,27 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * connection suspended override
+     * @param i
+     */
     @Override
     public void onConnectionSuspended(int i) {
 
     }
 
+    /**
+     * connection failed override
+     * @param connectionResult
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(Main3Activity.this, "Cannot Connect to Google Location Services", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Sets the dislike button and removes the card
+     */
     private void setDislikeButton() {
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -711,6 +776,9 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
+    /**
+     * Sets the like button and removes the card and pushes the value to firebase
+     */
     private void setLikeButton() {
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -720,6 +788,10 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
+    /**
+     * Gets firebase unique user id
+     * @return
+     */
     private String getAuthData() {
         Firebase firebase = new Firebase("https://datemate.firebaseio.com");
         AuthData authData = firebase.getAuth();
@@ -727,6 +799,9 @@ public class Main3Activity extends AppCompatActivity
         return uID;
     }
 
+    /**
+     * Checks phones permissions to get location
+     */
     private void checkPermissions() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -736,6 +811,9 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * Makes the api called based on whether the user chose the device location or a custom location
+     */
     private void setStartLocationOption() {
         if (deviceLocationSwitch.isChecked()) {
             locationForQuery = latitude + "," + longitude;
@@ -750,18 +828,21 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * makes api calls based on device coordinates
+     */
     private void makeCoordinateAPICalls() {
-        if (foodQueryToggle) {
+        if (isFoodQueryToggle) {
             yelpAPISearchCallCoordinates("food");
             //foursquareAPICallLL("restaurants");
             Collections.shuffle(cardsList);
         }
-        if (drinkQueryToggle) {
+        if (isDrinkQueryToggle) {
             yelpAPISearchCallCoordinates("drinks");
             //foursquareAPICallLL("bars");
             Collections.shuffle(cardsList);
         }
-        if (eventsQueryToggle) {
+        if (isEventsQueryToggle) {
             yelpAPISearchCallCoordinates("Movies");
             yelpAPISearchCallCoordinates("music");
             yelpAPISearchCallCoordinates("concert");
@@ -769,7 +850,7 @@ public class Main3Activity extends AppCompatActivity
             //foursquareAPICallLL("Movies");
             Collections.shuffle(cardsList);
         }
-        if (locationQueryToggle) {
+        if (isLocationQueryToggle) {
             yelpAPISearchCallCoordinates("park");
             yelpAPISearchCallCoordinates("museum");
             //foursquareAPICallLL("park");
@@ -782,23 +863,26 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * makes api calls based on user input location
+     */
     private void makeUserLocationInputAPICalls() {
-        if (foodQueryToggle) {
+        if (isFoodQueryToggle) {
             yelpAPISearchCallLocation("food");
             Collections.shuffle(cardsList);
         }
-        if (drinkQueryToggle) {
+        if (isDrinkQueryToggle) {
             yelpAPISearchCallLocation("drinks");
             Collections.shuffle(cardsList);
         }
-        if (eventsQueryToggle) {
+        if (isEventsQueryToggle) {
             yelpAPISearchCallLocation("Movies");
             yelpAPISearchCallLocation("music");
             yelpAPISearchCallLocation("concert");
             yelpAPISearchCallLocation("auditorium");
             Collections.shuffle(cardsList);
         }
-        if (locationQueryToggle) {
+        if (isLocationQueryToggle) {
             yelpAPISearchCallLocation("park");
             yelpAPISearchCallLocation("museum");
             Collections.shuffle(cardsList);
@@ -809,6 +893,12 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * Tells whether the user liked or disliked the card and makes the appropriate action
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -827,6 +917,10 @@ public class Main3Activity extends AppCompatActivity
         }
     }
 
+    /**
+     * Converts the value from the seekbar to km for the api call
+     * @return
+     */
     private String convertRadiusToKM() {
         int radiusValue = 0;
         if (seekBarValue > 25) {
@@ -837,6 +931,9 @@ public class Main3Activity extends AppCompatActivity
         return String.valueOf(radiusValue);
     }
 
+    /**
+     * logs user out of the app
+     */
     private void setLogOut() {
         final Firebase firebase = new Firebase("https://datemate.firebaseio.com");
         final AuthData authData = firebase.getAuth();
