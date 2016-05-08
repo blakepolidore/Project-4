@@ -40,6 +40,7 @@ public class LikedActivity extends AppCompatActivity {
     private LikedFeedAdapter likedFeedAdapter;
     private RecyclerView recyclerView;
     private ImageLoader imageLoader = ImageLoader.getInstance();
+    private FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder> adapter;
     Firebase firebase;
 
     @Override
@@ -76,7 +77,7 @@ public class LikedActivity extends AppCompatActivity {
     private void setLikedCards() {
         String userID = getAuthData();
         firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/");
-        FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder> adapter = new FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder>(Cards.class, R.layout.recycler_layout, LikedFeedAdapter.FeedViewHolder.class, firebase) {
+        adapter = new FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder>(Cards.class, R.layout.recycler_layout, LikedFeedAdapter.FeedViewHolder.class, firebase) {
             @Override
             protected void populateViewHolder(LikedFeedAdapter.FeedViewHolder feedViewHolder, Cards cards, int i) {
                 feedViewHolder.title.setText(cards.getTitle());
@@ -140,6 +141,7 @@ public class LikedActivity extends AppCompatActivity {
                 String userID = getAuthData();
                 Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/" + uniqueID + "/");
                 firebase.removeValue();
+                adapter.notifyDataSetChanged();
             }
         }));
     }

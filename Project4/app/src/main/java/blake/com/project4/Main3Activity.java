@@ -188,12 +188,12 @@ public class Main3Activity extends AppCompatActivity
         checkVenueSwitches(eventsSwitch);
 
         cardsList = new LinkedList<>();
-        Cards cards = new Cards();
-        cards.setImageUrl("http://www.blastr.com/sites/blastr/files/Marvel-Civil-War-alternate-poster.jpg");
-        cards.setLocation("At A Theater Near You!");
-        cards.setTitle("Captain America: Civil War");
-        cards.setCategory("Movie");
-        cardsList.add(cards);
+//        Cards cards = new Cards();
+//        cards.setImageUrl("http://www.blastr.com/sites/blastr/files/Marvel-Civil-War-alternate-poster.jpg");
+//        cards.setLocation("At A Theater Near You!");
+//        cards.setTitle("Captain America: Civil War");
+//        cards.setCategory("Movie");
+//        cardsList.add(cards);
 
         setGoogleServices();
         toggleLocationUIChoice();
@@ -201,9 +201,9 @@ public class Main3Activity extends AppCompatActivity
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
         intializeCardSwipes();
-        setCardClickListener();
-        setLikeButton();
-        setDislikeButton();
+//        setCardClickListener();
+//        setLikeButton();
+//        setDislikeButton();
         setLogOut();
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        drawer.closeDrawer(GravityCompat.START);
@@ -469,6 +469,11 @@ public class Main3Activity extends AppCompatActivity
                         createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                     }
                 }
+                //intializeCardSwipes();
+                setCardClickListener();
+                setLikeButton();
+                setDislikeButton();
+                cardsArrayAdapter.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -509,6 +514,11 @@ public class Main3Activity extends AppCompatActivity
                         createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                     }
                 }
+                //intializeCardSwipes();
+                setCardClickListener();
+                setLikeButton();
+                setDislikeButton();
+                cardsArrayAdapter.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -648,8 +658,8 @@ public class Main3Activity extends AppCompatActivity
      * Overrides the methods for when cards are swiped
      */
     private void intializeCardSwipes() {
-        //set the listener and the adapter
         flingContainer.setAdapter(cardsArrayAdapter);
+        //set the listener
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
