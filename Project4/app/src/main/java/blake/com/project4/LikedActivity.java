@@ -70,6 +70,9 @@ public class LikedActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Grabs the liked cards from firebase and places them into the recycler view
+     */
     private void setLikedCards() {
         String userID = getAuthData();
         firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/");
@@ -98,13 +101,21 @@ public class LikedActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Gets user id from firebase
+     * @return
+     */
     private String getAuthData() {
-        Firebase firebase = new Firebase("https://datemate.firebaseio.com");
+        Firebase firebase = new Firebase("https://datemate.firebaseio.com"); //TODO stop repeating and make new classes (getAuthData)
         AuthData authData = firebase.getAuth();
         String uID = authData.getUid();
         return uID;
     }
 
+    /**
+     * Sets the listener for if user clicks or long clicks on list item.
+     * Long click deletes the item, click sends the user to the venue activity
+     */
     private void setListClickListener() {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
             @Override

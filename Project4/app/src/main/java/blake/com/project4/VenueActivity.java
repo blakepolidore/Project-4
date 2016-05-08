@@ -62,6 +62,9 @@ public class VenueActivity extends AppCompatActivity {
         setButtonsClickable();
     }
 
+    /**
+     * Sets the views in the activity
+     */
     private void setViews() {
         imageView = (ImageView) findViewById(R.id.venue_image);
         dislike = (ImageButton) findViewById(R.id.venue_dislike);
@@ -140,17 +143,24 @@ public class VenueActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Allows user to dial number
+     * @param phoneNumber
+     */
     private void setPhoneCall(final String phoneNumber) {
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri number = Uri.parse("tel:"+phoneNumber);
+                Uri number = Uri.parse("tel:"+phoneNumber);//TODO check if this breaks app on non phone device
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
                 startActivity(callIntent);
             }
         });
     }
 
+    /**
+     * Sets the like button for the card
+     */
     private void setLikeButton() {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +173,9 @@ public class VenueActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets the dislike button for the card
+     */
     private void setDisikeButton() {
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +199,9 @@ public class VenueActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * If the card has already been liked, it makes the like button non clickable
+     */
     private void setButtonsClickable() {
         if (hasBeenLiked) {
             like.setClickable(false);
