@@ -19,9 +19,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.feedRecyclerviewAdapter.ClickListener;
 import blake.com.project4.feedRecyclerviewAdapter.LikedFeedAdapter;
@@ -36,7 +33,6 @@ public class LikedActivity extends AppCompatActivity {
     public static final String BOOLEAN_INTENT = "Venue has been liked";
     public static final String FIREBASE_ID = "Firebase id";
 
-    private List<Cards> cardsList = new ArrayList<>();
     private LikedFeedAdapter likedFeedAdapter;
     private RecyclerView recyclerView;
     private ImageLoader imageLoader = ImageLoader.getInstance();
@@ -87,7 +83,6 @@ public class LikedActivity extends AppCompatActivity {
                 imageUrl = imageUrl.replaceAll("/o.", "/ms.");
                 ImageSize imageSize = new ImageSize(100, 100);
                 imageLoader.displayImage(imageUrl, feedViewHolder.image, imageSize);
-                cardsList.add(cards);
             }
         };
 
@@ -122,14 +117,14 @@ public class LikedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent venueIntent = new Intent(LikedActivity.this, VenueActivity.class);
-                venueIntent.putExtra(Main3Activity.TITLE_TEXT, cardsList.get(position).getTitle());
-                venueIntent.putExtra(Main3Activity.CATEGORY_TEXT, cardsList.get(position).getCategory());
-                venueIntent.putExtra(Main3Activity.IMAGE_TEXT, cardsList.get(position).getImageUrl());
-                venueIntent.putExtra(Main3Activity.LOCATION_TEXT, cardsList.get(position).getLocation());
-                venueIntent.putExtra(Main3Activity.DESCRIPTION_TEXT, cardsList.get(position).getDescription());
-                venueIntent.putExtra(Main3Activity.PHONE_TEXT, cardsList.get(position).getPhone());
-                venueIntent.putExtra(Main3Activity.WEBSITE_TEXT, cardsList.get(position).getWebsite());
-                venueIntent.putExtra(FIREBASE_ID, cardsList.get(position).getUniqueFirebaseKey());
+                venueIntent.putExtra(Main3Activity.TITLE_TEXT, adapter.getItem(position).getTitle());
+                venueIntent.putExtra(Main3Activity.CATEGORY_TEXT, adapter.getItem(position).getCategory());
+                venueIntent.putExtra(Main3Activity.IMAGE_TEXT, adapter.getItem(position).getImageUrl());
+                venueIntent.putExtra(Main3Activity.LOCATION_TEXT, adapter.getItem(position).getLocation());
+                venueIntent.putExtra(Main3Activity.DESCRIPTION_TEXT, adapter.getItem(position).getDescription());
+                venueIntent.putExtra(Main3Activity.PHONE_TEXT, adapter.getItem(position).getPhone());
+                venueIntent.putExtra(Main3Activity.WEBSITE_TEXT, adapter.getItem(position).getWebsite());
+                venueIntent.putExtra(FIREBASE_ID, adapter.getItem(position).getUniqueFirebaseKey());
                 venueIntent.putExtra(BOOLEAN_INTENT, true);
                 startActivity(venueIntent);
             }
@@ -137,10 +132,7 @@ public class LikedActivity extends AppCompatActivity {
             @Override
             public void onLongClick(View view, int position) {
                 Toast.makeText(LikedActivity.this, "Item Removed From Liked List", Toast.LENGTH_SHORT).show();
-                String uniqueID = cardsList.get(position).getUniqueFirebaseKey();
-                String userID = getAuthData();
-                Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/" + uniqueID + "/");
-                firebase.removeValue();
+                adapter.getRef(position).removeValue();
                 adapter.notifyDataSetChanged();
             }
         }));

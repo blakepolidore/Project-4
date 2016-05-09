@@ -177,10 +177,10 @@ public class Main3Activity extends AppCompatActivity
 
         firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
         firebaseCards = firebaseRef.child("cards");
-//        toolbar.setLogo(R.drawable.ic_action_icon);
-//        toolbar.setLogoDescription("DateMate");
 
+        setGoogleServices();
         checkPermissions();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -205,18 +205,12 @@ public class Main3Activity extends AppCompatActivity
 //        cards.setCategory("Movie");
 //        cardsList.add(cards);
 
-        setGoogleServices();
         toggleLocationUIChoice();
 
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
         intializeCardSwipes();
-//        setCardClickListener();
-//        setLikeButton();
-//        setDislikeButton();
         setLogOut();
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
     }
 
     /**
@@ -554,6 +548,7 @@ public class Main3Activity extends AppCompatActivity
 
     /**
      * Method makes a call to foursquare and gets data based on search query and using a user specified location
+     * To be used in later version
      */
     private void foursquareAPICallNear(String query) {
         Retrofit retrofitFourSquare = new Retrofit.Builder()
@@ -590,6 +585,7 @@ public class Main3Activity extends AppCompatActivity
 
     /**
      * Method makes a call to foursquare and gets data based on search query and using a user specified location
+     * To be used in later version
      */
     private void foursquareAPICallLL(String query) {
         Retrofit retrofitFourSquare = new Retrofit.Builder()
@@ -627,6 +623,7 @@ public class Main3Activity extends AppCompatActivity
     /**
      * Method makes an api call to foursquare, gets photos based on venue id, then put the items into
      * the list to be displayed to user
+     * To be used in later version
      * @param id
      * @param name
      * @param address
@@ -858,6 +855,8 @@ public class Main3Activity extends AppCompatActivity
             if (latitude != null && longitude != null) {
                 locationForQuery = latitude + "," + longitude;
                 makeCoordinateAPICalls();
+            } else {
+                Toast.makeText(Main3Activity.this, R.string.no_location_determined, Toast.LENGTH_SHORT).show();
             }
         } else {
             locationForQuery = locationEditText.getText().toString();
@@ -902,6 +901,7 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());
             Collections.shuffle(cardsList);
         }
+        Collections.shuffle(cardsList);
     }
 
     /**
@@ -932,6 +932,7 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());
             Collections.shuffle(cardsList);
         }
+        Collections.shuffle(cardsList);
     }
 
     /**
