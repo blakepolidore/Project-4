@@ -1,4 +1,4 @@
-package blake.com.project4;
+package blake.com.project4.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 
+import blake.com.project4.GetUId;
+import blake.com.project4.R;
 import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.feedRecyclerviewAdapter.ClickListener;
 import blake.com.project4.feedRecyclerviewAdapter.LikedFeedAdapter;
@@ -44,15 +46,22 @@ public class LikedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liked);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.liked_activity_toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
+        setToolbar();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
         recyclerView.setLayoutManager(layoutManager);
         setLikedCards();
         setListClickListener();
+    }
+
+    /**
+     * Sets the toolbar
+     */
+    private void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.liked_activity_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
     }
 
     /**

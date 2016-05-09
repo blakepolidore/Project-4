@@ -1,4 +1,4 @@
-package blake.com.project4;
+package blake.com.project4.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -27,7 +27,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -51,6 +50,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import blake.com.project4.GetUId;
+import blake.com.project4.Keys;
+import blake.com.project4.R;
 import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
@@ -93,9 +95,7 @@ public class Main3Activity extends AppCompatActivity
     private LinkedList<Cards> cardsList;
     private ArrayAdapter<Cards> cardsArrayAdapter;
     private Button logOut;
-    private TextView titleText;
-    private TextView locationText;
-    private ImageView image;
+    private Toolbar toolbar;
     //endregion views
 
     //region intent strings
@@ -172,23 +172,18 @@ public class Main3Activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_name);
+        setToolbar();
         String userID = GetUId.getAuthData();
 
         firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
         firebaseCards = firebaseRef.child("cards");
 
+        setDrawer();
+
         setGoogleServices();
         checkPermissions();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        toggle.syncState();
+
         setViews();
         locationEditText.setEnabled(false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -211,6 +206,27 @@ public class Main3Activity extends AppCompatActivity
     }
 
     /**
+     * Sets the toolbar
+     */
+    private void setToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.app_name);
+    }
+
+    /**
+     * Sets the navigation drawer
+     */
+    private void setDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        toggle.syncState();
+    }
+
+    /**
      * Instantiate views in the activity
      */
     private void setViews() {
@@ -229,9 +245,6 @@ public class Main3Activity extends AppCompatActivity
         seekbarProgress = (TextView) scrollView.findViewById(R.id.seekbar_progress);
         dislikeButton = (ImageButton) findViewById(R.id.dislikeButton);
         likeButton = (ImageButton) findViewById(R.id.likeButton);
-        titleText = (TextView) flingContainer.findViewById(R.id.card_title);
-        locationText = (TextView) flingContainer.findViewById(R.id.card_location);
-        image = (ImageView) flingContainer.findViewById(R.id.swipableImage);
     }
 
     /**

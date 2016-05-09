@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import blake.com.project4.activities.LikedActivity;
+import blake.com.project4.activities.VenueActivity;
 import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.cardModelAndAdapter.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;

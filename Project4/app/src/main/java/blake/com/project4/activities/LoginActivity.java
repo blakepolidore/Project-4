@@ -1,4 +1,4 @@
-package blake.com.project4;
+package blake.com.project4.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import com.firebase.client.FirebaseError;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import blake.com.project4.R;
 
 public class LoginActivity extends AppCompatActivity {
 

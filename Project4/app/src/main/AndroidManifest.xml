@@ -34,8 +34,8 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".VenueActivity" />
-        <activity android:name=".LikedActivity" />
+        <activity android:name=".activities.VenueActivity" />
+        <activity android:name=".activities.LikedActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -57,7 +57,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,7 +65,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Main3Activity"
+            android:name=".activities.Main3Activity"
             android:label="@string/title_activity_main3"
             android:theme="@style/MyAppTheme"
             android:windowSoftInputMode="adjustPan">

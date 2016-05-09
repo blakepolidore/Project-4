@@ -1,4 +1,4 @@
-package blake.com.project4;
+package blake.com.project4.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
+
+import blake.com.project4.R;
 
 /**
  * Activity that appears when a specific card is clicked on
@@ -50,15 +52,22 @@ public class VenueActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.venue_activity_toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
+        setToolbar();
         setViews();
         getVenueInformation();
         setShareClickListener();
         setLikeButton();
         setDisikeButton();
         setButtonsClickable();
+    }
+
+    /**
+     * Sets the toolbar
+     */
+    private void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.venue_activity_toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
     }
 
     /**
