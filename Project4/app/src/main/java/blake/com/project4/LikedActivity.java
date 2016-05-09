@@ -82,7 +82,7 @@ public class LikedActivity extends AppCompatActivity {
                 feedViewHolder.location.setText(cards.getLocation());
                 feedViewHolder.contact.setText(cards.getCategory());
                 String imageUrl = cards.getImageUrl();
-                imageUrl = imageUrl.replaceAll("/o.", "/ms.");
+                imageUrl = imageUrl.replaceAll("/o.", "/ls.");
                 ImageSize imageSize = new ImageSize(100, 100);
                 imageLoader.displayImage(imageUrl, feedViewHolder.image, imageSize);
             }
