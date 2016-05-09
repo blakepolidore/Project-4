@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -73,8 +72,9 @@ public class LikedActivity extends AppCompatActivity {
      * Grabs the liked cards from firebase and places them into the recycler view
      */
     private void setLikedCards() {
-        String userID = getAuthData();
+        String userID = GetUId.getAuthData();
         firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/");
+        firebase.orderByPriority();
         adapter = new FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder>(Cards.class, R.layout.recycler_layout, LikedFeedAdapter.FeedViewHolder.class, firebase) {
             @Override
             protected void populateViewHolder(LikedFeedAdapter.FeedViewHolder feedViewHolder, Cards cards, int i) {
@@ -97,17 +97,6 @@ public class LikedActivity extends AppCompatActivity {
         }
 
         recyclerView.setAdapter(adapter);
-    }
-
-    /**
-     * Gets user id from firebase
-     * @return
-     */
-    private String getAuthData() {
-        Firebase firebase = new Firebase("https://datemate.firebaseio.com"); //TODO stop repeating and make new classes (getAuthData)
-        AuthData authData = firebase.getAuth();
-        String uID = authData.getUid();
-        return uID;
     }
 
     /**

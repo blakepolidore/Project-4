@@ -46,6 +46,7 @@ import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -174,7 +175,7 @@ public class Main3Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
-        String userID = getAuthData();
+        String userID = GetUId.getAuthData();
 
         firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
         firebaseCards = firebaseRef.child("cards");
@@ -695,6 +696,8 @@ public class Main3Activity extends AppCompatActivity
             public void onRightCardExit(Object dataObject) {
                 Firebase firebaseRef = firebaseCards.push();
                 cardsList.get(0).setUniqueFirebaseKey(firebaseRef.getKey());
+                Date date = new Date();
+                firebaseRef.setPriority(0 - date.getTime());
                 firebaseRef.setValue(cardsList.get(0));
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
@@ -805,17 +808,6 @@ public class Main3Activity extends AppCompatActivity
                 flingContainer.getTopCardListener().selectRight();
             }
         });
-    }
-
-    /**
-     * Gets firebase unique user id
-     * @return
-     */
-    private String getAuthData() {
-        Firebase firebase = new Firebase("https://datemate.firebaseio.com");
-        AuthData authData = firebase.getAuth();
-        String uID = authData.getUid();
-        return uID;
     }
 
     /**
