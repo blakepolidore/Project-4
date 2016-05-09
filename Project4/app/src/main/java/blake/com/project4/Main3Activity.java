@@ -405,6 +405,7 @@ public class Main3Activity extends AppCompatActivity
             editor.putString(LOCATION_INPUT_CODE, locationInput);
         }
         editor.putInt(SEEKBAR_CODE, seekBarValue);
+        editor.commit();
     }
 
     /**
