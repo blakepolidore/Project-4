@@ -710,8 +710,8 @@ public class Main3Activity extends AppCompatActivity
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 if (cardsList.size() > 3) {
-                    timesAPICalledUserLocation += 10;
-                    timesAPICalledCoordinates += 10;
+                    timesAPICalledUserLocation += 20;
+                    timesAPICalledCoordinates += 20;
                     setStartLocationOption();
                 }
             }
@@ -902,7 +902,6 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());
             Collections.shuffle(cardsList);
         }
-        timesAPICalledCoordinates += 10;
     }
 
     /**
@@ -933,7 +932,6 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());
             Collections.shuffle(cardsList);
         }
-        timesAPICalledUserLocation += 10;
     }
 
     /**
