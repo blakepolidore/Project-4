@@ -173,7 +173,7 @@ public class Main3Activity extends AppCompatActivity
         setContentView(R.layout.activity_main3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.app_name);
+        getSupportActionBar().setTitle(R.string.app_name);
         String userID = getAuthData();
 
         firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
