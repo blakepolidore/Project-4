@@ -1,6 +1,7 @@
 package blake.com.project4;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ public class VenueActivity extends AppCompatActivity {
         setContentView(R.layout.activity_venue);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.venue_activity_toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         setViews();
         getVenueInformation();
