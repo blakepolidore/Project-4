@@ -483,12 +483,17 @@ public class Main3Activity extends AppCompatActivity
                         String city = response.body().businesses().get(i).location().city();
                         String fullAddress = address + ", " + city;
                         String imageURL = response.body().businesses().get(i).imageUrl();
-                        imageURL = imageURL.replaceAll("ms", "o");
+                        if (imageURL != null) {
+                            imageURL = imageURL.replaceAll("ms", "o");
+                        }
                         String category = response.body().businesses().get(i).categories().get(0).name();
                         createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                     }
                 }
                 Collections.shuffle(cardsList);
+                if (cardsList.size() == 0) {
+                    Toast.makeText(Main3Activity.this, "No matches for the search. Try a new search", Toast.LENGTH_SHORT).show();
+                }
                 //intializeCardSwipes();
                 setCardClickListener();
                 setLikeButton();
@@ -531,12 +536,17 @@ public class Main3Activity extends AppCompatActivity
                         String city = response.body().businesses().get(i).location().city();
                         String fullAddress = address + ", " + city;
                         String imageURL = response.body().businesses().get(i).imageUrl();
-                        imageURL = imageURL.replaceAll("ms", "o");
+                        if (imageURL != null) {
+                            imageURL = imageURL.replaceAll("ms", "o");
+                        }
                         String category = response.body().businesses().get(i).categories().get(0).name();
                         createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                     }
                 }
                 Collections.shuffle(cardsList);
+                if (cardsList.size() == 0) {
+                    Toast.makeText(Main3Activity.this, "No matches for the search. Try a new search", Toast.LENGTH_SHORT).show();
+                }
                 //intializeCardSwipes();
                 setCardClickListener();
                 setLikeButton();
