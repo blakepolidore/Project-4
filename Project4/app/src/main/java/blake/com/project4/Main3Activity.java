@@ -706,6 +706,7 @@ public class Main3Activity extends AppCompatActivity
                     timesAPICalledUserLocation += 20;
                     timesAPICalledCoordinates += 20;
                     setStartLocationOption();
+                    Log.d("onAdapterAboutToEmpty", "called");
                 }
             }
 

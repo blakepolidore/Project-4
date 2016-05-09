@@ -214,7 +214,8 @@
                 android:id="@+id/logoutButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Logout"
+                android:text="@string/logout"
+                android:background="@drawable/logout_button"
                 />
         </TableRow>
 
