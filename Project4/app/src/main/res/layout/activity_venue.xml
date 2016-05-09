@@ -34,16 +34,23 @@
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"/>
 
-            <TextView
-                android:id="@+id/venue_title"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title"
-                android:textSize="22sp"
                 android:layout_gravity="left|bottom"
-                android:textColor="@android:color/white"
-                android:paddingLeft="10dp"
-                android:paddingBottom="8dp"/>
+                android:background="@color/colorOpaque">
+
+                <TextView
+                    android:id="@+id/venue_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="22sp"
+                    android:textColor="@android:color/white"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="8dp"/>
+            </LinearLayout>
+
         </FrameLayout>
 
         <TextView
