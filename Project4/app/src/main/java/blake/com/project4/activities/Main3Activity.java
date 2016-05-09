@@ -179,11 +179,8 @@ public class Main3Activity extends AppCompatActivity
         firebaseCards = firebaseRef.child("cards");
 
         setDrawer();
-
         setGoogleServices();
         checkPermissions();
-
-
         setViews();
         locationEditText.setEnabled(false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -195,10 +192,7 @@ public class Main3Activity extends AppCompatActivity
         checkVenueSwitches(eventsSwitch);
 
         cardsList = new LinkedList<>();
-
         toggleLocationUIChoice();
-        Collections.shuffle(cardsList);
-
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
         intializeCardSwipes();
@@ -881,7 +875,7 @@ public class Main3Activity extends AppCompatActivity
             //foursquareAPICallLL("museum");
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
-            yelpAPISearchCallLocation(userQueryEditText.getText().toString());
+            yelpAPISearchCallCoordinates(userQueryEditText.getText().toString());
         }
     }
 
