@@ -14,10 +14,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
@@ -180,21 +177,10 @@ public class VenueActivity extends AppCompatActivity {
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hasBeenLiked) {
-                    Toast.makeText(VenueActivity.this, "Item Removed From Liked List", Toast.LENGTH_SHORT).show();
-                    Firebase firebaseRef = new Firebase("https://datemate.firebaseio.com");
-                    AuthData authData = firebaseRef.getAuth();
-                    String uID = authData.getUid();
-                    Firebase firebase = new Firebase("https://datemate.firebaseio.com/users/" + uID + "/cards/" + firebaseKey + "/");
-                    firebase.removeValue();
-                    Intent backToLikeIntent = new Intent(VenueActivity.this, LikedActivity.class);
-                    startActivity(backToLikeIntent);
-                } else {
-                    Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
-                    intent.putExtra(IF_LIKE_INTENT, false);
-                    setResult(RESULT_INTENT, intent);
-                    finish();
-                }
+                Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
+                intent.putExtra(IF_LIKE_INTENT, false);
+                setResult(RESULT_INTENT, intent);
+                finish();
             }
         });
     }
@@ -206,6 +192,8 @@ public class VenueActivity extends AppCompatActivity {
         if (hasBeenLiked) {
             like.setClickable(false);
             like.setAlpha(0.0f);
+            dislike.setClickable(false);
+            dislike.setAlpha(0.0f);
         }
     }
 }
