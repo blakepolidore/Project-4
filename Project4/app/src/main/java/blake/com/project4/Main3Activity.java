@@ -207,6 +207,7 @@ public class Main3Activity extends AppCompatActivity
 //        cardsList.add(cards);
 
         toggleLocationUIChoice();
+        Collections.shuffle(cardsList);
 
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
@@ -250,6 +251,7 @@ public class Main3Activity extends AppCompatActivity
 //            locationText.setText("");
 //            image.setImageResource(R.drawable.ic_action_icon);
             cardsList.clear();
+            cardsArrayAdapter.notifyDataSetChanged();
             setStartLocationOption();
         }
     }
@@ -487,6 +489,7 @@ public class Main3Activity extends AppCompatActivity
                         createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                     }
                 }
+                Collections.shuffle(cardsList);
                 //intializeCardSwipes();
                 setCardClickListener();
                 setLikeButton();
@@ -534,6 +537,7 @@ public class Main3Activity extends AppCompatActivity
                         createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                     }
                 }
+                Collections.shuffle(cardsList);
                 //intializeCardSwipes();
                 setCardClickListener();
                 setLikeButton();
@@ -876,12 +880,10 @@ public class Main3Activity extends AppCompatActivity
         if (isFoodQueryToggle) {
             yelpAPISearchCallCoordinates("food");
             //foursquareAPICallLL("restaurants");
-            Collections.shuffle(cardsList);
         }
         if (isDrinkQueryToggle) {
             yelpAPISearchCallCoordinates("drinks");
             //foursquareAPICallLL("bars");
-            Collections.shuffle(cardsList);
         }
         if (isEventsQueryToggle) {
             yelpAPISearchCallCoordinates("Movies");
@@ -889,20 +891,16 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallCoordinates("concert");
             yelpAPISearchCallCoordinates("auditorium");
             //foursquareAPICallLL("Movies");
-            Collections.shuffle(cardsList);
         }
         if (isLocationQueryToggle) {
             yelpAPISearchCallCoordinates("park");
             yelpAPISearchCallCoordinates("museum");
             //foursquareAPICallLL("park");
             //foursquareAPICallLL("museum");
-            Collections.shuffle(cardsList);
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());
-            Collections.shuffle(cardsList);
         }
-        Collections.shuffle(cardsList);
     }
 
     /**
@@ -911,29 +909,23 @@ public class Main3Activity extends AppCompatActivity
     private void makeUserLocationInputAPICalls() {
         if (isFoodQueryToggle) {
             yelpAPISearchCallLocation("food");
-            Collections.shuffle(cardsList);
         }
         if (isDrinkQueryToggle) {
             yelpAPISearchCallLocation("drinks");
-            Collections.shuffle(cardsList);
         }
         if (isEventsQueryToggle) {
             yelpAPISearchCallLocation("Movies");
             yelpAPISearchCallLocation("music");
             yelpAPISearchCallLocation("concert");
             yelpAPISearchCallLocation("auditorium");
-            Collections.shuffle(cardsList);
         }
         if (isLocationQueryToggle) {
             yelpAPISearchCallLocation("park");
             yelpAPISearchCallLocation("museum");
-            Collections.shuffle(cardsList);
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());
-            Collections.shuffle(cardsList);
         }
-        Collections.shuffle(cardsList);
     }
 
     /**
