@@ -465,6 +465,7 @@ public class Main3Activity extends AppCompatActivity
         Map<String, String> params = new HashMap<>();
         params.put("term", query);
         params.put("sort", "2");
+        params.put("limit", "20");
         params.put("offset", String.valueOf(timesAPICalledCoordinates));
         params.put("radius_filter", convertRadiusToKM());
 
@@ -476,7 +477,7 @@ public class Main3Activity extends AppCompatActivity
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < response.body().businesses().size(); i++) {
                     if (response.body() != null) {
                         String name = response.body().businesses().get(i).name();
                         String url = response.body().businesses().get(i).url();
@@ -512,6 +513,7 @@ public class Main3Activity extends AppCompatActivity
         Map<String, String> params = new HashMap<>();
         params.put("term", query);
         params.put("sort", "2");
+        params.put("limit", "20");
         params.put("offset", String.valueOf(timesAPICalledUserLocation));
         params.put("radius_filter", convertRadiusToKM());
 
@@ -522,7 +524,7 @@ public class Main3Activity extends AppCompatActivity
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < response.body().businesses().size(); i++) {
                     if (response.body() != null) {
                         String name = response.body().businesses().get(i).name();
                         String url = response.body().businesses().get(i).url();
@@ -853,8 +855,10 @@ public class Main3Activity extends AppCompatActivity
      */
     private void setStartLocationOption() {
         if (deviceLocationSwitch.isChecked()) {
-            locationForQuery = latitude + "," + longitude;
-            makeCoordinateAPICalls();
+            if (latitude != null && longitude != null) {
+                locationForQuery = latitude + "," + longitude;
+                makeCoordinateAPICalls();
+            }
         } else {
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
