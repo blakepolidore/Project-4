@@ -161,9 +161,9 @@ public class Main3Activity extends AppCompatActivity
     //endregion login fragment
 
     //region counter
-    private int timesAPICalledCoordinates =0;
+    private int timesAPICalledCoordinates = 0;
     private final String COORDINATES_COUNTER_KEY = "counter coordinates";
-    private int timesAPICalledUserLocation =0;
+    private int timesAPICalledUserLocation = 0;
     private final String USERPICK_COUNTER_KEY = "counter user location";
     //endregion counter
 
@@ -199,12 +199,6 @@ public class Main3Activity extends AppCompatActivity
         checkVenueSwitches(eventsSwitch);
 
         cardsList = new LinkedList<>();
-//        Cards cards = new Cards();
-//        cards.setImageUrl("http://www.blastr.com/sites/blastr/files/Marvel-Civil-War-alternate-poster.jpg");
-//        cards.setLocation("At A Theater Near You!");
-//        cards.setTitle("Captain America: Civil War");
-//        cards.setCategory("Movie");
-//        cardsList.add(cards);
 
         toggleLocationUIChoice();
         Collections.shuffle(cardsList);
@@ -247,9 +241,6 @@ public class Main3Activity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-//            titleText.setText("");
-//            locationText.setText("");
-//            image.setImageResource(R.drawable.ic_action_icon);
             cardsList.clear();
             cardsArrayAdapter.notifyDataSetChanged();
             setStartLocationOption();
@@ -293,7 +284,7 @@ public class Main3Activity extends AppCompatActivity
         radiusSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekbarProgress.setText(progress + " miles");
+                seekbarProgress.setText(progress + getString(R.string.miles));
                 seekBarValue = progress;
             }
 
@@ -741,20 +732,6 @@ public class Main3Activity extends AppCompatActivity
                 venueIntent.putExtra(PHONE_TEXT, cardsList.get(0).getPhone());
                 venueIntent.putExtra(WEBSITE_TEXT, cardsList.get(0).getWebsite());
                 startActivityForResult(venueIntent, INTENT_FOR_RESULT);
-//                VenueFragment venueFragment = new VenueFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putString(TITLE_TEXT, cardsList.get(0).getTitle());
-//                bundle.putString(CATEGORY_TEXT, cardsList.get(0).getCategory());
-//                bundle.putString(IMAGE_TEXT, cardsList.get(0).getImageUrl());
-//                bundle.putString(LOCATION_TEXT, cardsList.get(0).getLocation());
-//                bundle.putString(DESCRIPTION_TEXT, cardsList.get(0).getDescription());
-//                bundle.putString(PHONE_TEXT, cardsList.get(0).getPhone());
-//                bundle.putString(WEBSITE_TEXT, cardsList.get(0).getWebsite());
-//                venueFragment.setArguments(bundle);
-//                fragmentManager = getSupportFragmentManager();
-//                fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.add(R.id.login_fragment_container, venueFragment);
-//                fragmentTransaction.commit();
             }
         });
     }
@@ -844,7 +821,6 @@ public class Main3Activity extends AppCompatActivity
      * Checks phones permissions to get location
      */
     private void checkPermissions() {
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },

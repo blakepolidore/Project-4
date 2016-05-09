@@ -44,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         setAuthProgressDialog();
     }
 
+    /**
+     * Sets facebook features
+     */
     private void setFacebook() {
         facebookCallbackManager = CallbackManager.Factory.create();
         facebookLoginButton = (LoginButton) findViewById(R.id.facebook_login);
@@ -56,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * Dialog if successfull login with firebase
+     */
     private void setAuthProgressDialog() {
         authProgressDialog = new ProgressDialog(this);
         authProgressDialog.setTitle("Loading");
@@ -126,6 +132,10 @@ public class LoginActivity extends AppCompatActivity {
         supportInvalidateOptionsMenu();
     }
 
+    /**
+     * Error message if firebase doesn't work
+     * @param message
+     */
     private void showErrorDialog(String message) {
         new AlertDialog.Builder(this)
                 .setTitle("Error")
@@ -166,6 +176,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Tokens changes
+     * @param token
+     */
     private void onFacebookAccessTokenChange(AccessToken token) {
         if (token != null) {
             authProgressDialog.show();
@@ -179,6 +193,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Intent to go to main activity
+     */
     private void goToMainActivity() {
         Intent intent = new Intent(LoginActivity.this, Main3Activity.class);
         startActivity(intent);

@@ -9,4 +9,11 @@
     <string name="title_activity_main3">Main3Activity</string>
     <string name="enter_valid_location">Please enter a valid location</string>
     <string name="no_location_determined">No location determined.</string>
+    <string name="miles">" miles"</string>
+    <string name="category">"Category: "</string>
+    <string name="location">"Location: "</string>
+    <string name="description">"Description: "</string>
+    <string name="check_this_out">Check out this place!</string>
+    <string name="share">Share</string>
+    <string name="reviews"><![CDATA[\'> Reviews</a>]]></string>
 </resources>

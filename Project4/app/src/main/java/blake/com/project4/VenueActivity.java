@@ -107,11 +107,11 @@ public class VenueActivity extends AppCompatActivity {
         ImageSize imageSize = new ImageSize(300, 300);
         imageLoader.displayImage(imageURL, imageView);
         String categoryString = venueIntent.getStringExtra(Main3Activity.CATEGORY_TEXT);
-        category.setText("Category: " + categoryString);
+        category.setText(getString(R.string.category) + categoryString);
         String locationString = venueIntent.getStringExtra(Main3Activity.LOCATION_TEXT);
-        location.setText("Location: " + locationString);
+        location.setText(getString(R.string.location) + locationString);
         websiteString = venueIntent.getStringExtra(Main3Activity.WEBSITE_TEXT);
-        String websiteLink = "<a href ='" + websiteString + "'> Reviews</a>";
+        String websiteLink = "<a href ='" + websiteString + getString(R.string.reviews);
         website.setText(Html.fromHtml(websiteLink));
         String phoneString = venueIntent.getStringExtra(Main3Activity.PHONE_TEXT);
         if (phoneString != null) {
@@ -121,7 +121,7 @@ public class VenueActivity extends AppCompatActivity {
         phone.setText(phoneString);
         setPhoneCall(phoneString);
         String descriptionString = venueIntent.getStringExtra(Main3Activity.DESCRIPTION_TEXT);
-        description.setText("Description: " + descriptionString);
+        description.setText(getString(R.string.description) + descriptionString);
         hasBeenLiked = venueIntent.getBooleanExtra(LikedActivity.BOOLEAN_INTENT, false);
         firebaseKey = venueIntent.getStringExtra(LikedActivity.FIREBASE_ID);
     }
@@ -136,8 +136,8 @@ public class VenueActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, websiteString);
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this place!");
-                startActivity(Intent.createChooser(intent, "Share"));
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.check_this_out));
+                startActivity(Intent.createChooser(intent, getString(R.string.share)));
             }
         });
     }
