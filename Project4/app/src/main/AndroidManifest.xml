@@ -2,6 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="blake.com.project4">
 
+    <!--<compatible-screens>-->
+        <!--&lt;!&ndash; all small size screens &ndash;&gt;-->
+        <!--<screen android:screenSize="small" android:screenDensity="ldpi" />-->
+        <!--<screen android:screenSize="small" android:screenDensity="mdpi" />-->
+        <!--<screen android:screenSize="small" android:screenDensity="hdpi" />-->
+        <!--<screen android:screenSize="small" android:screenDensity="xhdpi" />-->
+        <!--&lt;!&ndash; all normal size screens &ndash;&gt;-->
+        <!--<screen android:screenSize="normal" android:screenDensity="ldpi" />-->
+        <!--<screen android:screenSize="normal" android:screenDensity="mdpi" />-->
+        <!--<screen android:screenSize="normal" android:screenDensity="hdpi" />-->
+        <!--<screen android:screenSize="normal" android:screenDensity="xhdpi" />-->
+    <!--</compatible-screens>-->
+
+    <supports-screens android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="false"
+        android:xlargeScreens="false"
+        android:largestWidthLimitDp="500" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>

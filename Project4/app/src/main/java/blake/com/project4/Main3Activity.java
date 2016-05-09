@@ -179,7 +179,6 @@ public class Main3Activity extends AppCompatActivity
         firebaseCards = firebaseRef.child("cards");
 //        toolbar.setLogo(R.drawable.ic_action_icon);
 //        toolbar.setLogoDescription("DateMate");
-        flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
         checkPermissions();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -224,6 +223,7 @@ public class Main3Activity extends AppCompatActivity
      * Instantiate views in the activity
      */
     private void setViews() {
+        flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         scrollView = (ScrollView) navigationView.findViewById(R.id.nav_scrollview);
         locationEditText = (EditText) scrollView.findViewById(R.id.location_editText);
@@ -256,8 +256,6 @@ public class Main3Activity extends AppCompatActivity
 //            image.setImageResource(R.drawable.ic_action_icon);
             cardsList.clear();
             setStartLocationOption();
-        } else {
-            super.onBackPressed();
         }
     }
 
