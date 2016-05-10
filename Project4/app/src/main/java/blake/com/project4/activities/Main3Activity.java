@@ -415,16 +415,11 @@ public class Main3Activity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        isFoodQueryToggle = sharedPreferences.getBoolean(FOOD_BOOLEAN_CODE, isFoodQueryToggle);
-        foodSwitch.setChecked(isFoodQueryToggle);
-        isDrinkQueryToggle = sharedPreferences.getBoolean(DRINK_BOOLEAN_CODE, isDrinkQueryToggle);
-        drinkSwitch.setChecked(isDrinkQueryToggle);
-        isLocationQueryToggle = sharedPreferences.getBoolean(LOCATION_BOOLEAN_CODE, isLocationQueryToggle);
-        locationsSwitch.setChecked(isLocationQueryToggle);
-        isEventsQueryToggle = sharedPreferences.getBoolean(EVENTS_BOOLEAN_CODE, isEventsQueryToggle);
-        eventsSwitch.setChecked(isEventsQueryToggle);
-        isDeviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
-        deviceLocationSwitch.setChecked(isDeviceLocationToggle);
+        setBooleansInSharedPreferences(isFoodQueryToggle, FOOD_BOOLEAN_CODE, foodSwitch);
+        setBooleansInSharedPreferences(isDrinkQueryToggle, DRINK_BOOLEAN_CODE, drinkSwitch);
+        setBooleansInSharedPreferences(isLocationQueryToggle, LOCATION_BOOLEAN_CODE, locationsSwitch);
+        setBooleansInSharedPreferences(isEventsQueryToggle, EVENTS_BOOLEAN_CODE, eventsSwitch);
+        setBooleansInSharedPreferences(isDeviceLocationToggle, DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationSwitch);
         if (!isDeviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
         }
@@ -436,6 +431,17 @@ public class Main3Activity extends AppCompatActivity
         }
         timesAPICalledCoordinates = sharedPreferences.getInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
         timesAPICalledUserLocation = sharedPreferences.getInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
+    }
+
+    /**
+     * Sets the booleans and switches from the shared preferences in the onREsume
+     * @param isChecked
+     * @param code
+     * @param switchView
+     */
+    private void setBooleansInSharedPreferences(Boolean isChecked, String code, Switch switchView) {
+        isChecked = sharedPreferences.getBoolean(code, isChecked);
+        switchView.setChecked(isChecked);
     }
 
     /**

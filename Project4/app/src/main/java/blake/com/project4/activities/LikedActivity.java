@@ -131,7 +131,7 @@ public class LikedActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
-                Toast.makeText(LikedActivity.this, "Item Removed From Liked List", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LikedActivity.this, "Item Removed From List", Toast.LENGTH_SHORT).show();
                 adapter.getRef(position).removeValue();
                 adapter.notifyDataSetChanged();
             }
