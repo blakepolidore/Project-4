@@ -437,11 +437,16 @@ public class Main3Activity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        setBooleansInSharedPreferences(isFoodQueryToggle, FOOD_BOOLEAN_CODE, restaurantSwitch);
-        setBooleansInSharedPreferences(isDrinkQueryToggle, DRINK_BOOLEAN_CODE, drinkSwitch);
-        setBooleansInSharedPreferences(isArtsQueryToggle, Arts_BOOLEAN_CODE, artsSwitch);
-        setBooleansInSharedPreferences(isActiveQueryToggle, ACTIVE_BOOLEAN_CODE, activeSwitch);
-        setBooleansInSharedPreferences(isDeviceLocationToggle, DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationSwitch);
+        isFoodQueryToggle = sharedPreferences.getBoolean(FOOD_BOOLEAN_CODE, isFoodQueryToggle);
+        restaurantSwitch.setChecked(isFoodQueryToggle);
+        isDrinkQueryToggle = sharedPreferences.getBoolean(DRINK_BOOLEAN_CODE, isDrinkQueryToggle);
+        drinkSwitch.setChecked(isDrinkQueryToggle);
+        isArtsQueryToggle = sharedPreferences.getBoolean(Arts_BOOLEAN_CODE, isArtsQueryToggle);
+        artsSwitch.setChecked(isArtsQueryToggle);
+        isActiveQueryToggle = sharedPreferences.getBoolean(ACTIVE_BOOLEAN_CODE, isActiveQueryToggle);
+        activeSwitch.setChecked(isActiveQueryToggle);
+        isDeviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
+        deviceLocationSwitch.setChecked(isDeviceLocationToggle);
         if (!isDeviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
         }
@@ -453,17 +458,6 @@ public class Main3Activity extends AppCompatActivity
         }
         timesAPICalledCoordinates = sharedPreferences.getInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
         timesAPICalledUserLocation = sharedPreferences.getInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
-    }
-
-    /**
-     * Sets the booleans and switches from the shared preferences in the onREsume
-     * @param isChecked
-     * @param code
-     * @param switchView
-     */
-    private void setBooleansInSharedPreferences(Boolean isChecked, String code, Switch switchView) {
-        isChecked = sharedPreferences.getBoolean(code, isChecked);
-        switchView.setChecked(isChecked);
     }
 
     /**
@@ -525,17 +519,13 @@ public class Main3Activity extends AppCompatActivity
                     }
                 }
                 Collections.shuffle(cardsList);
-                cardsArrayAdapter.notifyDataSetChanged();
                 if (cardsList.size() == 0) { //&& edittext.getText().toString.isEmpty
                     createNoMatchesDialog();
                 }
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
-//                if (cardsList.size() > 1) {
-//                    flingContainer.getTopCardListener().selectLeft();
-                    //cardsArrayAdapter.notifyDataSetChanged();
-//                }
+                cardsArrayAdapter.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -584,7 +574,6 @@ public class Main3Activity extends AppCompatActivity
                 if (cardsList.size() == 0) {
                     createNoMatchesDialog();
                 }
-                //intializeCardSwipes();
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
