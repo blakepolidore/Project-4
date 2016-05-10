@@ -12,8 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -160,11 +158,6 @@ public class Main3Activity extends AppCompatActivity
     public static int INTENT_FOR_RESULT = 23;
     //endregion permission
 
-    //region login fragment
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    //endregion login fragment
-
     //region counter
     private int timesAPICalledCoordinates = 0;
     private final String COORDINATES_COUNTER_KEY = "counter coordinates";
@@ -196,7 +189,7 @@ public class Main3Activity extends AppCompatActivity
         checkVenueSwitches(eventsSwitch);
 
         cardsList = new LinkedList<>();
-        toggleLocationUIChoice();
+        locationViewsEnabled();
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
         intializeCardSwipes();
@@ -318,7 +311,7 @@ public class Main3Activity extends AppCompatActivity
      * Disables or enables the edit text depeding on whether the user wants to use the phones
      * location or a custom location for the query
      */
-    private void toggleLocationUIChoice() {
+    private void locationViewsEnabled() {
         deviceLocationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -478,6 +471,7 @@ public class Main3Activity extends AppCompatActivity
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
         YelpAPI yelpAPI = apiFactory.createAPI();
+//
         CoordinateOptions coordinateOptions = CoordinateOptions.builder().latitude(Double.valueOf(latitude)).longitude(Double.valueOf(longitude)).build();
         Call<SearchResponse> call = yelpAPI.search(coordinateOptions, params);
 
@@ -502,14 +496,18 @@ public class Main3Activity extends AppCompatActivity
                     }
                 }
                 Collections.shuffle(cardsList);
-                if (cardsList.size() == 0) {
+                if (cardsList.size() == 0) { //&& edittext.getText().toString.isEmpty
                     createNoMatchesDialog();
                 }
-                //intializeCardSwipes();
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
+                Log.d(TAG, cardsList.get(0).getTitle());
                 cardsArrayAdapter.notifyDataSetChanged();
+//                if (cardsList.size() > 1) {
+//                    flingContainer.getTopCardListener().selectLeft();
+//                    cardsArrayAdapter.notifyDataSetChanged();
+//                }
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -752,6 +750,7 @@ public class Main3Activity extends AppCompatActivity
      * Initializes the card click listener
      */
     private void setCardClickListener() {
+        Log.d(TAG, cardsList.get(0).getTitle());
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
@@ -768,6 +767,9 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
+    /**
+     * Creates google api client if it hasnt been created
+     */
     private void setGoogleServices() {
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient.Builder(this, this, this)
