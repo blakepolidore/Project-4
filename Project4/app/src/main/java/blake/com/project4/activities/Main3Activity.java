@@ -719,8 +719,8 @@ public class Main3Activity extends AppCompatActivity
                 Firebase firebaseRef = firebaseCards.push();
                 cardsList.get(0).setUniqueFirebaseKey(firebaseRef.getKey());
                 Date date = new Date();
-                firebaseRef.setPriority(0 - date.getTime());
                 firebaseRef.setValue(cardsList.get(0));
+                firebaseRef.setPriority(0 - date.getTime());
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
             }

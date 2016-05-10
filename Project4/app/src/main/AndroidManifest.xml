@@ -31,9 +31,6 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         android:icon="@mipmap/launcher_icon">
-        <activity android:name=".MainActivity">
-
-        </activity>
         <activity android:name=".activities.VenueActivity" />
         <activity android:name=".activities.LikedActivity" />
         <activity
