@@ -36,7 +36,10 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -164,6 +167,9 @@ public class Main3Activity extends AppCompatActivity
     private int timesAPICalledUserLocation = 0;
     private final String USERPICK_COUNTER_KEY = "counter user location";
     //endregion counter
+
+    HashMap<String, String> fbMap = new HashMap<>();
+    LinkedList<String> duplicateList = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -741,11 +747,20 @@ public class Main3Activity extends AppCompatActivity
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Firebase firebaseRef = firebaseCards.push();
-                cardsList.get(0).setUniqueFirebaseKey(firebaseRef.getKey());
-                Date date = new Date();
-                firebaseRef.setValue(cardsList.get(0));
-                firebaseRef.setPriority(0 - date.getTime());
+                boolean isEqual = false;
+                checkForDuplicateSavedValues();
+                for (int i = 0; i < duplicateList.size(); i++) {
+                    if (duplicateList.get(i).equals(cardsList.get(0).getTitle())) {
+                        isEqual = true;
+                    }
+                }
+                if (!isEqual) {
+                    Firebase firebaseRef = firebaseCards.push();
+                    cardsList.get(0).setUniqueFirebaseKey(firebaseRef.getKey());
+                    Date date = new Date();
+                    firebaseRef.setValue(cardsList.get(0));
+                    firebaseRef.setPriority(0 - date.getTime());
+                }
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
             }
@@ -1018,6 +1033,23 @@ public class Main3Activity extends AppCompatActivity
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    private void checkForDuplicateSavedValues() {
+        firebaseCards.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshots: dataSnapshot.getChildren()) {
+                    HashMap<String, String> fbMap = (HashMap<String, String>) snapshots.getValue();
+                    duplicateList.add(fbMap.get("title"));
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
 }
