@@ -88,10 +88,10 @@ public class Main3Activity extends AppCompatActivity
     private EditText userQueryEditText;
     private SeekBar radiusSeekbar;
     private Switch deviceLocationSwitch;
-    private Switch foodSwitch;
+    private Switch restaurantSwitch;
     private Switch drinkSwitch;
-    private Switch locationsSwitch;
-    private Switch eventsSwitch;
+    private Switch artsSwitch;
+    private Switch activeSwitch;
     private ImageButton dislikeButton;
     private ImageButton likeButton;
     private SwipeFlingAdapterView flingContainer;
@@ -133,15 +133,15 @@ public class Main3Activity extends AppCompatActivity
     private boolean isDeviceLocationToggle = true;
     private boolean isFoodQueryToggle = true;
     private boolean isDrinkQueryToggle = true;
-    private boolean isLocationQueryToggle = true;
-    private boolean isEventsQueryToggle = true;
+    private boolean isArtsQueryToggle = true;
+    private boolean isActiveQueryToggle = true;
     //endregion switch booleans
 
     //region boolean codes
     private final String FOOD_BOOLEAN_CODE = "food";
     private final String DRINK_BOOLEAN_CODE = "drink";
-    private final String LOCATION_BOOLEAN_CODE = "location";
-    private final String EVENTS_BOOLEAN_CODE = "events";
+    private final String Arts_BOOLEAN_CODE = "arts";
+    private final String ACTIVE_BOOLEAN_CODE = "active";
     private final String DEVICE_LOCATION_BOOLEAN_CODE = "device";
     //endregion boolean codes
 
@@ -190,10 +190,10 @@ public class Main3Activity extends AppCompatActivity
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         setSeekBar();
-        checkVenueSwitches(foodSwitch);
+        checkVenueSwitches(restaurantSwitch);
         checkVenueSwitches(drinkSwitch);
-        checkVenueSwitches(locationsSwitch);
-        checkVenueSwitches(eventsSwitch);
+        checkVenueSwitches(artsSwitch);
+        checkVenueSwitches(activeSwitch);
 
         cardsList = new LinkedList<>();
         locationViewsEnabled();
@@ -256,10 +256,10 @@ public class Main3Activity extends AppCompatActivity
         userQueryEditText = (EditText) scrollView.findViewById(R.id.userQuery_editText);
         radiusSeekbar = (SeekBar) scrollView.findViewById(R.id.search_radius_seekbar);
         deviceLocationSwitch = (Switch) scrollView.findViewById(R.id.phone_location_switch);
-        foodSwitch = (Switch) scrollView.findViewById(R.id.food_search_switch);
+        restaurantSwitch = (Switch) scrollView.findViewById(R.id.food_search_switch);
         drinkSwitch = (Switch) scrollView.findViewById(R.id.drink_search_switch);
-        locationsSwitch = (Switch) scrollView.findViewById(R.id.activities_search_switch);
-        eventsSwitch = (Switch) scrollView.findViewById(R.id.events_search_switch);
+        artsSwitch = (Switch) scrollView.findViewById(R.id.arts_search_switch);
+        activeSwitch = (Switch) scrollView.findViewById(R.id.active_search_switch);
         logOut = (Button) scrollView.findViewById(R.id.logoutButton);
         seekbarProgress = (TextView) scrollView.findViewById(R.id.seekbar_progress);
         dislikeButton = (ImageButton) findViewById(R.id.dislikeButton);
@@ -379,18 +379,18 @@ public class Main3Activity extends AppCompatActivity
                             isDrinkQueryToggle = false;
                         }
                         break;
-                    case R.id.activities_search_switch:
+                    case R.id.arts_search_switch:
                         if (toggled) {
-                            isLocationQueryToggle = true;
+                            isArtsQueryToggle = true;
                         } else {
-                            isLocationQueryToggle = false;
+                            isArtsQueryToggle = false;
                         }
                         break;
-                    case R.id.events_search_switch:
+                    case R.id.active_search_switch:
                         if (toggled) {
-                            isEventsQueryToggle = true;
+                            isActiveQueryToggle = true;
                         } else {
-                            isEventsQueryToggle = false;
+                            isActiveQueryToggle = false;
                         }
                         break;
                     default:
@@ -418,8 +418,8 @@ public class Main3Activity extends AppCompatActivity
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(FOOD_BOOLEAN_CODE, isFoodQueryToggle);
         editor.putBoolean(DRINK_BOOLEAN_CODE, isDrinkQueryToggle);
-        editor.putBoolean(LOCATION_BOOLEAN_CODE, isLocationQueryToggle);
-        editor.putBoolean(EVENTS_BOOLEAN_CODE, isEventsQueryToggle);
+        editor.putBoolean(Arts_BOOLEAN_CODE, isArtsQueryToggle);
+        editor.putBoolean(ACTIVE_BOOLEAN_CODE, isActiveQueryToggle);
         editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
         editor.putInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
         editor.putInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
@@ -437,10 +437,10 @@ public class Main3Activity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        setBooleansInSharedPreferences(isFoodQueryToggle, FOOD_BOOLEAN_CODE, foodSwitch);
+        setBooleansInSharedPreferences(isFoodQueryToggle, FOOD_BOOLEAN_CODE, restaurantSwitch);
         setBooleansInSharedPreferences(isDrinkQueryToggle, DRINK_BOOLEAN_CODE, drinkSwitch);
-        setBooleansInSharedPreferences(isLocationQueryToggle, LOCATION_BOOLEAN_CODE, locationsSwitch);
-        setBooleansInSharedPreferences(isEventsQueryToggle, EVENTS_BOOLEAN_CODE, eventsSwitch);
+        setBooleansInSharedPreferences(isArtsQueryToggle, Arts_BOOLEAN_CODE, artsSwitch);
+        setBooleansInSharedPreferences(isActiveQueryToggle, ACTIVE_BOOLEAN_CODE, activeSwitch);
         setBooleansInSharedPreferences(isDeviceLocationToggle, DEVICE_LOCATION_BOOLEAN_CODE, deviceLocationSwitch);
         if (!isDeviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
@@ -492,7 +492,7 @@ public class Main3Activity extends AppCompatActivity
     private void yelpAPISearchCallCoordinates(String query) {
 
         Map<String, String> params = new HashMap<>();
-        params.put("term", query);
+        params.put("category_filter", query);
         params.put("sort", "2");
         params.put("limit", "20");
         params.put("offset", String.valueOf(timesAPICalledCoordinates));
@@ -550,7 +550,7 @@ public class Main3Activity extends AppCompatActivity
     private void yelpAPISearchCallLocation(String query) {
 
         Map<String, String> params = new HashMap<>();
-        params.put("term", query);
+        params.put("category_filter", query);
         params.put("sort", "2");
         params.put("limit", "20");
         params.put("offset", String.valueOf(timesAPICalledUserLocation));
@@ -914,25 +914,16 @@ public class Main3Activity extends AppCompatActivity
      */
     private void makeCoordinateAPICalls() {
         if (isFoodQueryToggle) {
-            yelpAPISearchCallCoordinates("food");
-            //foursquareAPICallLL("restaurants");
+            yelpAPISearchCallCoordinates("restaurants");
         }
         if (isDrinkQueryToggle) {
-            yelpAPISearchCallCoordinates("drinks");
-            //foursquareAPICallLL("bars");
+            yelpAPISearchCallCoordinates("nightlife");
         }
-        if (isEventsQueryToggle) {
-            yelpAPISearchCallCoordinates("Movies");
-            yelpAPISearchCallCoordinates("music");
-            yelpAPISearchCallCoordinates("concert");
-            yelpAPISearchCallCoordinates("auditorium");
-            //foursquareAPICallLL("Movies");
+        if (isActiveQueryToggle) {
+            yelpAPISearchCallCoordinates("active");
         }
-        if (isLocationQueryToggle) {
-            yelpAPISearchCallCoordinates("park");
-            yelpAPISearchCallCoordinates("museum");
-            //foursquareAPICallLL("park");
-            //foursquareAPICallLL("museum");
+        if (isArtsQueryToggle) {
+            yelpAPISearchCallCoordinates("arts");
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
             yelpAPISearchCallCoordinates(userQueryEditText.getText().toString());
@@ -944,20 +935,16 @@ public class Main3Activity extends AppCompatActivity
      */
     private void makeUserLocationInputAPICalls() {
         if (isFoodQueryToggle) {
-            yelpAPISearchCallLocation("food");
+            yelpAPISearchCallLocation("restaurants");
         }
         if (isDrinkQueryToggle) {
-            yelpAPISearchCallLocation("drinks");
+            yelpAPISearchCallLocation("nightlife");
         }
-        if (isEventsQueryToggle) {
-            yelpAPISearchCallLocation("Movies");
-            yelpAPISearchCallLocation("music");
-            yelpAPISearchCallLocation("concert");
-            yelpAPISearchCallLocation("auditorium");
+        if (isActiveQueryToggle) {
+            yelpAPISearchCallLocation("active");
         }
-        if (isLocationQueryToggle) {
-            yelpAPISearchCallLocation("park");
-            yelpAPISearchCallLocation("museum");
+        if (isArtsQueryToggle) {
+            yelpAPISearchCallLocation("arts");
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
             yelpAPISearchCallLocation(userQueryEditText.getText().toString());

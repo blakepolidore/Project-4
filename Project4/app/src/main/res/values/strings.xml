@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Project4</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
@@ -20,4 +19,9 @@
     <string name="no_matches">No Matches!</string>
     <string name="no_matches_message">There are no matches for the search. Please make a new search.</string>
     <string name="new_search">New Search</string>
+    <string name="restaurants">Restaurants:</string>
+    <string name="drinks">Drinks</string>
+    <string name="arts">Arts:</string>
+    <string name="active_lifestyle">Active Lifestyle:</string>
+    <string name="choose_custom_search">Choose custom search:</string>
 </resources>

@@ -111,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Food:"
+                android:text="@string/restaurants"
                 android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
@@ -131,7 +131,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Drink"
+                android:text="@string/drinks"
                 android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
@@ -151,14 +151,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Locations:"
+                android:text="@string/arts"
                 android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
                 android:layout_gravity="start"/>
 
             <Switch
-                android:id="@+id/activities_search_switch"
+                android:id="@+id/arts_search_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
@@ -171,14 +171,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Events:"
+                android:text="@string/active_lifestyle"
                 android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
                 android:layout_gravity="start"/>
 
             <Switch
-                android:id="@+id/events_search_switch"
+                android:id="@+id/active_search_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
@@ -191,7 +191,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose custom search:"
+                android:text="@string/choose_custom_search"
                 android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_marginLeft="4dp"
