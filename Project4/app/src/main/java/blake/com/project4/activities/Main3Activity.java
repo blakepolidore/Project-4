@@ -209,12 +209,33 @@ public class Main3Activity extends AppCompatActivity
      * Sets the navigation drawer
      */
     private void setDrawer() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         toggle.syncState();
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
     }
 
     /**
@@ -246,6 +267,7 @@ public class Main3Activity extends AppCompatActivity
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             drawer.closeDrawer(GravityCompat.START);
             cardsList.clear();
             cardsArrayAdapter.notifyDataSetChanged();
@@ -502,11 +524,10 @@ public class Main3Activity extends AppCompatActivity
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
-                Log.d(TAG, cardsList.get(0).getTitle());
                 cardsArrayAdapter.notifyDataSetChanged();
 //                if (cardsList.size() > 1) {
 //                    flingContainer.getTopCardListener().selectLeft();
-//                    cardsArrayAdapter.notifyDataSetChanged();
+                    cardsArrayAdapter.notifyDataSetChanged();
 //                }
             }
             @Override
@@ -750,7 +771,6 @@ public class Main3Activity extends AppCompatActivity
      * Initializes the card click listener
      */
     private void setCardClickListener() {
-        Log.d(TAG, cardsList.get(0).getTitle());
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
@@ -999,4 +1019,5 @@ public class Main3Activity extends AppCompatActivity
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
 }
