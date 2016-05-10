@@ -168,8 +168,9 @@ public class Main3Activity extends AppCompatActivity
     private final String USERPICK_COUNTER_KEY = "counter user location";
     //endregion counter
 
-    HashMap<String, String> fbMap = new HashMap<>();
+    //region duplicates
     LinkedList<String> duplicateList = new LinkedList<>();
+    //endregion duplicates
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -427,7 +428,7 @@ public class Main3Activity extends AppCompatActivity
             editor.putString(LOCATION_INPUT_CODE, locationInput);
         }
         editor.putInt(SEEKBAR_CODE, seekBarValue);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -524,16 +525,16 @@ public class Main3Activity extends AppCompatActivity
                     }
                 }
                 Collections.shuffle(cardsList);
+                cardsArrayAdapter.notifyDataSetChanged();
                 if (cardsList.size() == 0) { //&& edittext.getText().toString.isEmpty
                     createNoMatchesDialog();
                 }
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
-                cardsArrayAdapter.notifyDataSetChanged();
 //                if (cardsList.size() > 1) {
 //                    flingContainer.getTopCardListener().selectLeft();
-                    cardsArrayAdapter.notifyDataSetChanged();
+                    //cardsArrayAdapter.notifyDataSetChanged();
 //                }
             }
             @Override
@@ -754,6 +755,7 @@ public class Main3Activity extends AppCompatActivity
                         isEqual = true;
                     }
                 }
+                //ensures no duplicates pushed to firebase
                 if (!isEqual) {
                     Firebase firebaseRef = firebaseCards.push();
                     cardsList.get(0).setUniqueFirebaseKey(firebaseRef.getKey());
@@ -1035,6 +1037,9 @@ public class Main3Activity extends AppCompatActivity
                 .show();
     }
 
+    /**
+     * Gets the saved values from firebase and checks puts them into a list to make sure there is no duplicates in the list
+     */
     private void checkForDuplicateSavedValues() {
         firebaseCards.addValueEventListener(new ValueEventListener() {
             @Override
