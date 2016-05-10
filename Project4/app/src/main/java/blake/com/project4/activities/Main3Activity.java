@@ -1,6 +1,7 @@
 package blake.com.project4.activities;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,9 +18,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,6 +99,7 @@ public class Main3Activity extends AppCompatActivity
     private ArrayAdapter<Cards> cardsArrayAdapter;
     private Button logOut;
     private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
     //endregion views
 
     //region intent strings
@@ -239,6 +243,7 @@ public class Main3Activity extends AppCompatActivity
         seekbarProgress = (TextView) scrollView.findViewById(R.id.seekbar_progress);
         dislikeButton = (ImageButton) findViewById(R.id.dislikeButton);
         likeButton = (ImageButton) findViewById(R.id.likeButton);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
     /**
@@ -492,7 +497,7 @@ public class Main3Activity extends AppCompatActivity
                 }
                 Collections.shuffle(cardsList);
                 if (cardsList.size() == 0) {
-                    Toast.makeText(Main3Activity.this, "No matches for the search. Try a new search", Toast.LENGTH_SHORT).show();
+                    createNoMatchesDialog();
                 }
                 //intializeCardSwipes();
                 setCardClickListener();
@@ -545,7 +550,7 @@ public class Main3Activity extends AppCompatActivity
                 }
                 Collections.shuffle(cardsList);
                 if (cardsList.size() == 0) {
-                    Toast.makeText(Main3Activity.this, "No matches for the search. Try a new search", Toast.LENGTH_SHORT).show();
+                    createNoMatchesDialog();
                 }
                 //intializeCardSwipes();
                 setCardClickListener();
@@ -969,5 +974,21 @@ public class Main3Activity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    /**
+     * Creates dialog box for when no matches meet the search query
+     */
+    private void createNoMatchesDialog() {
+        new AlertDialog.Builder(Main3Activity.this).setTitle(R.string.no_matches)
+                .setMessage(getString(R.string.no_matches_message))
+                .setPositiveButton(getString(R.string.new_search), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        drawerLayout.openDrawer(Gravity.LEFT);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }
