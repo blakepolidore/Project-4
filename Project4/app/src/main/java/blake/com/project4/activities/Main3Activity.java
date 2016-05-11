@@ -807,21 +807,13 @@ public class Main3Activity extends AppCompatActivity
     }
 
     /**
-     * When the device is connected the google services, the devices location is received and an api call is made
+     * When the device is connected the google services and the permissions have been set,
+     * the devices location is received and an api call is made
      * @param bundle
      */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            latitude = String.valueOf(lastLocation.getLatitude());
-            longitude = String.valueOf(lastLocation.getLongitude());
-            locationForQuery = latitude + "," + longitude;
-            if (cardsList.size() == 0) {
-                setStartLocationOption();
-            }
-        }
+        getLatLongCoordinates();
     }
 
     /**
@@ -1033,4 +1025,31 @@ public class Main3Activity extends AppCompatActivity
         });
     }
 
+    /**
+     * Sees what permissions were granted and calls the getLatLongCoordinates
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        getLatLongCoordinates();
+    }
+
+    /**
+     * gets the lat and long and makes api call
+     */
+    private void getLatLongCoordinates() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+            latitude = String.valueOf(lastLocation.getLatitude());
+            longitude = String.valueOf(lastLocation.getLongitude());
+            locationForQuery = latitude + "," + longitude;
+            if (cardsList.size() == 0) {
+                setStartLocationOption();
+            }
+        }
+    }
 }

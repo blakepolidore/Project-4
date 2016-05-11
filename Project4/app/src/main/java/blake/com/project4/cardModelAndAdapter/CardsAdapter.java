@@ -51,7 +51,7 @@ public class CardsAdapter extends ArrayAdapter<Cards> {
         Cards cards = cardsList.get(position);
         titleText.setText(cards.title);
         locationText.setText(cards.location);
-        Picasso.with(parent.getContext()).load(cards.imageUrl).placeholder(R.drawable.fooddrink).into(image);
+        Picasso.with(parent.getContext()).load(cards.imageUrl).resize(900, 600).placeholder(R.drawable.fooddrink).into(image);
 //        imageLoader.init(ImageLoaderConfiguration.createDefault(parent.getContext()));
 //        ImageSize imageSize = new ImageSize(300,300);
 //        imageLoader.displayImage(cards.imageUrl, image);
