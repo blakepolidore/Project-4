@@ -17,8 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.squareup.picasso.Picasso;
 
 import blake.com.project4.R;
 
@@ -111,10 +110,10 @@ public class VenueActivity extends AppCompatActivity {
         String titleString = venueIntent.getStringExtra(Main3Activity.TITLE_TEXT);
         title.setText(titleString);
         String imageURL = venueIntent.getStringExtra(Main3Activity.IMAGE_TEXT);
-        //Picasso.with(getApplicationContext()).load(imageURL).placeholder(R.drawable.smithriver).into(imageView);
-        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
-        ImageSize imageSize = new ImageSize(300, 300);
-        imageLoader.displayImage(imageURL, imageView);
+        Picasso.with(getApplicationContext()).load(imageURL).resize(900, 600).placeholder(R.drawable.fooddrink).into(imageView);
+//        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+//        ImageSize imageSize = new ImageSize(300, 300);
+//        imageLoader.displayImage(imageURL, imageView);
         String categoryString = venueIntent.getStringExtra(Main3Activity.CATEGORY_TEXT);
         category.setText(getString(R.string.category) + categoryString);
         String locationString = venueIntent.getStringExtra(Main3Activity.LOCATION_TEXT);

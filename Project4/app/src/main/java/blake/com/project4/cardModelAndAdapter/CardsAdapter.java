@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.squareup.picasso.Picasso;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -52,11 +51,10 @@ public class CardsAdapter extends ArrayAdapter<Cards> {
         Cards cards = cardsList.get(position);
         titleText.setText(cards.title);
         locationText.setText(cards.location);
-        //TODO add a placeholder image (.placeholder)
-        //Picasso.with(parent.getContext()).load(cards.imageUrl).placeholder(R.drawable.smithriver).into(image);
-        imageLoader.init(ImageLoaderConfiguration.createDefault(parent.getContext()));
-        ImageSize imageSize = new ImageSize(300,300);
-        imageLoader.displayImage(cards.imageUrl, image);
+        Picasso.with(parent.getContext()).load(cards.imageUrl).placeholder(R.drawable.fooddrink).into(image);
+//        imageLoader.init(ImageLoaderConfiguration.createDefault(parent.getContext()));
+//        ImageSize imageSize = new ImageSize(300,300);
+//        imageLoader.displayImage(cards.imageUrl, image);
         return cardsView;
     }
 }
