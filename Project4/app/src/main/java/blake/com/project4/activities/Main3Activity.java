@@ -147,10 +147,14 @@ public class Main3Activity extends AppCompatActivity
     //endregion boolean codes
 
     //region user input locations
-    private String locationInput;
     private final String LOCATION_INPUT_CODE = "user input";
     private String locationForQuery;
     //endregion user input locations
+
+    //region user query
+    private String userQuery;
+    private final String USER_QUERY_CODE = "user query";
+    //endregion user query
 
     //region seekbar
     private int seekBarValue;
@@ -428,10 +432,14 @@ public class Main3Activity extends AppCompatActivity
         editor.putInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
         editor.putInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
         if (!isDeviceLocationToggle) {
-            locationInput = locationEditText.getText().toString();
-            editor.putString(LOCATION_INPUT_CODE, locationInput);
+            locationForQuery = locationEditText.getText().toString();
+            editor.putString(LOCATION_INPUT_CODE, locationForQuery);
         }
         editor.putInt(SEEKBAR_CODE, seekBarValue);
+        if (!userQueryEditText.getText().toString().isEmpty()) {
+            userQuery = userQueryEditText.getText().toString();
+            editor.putString(USER_QUERY_CODE, userQuery);
+        }
         editor.apply();
     }
 
@@ -452,7 +460,7 @@ public class Main3Activity extends AppCompatActivity
         isDeviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
         deviceLocationSwitch.setChecked(isDeviceLocationToggle);
         if (!isDeviceLocationToggle) {
-            locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationInput));
+            locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationForQuery));
         }
         seekBarValue = sharedPreferences.getInt(SEEKBAR_CODE, 25);
         if (seekBarValue == 0) {
@@ -462,6 +470,10 @@ public class Main3Activity extends AppCompatActivity
         }
         timesAPICalledCoordinates = sharedPreferences.getInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
         timesAPICalledUserLocation = sharedPreferences.getInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
+        userQuery = sharedPreferences.getString(USER_QUERY_CODE, userQuery);
+        if (userQuery != null) {
+            userQueryEditText.setText(userQuery);
+        }
     }
 
     /**
