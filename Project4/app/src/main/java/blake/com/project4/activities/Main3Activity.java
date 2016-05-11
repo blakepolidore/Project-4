@@ -55,6 +55,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import blake.com.project4.GetUId;
+import blake.com.project4.InternetConnection;
 import blake.com.project4.Keys;
 import blake.com.project4.R;
 import blake.com.project4.apicalls.FoursquareAPIService;
@@ -827,7 +828,12 @@ public class Main3Activity extends AppCompatActivity
      */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        getLatLongCoordinates();
+        if (InternetConnection.isNetworkAvailable(Main3Activity.this)) {
+            getLatLongCoordinates();
+        }
+        else {
+            setNoInternetDialog();
+        }
     }
 
     /**
@@ -890,14 +896,22 @@ public class Main3Activity extends AppCompatActivity
         if (deviceLocationSwitch.isChecked()) {
             if (latitude != null && longitude != null) {
                 locationForQuery = latitude + "," + longitude;
-                makeCoordinateAPICalls();
+                if (InternetConnection.isNetworkAvailable(Main3Activity.this)) {
+                    makeCoordinateAPICalls();
+                } else {
+                    setNoInternetDialog();
+                }
             } else {
                 Toast.makeText(Main3Activity.this, R.string.no_location_determined, Toast.LENGTH_SHORT).show();
             }
         } else {
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
-                makeUserLocationInputAPICalls();
+                if (InternetConnection.isNetworkAvailable(Main3Activity.this)) {
+                    makeUserLocationInputAPICalls();
+                } else {
+                    setNoInternetDialog();
+                }
             } else {
                 Toast.makeText(Main3Activity.this, R.string.enter_valid_location, Toast.LENGTH_SHORT).show();
             }
@@ -1065,5 +1079,22 @@ public class Main3Activity extends AppCompatActivity
                 setStartLocationOption();
             }
         }
+    }
+
+    /**
+     * Creates dialog box for when no internet connection could be established
+     */
+    private void setNoInternetDialog() {
+        AlertDialog dialog = new AlertDialog.Builder(Main3Activity.this)
+                .setTitle(getString(R.string.no_internet))
+                .setMessage(getString(R.string.no_internet_message))
+                .setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(R.drawable.baby_crying)
+                .show();
     }
 }

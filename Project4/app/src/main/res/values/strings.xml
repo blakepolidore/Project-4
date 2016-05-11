@@ -29,4 +29,6 @@
     <string name="close">Close</string>
     <string name="instructions_venue">Click the \'X\' to dismiss the activity. Click the check mark to like the activity. Click the share button to share with your friends.</string>
     <string name="main_instructions">To like an activity, swipe right on the card or press the check mark. To pass on the activity, swipe left on the card or click on the X button. To view the activity, click on the card.</string>
+    <string name="no_internet">No Internet!</string>
+    <string name="no_internet_message">Internet connection could not be achieved. Please try again, or else this baby will keep crying.</string>
 </resources>
