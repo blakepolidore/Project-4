@@ -925,7 +925,7 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallCoordinates("arts");
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
-            yelpAPISearchCallCoordinates(userQueryEditText.getText().toString());
+            yelpAPISearchCallCoordinates(userQueryEditText.getText().toString().toLowerCase());
         }
     }
 
@@ -946,7 +946,7 @@ public class Main3Activity extends AppCompatActivity
             yelpAPISearchCallLocation("arts");
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
-            yelpAPISearchCallLocation(userQueryEditText.getText().toString());
+            yelpAPISearchCallLocation(userQueryEditText.getText().toString().toLowerCase());
         }
     }
 
@@ -1090,4 +1090,5 @@ public class Main3Activity extends AppCompatActivity
                 .setIcon(image)
                 .show();
     }
+
 }

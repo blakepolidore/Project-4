@@ -17,7 +17,7 @@
     <string name="reviews"><![CDATA[\'> Reviews</a>]]></string>
     <string name="logout">Logout</string>
     <string name="no_matches">No Matches!</string>
-    <string name="no_matches_message">There are no matches for the search. Please make a new search.</string>
+    <string name="no_matches_message">There are no matches for the custom search. Please make a new search.</string>
     <string name="new_search">New Search</string>
     <string name="restaurants">Restaurants:</string>
     <string name="drinks">Drinks</string>
