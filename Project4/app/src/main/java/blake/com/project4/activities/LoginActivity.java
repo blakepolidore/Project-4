@@ -202,4 +202,9 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, Main3Activity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

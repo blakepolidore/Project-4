@@ -315,7 +315,7 @@ public class Main3Activity extends AppCompatActivity
      * Sets and grabs the seek bar value and places into the textview and the seekBarValue int
      */
     private void setSeekBar() {
-        radiusSeekbar.setMax(100);
+        radiusSeekbar.setMax(50);
         radiusSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
