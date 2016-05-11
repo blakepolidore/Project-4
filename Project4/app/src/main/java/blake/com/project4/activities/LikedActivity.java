@@ -1,8 +1,10 @@
 package blake.com.project4.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -75,6 +78,31 @@ public class LikedActivity extends AppCompatActivity {
         inflater.inflate(R.menu.liked_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Creates intents when options are clicked on
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.information:
+                AlertDialog dialog = new AlertDialog.Builder(LikedActivity.this).setTitle(getString(R.string.information))
+                        .setMessage(getString(R.string.liked_instructions))
+                        .setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**

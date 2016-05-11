@@ -24,4 +24,9 @@
     <string name="arts">Arts:</string>
     <string name="active_lifestyle">Active Lifestyle:</string>
     <string name="choose_custom_search">Choose custom search:</string>
+    <string name="information">Information</string>
+    <string name="liked_instructions">Click on the activity to view. Long click on the activity to delete from the list.</string>
+    <string name="close">Close</string>
+    <string name="instructions_venue">Click the \'X\' to dismiss the activity. Click the check mark to like the activity. Click the share button to share with your friends.</string>
+    <string name="main_instructions">To like an activity, swipe right on the card or press the check mark. To pass on the activity, swipe left on the card or click on the X button. To view the activity, click on the card.</string>
 </resources>

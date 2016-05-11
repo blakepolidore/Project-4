@@ -306,6 +306,18 @@ public class Main3Activity extends AppCompatActivity
                 Intent likedVenuesIntent = new Intent(Main3Activity.this, LikedActivity.class);
                 startActivity(likedVenuesIntent);
                 return true;
+            case R.id.information_main:
+                AlertDialog dialog = new AlertDialog.Builder(Main3Activity.this).setTitle(getString(R.string.information))
+                        .setMessage(getString(R.string.main_instructions))
+                        .setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

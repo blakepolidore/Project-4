@@ -3,4 +3,9 @@
     xmlns:android1="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android1:id="@+id/information"
+        android1:title="Information"
+        android1:icon="@android:drawable/ic_dialog_info"
+        app:showAsAction="always"/>
+
 </menu>

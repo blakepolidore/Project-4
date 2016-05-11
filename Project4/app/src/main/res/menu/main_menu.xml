@@ -3,6 +3,11 @@
     xmlns:android1="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android1:id="@+id/information_main"
+        android1:title="Information"
+        android1:icon="@android:drawable/ic_dialog_info"
+        app:showAsAction="always"/>
+
     <item android1:id="@+id/liked_activities"
         android1:title="Liked Activities"
         android1:icon="@drawable/ic_action_white"
