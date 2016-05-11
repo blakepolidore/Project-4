@@ -533,7 +533,7 @@ public class Main3Activity extends AppCompatActivity
                     }
                 }
                 Collections.shuffle(cardsList);
-                if (cardsList.size() == 0) { //&& edittext.getText().toString.isEmpty
+                if (cardsList.size() == 0 && !(userQueryEditText.getText().toString().isEmpty())) {
                     createNoMatchesDialog();
                 }
 
@@ -586,7 +586,7 @@ public class Main3Activity extends AppCompatActivity
                     }
                 }
                 Collections.shuffle(cardsList);
-                if (cardsList.size() == 0) {
+                if (cardsList.size() == 0 && !(userQueryEditText.getText().toString().isEmpty())) {
                     createNoMatchesDialog();
                 }
                 setCardClickListener();
