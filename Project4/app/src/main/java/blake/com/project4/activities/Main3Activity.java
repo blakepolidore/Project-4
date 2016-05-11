@@ -308,17 +308,7 @@ public class Main3Activity extends AppCompatActivity
                 startActivity(likedVenuesIntent);
                 return true;
             case R.id.information_main:
-                AlertDialog dialog = new AlertDialog.Builder(Main3Activity.this)
-                        .setTitle(getString(R.string.information))
-                        .setMessage(getString(R.string.main_instructions))
-                        .setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_info)
-                        .show();
+                setDialog(getString(R.string.information), getString(R.string.main_instructions), android.R.drawable.ic_dialog_info);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -533,8 +523,8 @@ public class Main3Activity extends AppCompatActivity
                     }
                 }
                 Collections.shuffle(cardsList);
-                if (cardsList.size() == 0 && !(userQueryEditText.getText().toString().isEmpty())) {
-                    createNoMatchesDialog();
+                if (cardsList.size() == 0 ) {
+                    setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), android.R.drawable.ic_dialog_alert);
                 }
 
                 setCardClickListener();
@@ -544,7 +534,7 @@ public class Main3Activity extends AppCompatActivity
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
-
+                createNoMatchesDialog();
             }
         });
     }
@@ -586,8 +576,8 @@ public class Main3Activity extends AppCompatActivity
                     }
                 }
                 Collections.shuffle(cardsList);
-                if (cardsList.size() == 0 && !(userQueryEditText.getText().toString().isEmpty())) {
-                    createNoMatchesDialog();
+                if (cardsList.size() == 0) {
+                    setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), android.R.drawable.ic_dialog_alert);
                 }
                 setCardClickListener();
                 setLikeButton();
@@ -596,7 +586,7 @@ public class Main3Activity extends AppCompatActivity
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
-
+                createNoMatchesDialog();
             }
         });
     }
@@ -832,7 +822,7 @@ public class Main3Activity extends AppCompatActivity
             getLatLongCoordinates();
         }
         else {
-            setNoInternetDialog();
+            setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
         }
     }
 
@@ -899,7 +889,7 @@ public class Main3Activity extends AppCompatActivity
                 if (InternetConnection.isNetworkAvailable(Main3Activity.this)) {
                     makeCoordinateAPICalls();
                 } else {
-                    setNoInternetDialog();
+                    setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
                 }
             } else {
                 Toast.makeText(Main3Activity.this, R.string.no_location_determined, Toast.LENGTH_SHORT).show();
@@ -910,7 +900,7 @@ public class Main3Activity extends AppCompatActivity
                 if (InternetConnection.isNetworkAvailable(Main3Activity.this)) {
                     makeUserLocationInputAPICalls();
                 } else {
-                    setNoInternetDialog();
+                    setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
                 }
             } else {
                 Toast.makeText(Main3Activity.this, R.string.enter_valid_location, Toast.LENGTH_SHORT).show();
@@ -1082,19 +1072,22 @@ public class Main3Activity extends AppCompatActivity
     }
 
     /**
-     * Creates dialog box for when no internet connection could be established
+     * Creates empty dialog for message error
+     * @param title
+     * @param message
+     * @param image
      */
-    private void setNoInternetDialog() {
+    private void setDialog(String title, String message, int image) {
         AlertDialog dialog = new AlertDialog.Builder(Main3Activity.this)
-                .setTitle(getString(R.string.no_internet))
-                .setMessage(getString(R.string.no_internet_message))
+                .setTitle(title)
+                .setMessage(message)
                 .setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .setIcon(R.drawable.baby_crying)
+                .setIcon(image)
                 .show();
     }
 }

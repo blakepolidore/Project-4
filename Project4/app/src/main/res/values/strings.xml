@@ -31,4 +31,6 @@
     <string name="main_instructions">To like an activity, swipe right on the card or press the check mark. To pass on the activity, swipe left on the card or click on the X button. To view the activity, click on the card.</string>
     <string name="no_internet">No Internet!</string>
     <string name="no_internet_message">Internet connection could not be achieved. Please try again, or else this baby will keep crying.</string>
+    <string name="servers_unavailable">Servers Unavailable</string>
+    <string name="unable_retrieve">Unable to retrieve information from servers at this time. Please try again.</string>
 </resources>
