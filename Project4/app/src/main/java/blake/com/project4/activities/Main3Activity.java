@@ -307,7 +307,8 @@ public class Main3Activity extends AppCompatActivity
                 startActivity(likedVenuesIntent);
                 return true;
             case R.id.information_main:
-                AlertDialog dialog = new AlertDialog.Builder(Main3Activity.this).setTitle(getString(R.string.information))
+                AlertDialog dialog = new AlertDialog.Builder(Main3Activity.this)
+                        .setTitle(getString(R.string.information))
                         .setMessage(getString(R.string.main_instructions))
                         .setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
                             @Override
@@ -534,6 +535,7 @@ public class Main3Activity extends AppCompatActivity
                 if (cardsList.size() == 0) { //&& edittext.getText().toString.isEmpty
                     createNoMatchesDialog();
                 }
+
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
