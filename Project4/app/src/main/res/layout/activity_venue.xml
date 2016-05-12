@@ -57,41 +57,46 @@
             android:id="@+id/category_venue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category:"
+            android:text="@string/category"
             android:layout_margin="4dp"/>
 
         <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location:"
+            android:text="@string/location"
             android:layout_margin="4dp"/>
 
         <TextView
             android:id="@+id/phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone:"
-            android:layout_margin="4dp"
+            android:text="@string/phone"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textColor="@color/colorAccent"/>
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description:"
+            android:text="@string/description"
             android:layout_margin="4dp"/>
 
         <TextView
             android:id="@+id/website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Website:"
-            android:layout_margin="4dp"/>
+            android:text="@string/website"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
 
             <ImageButton
                 android:id="@+id/venue_dislike"

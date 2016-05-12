@@ -11,7 +11,7 @@
     <string name="miles">" miles"</string>
     <string name="category">"Category: "</string>
     <string name="location">"Location: "</string>
-    <string name="description">"Description: "</string>
+    <string name="description">"Reviews: "</string>
     <string name="check_this_out">Check out this place!</string>
     <string name="share">Share</string>
     <string name="reviews"><![CDATA[\'> Reviews</a>]]></string>
@@ -33,4 +33,6 @@
     <string name="no_internet_message">Internet connection could not be achieved. Please try again, or else this baby will keep crying.</string>
     <string name="servers_unavailable">Servers Unavailable</string>
     <string name="unable_retrieve">Unable to retrieve information from servers at this time. Please try again.</string>
+    <string name="phone">Phone:</string>
+    <string name="website">Website:</string>
 </resources>
