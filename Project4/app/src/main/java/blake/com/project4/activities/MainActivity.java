@@ -59,10 +59,10 @@ import blake.com.project4.InternetConnection;
 import blake.com.project4.Keys;
 import blake.com.project4.R;
 import blake.com.project4.apicalls.FoursquareAPIService;
-import blake.com.project4.models.cardsModel.Cards;
 import blake.com.project4.cardModelAndAdapter.CardsAdapter;
-import blake.com.project4.foursquareModel.Root;
-import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
+import blake.com.project4.models.cardsModel.Cards;
+import blake.com.project4.models.fourSquareModels.Root;
+import blake.com.project4.models.fourSquareModels.fourSquarePhotoModel.PhotoRoot;
 import blake.com.project4.swipefling.SwipeFlingAdapterView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -650,11 +650,11 @@ public class MainActivity extends AppCompatActivity
 
         foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
 
-        Call<blake.com.project4.foursquareModel.Root> call =
+        Call<Root> call =
                 foursquareAPIService.searchWithNear(locationForQuery, query, Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
         call.enqueue(new Callback<Root>() {
             @Override
-            public void onResponse(Call<blake.com.project4.foursquareModel.Root> call, Response<blake.com.project4.foursquareModel.Root> response) {
+            public void onResponse(Call<Root> call, Response<Root> response) {
                 for (int i = 0; i < response.body().getResponse().getVenues().length; i++) {
                     String name = response.body().getResponse().getVenues()[i].getName();
                     String address = response.body().getResponse().getVenues()[i].getLocation().getFormattedAddress()[0];
@@ -668,7 +668,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onFailure(Call<blake.com.project4.foursquareModel.Root> call, Throwable t) {
+            public void onFailure(Call<Root> call, Throwable t) {
                 Log.d("MAIN ACTIVITY", "Test Failed");
                 t.printStackTrace();
             }
@@ -687,11 +687,11 @@ public class MainActivity extends AppCompatActivity
 
         foursquareAPIService = retrofitFourSquare.create(FoursquareAPIService.class);
 
-        Call<blake.com.project4.foursquareModel.Root> call =
+        Call<Root> call =
                 foursquareAPIService.searchWithLL(locationForQuery,query, Keys.FOURSQUARE_ID, Keys.FOURSQUARE_SECRET, "20160501", "foursquare");
         call.enqueue(new Callback<Root>() {
             @Override
-            public void onResponse(Call<blake.com.project4.foursquareModel.Root> call, Response<blake.com.project4.foursquareModel.Root> response) {
+            public void onResponse(Call<Root> call, Response<Root> response) {
                 for (int i = 0; i < response.body().getResponse().getVenues().length; i++) {
                     String name = response.body().getResponse().getVenues()[i].getName();
                     String address = response.body().getResponse().getVenues()[i].getLocation().getFormattedAddress()[0];
@@ -705,7 +705,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onFailure(Call<blake.com.project4.foursquareModel.Root> call, Throwable t) {
+            public void onFailure(Call<Root> call, Throwable t) {
                 Log.d("MAIN ACTIVITY", "Test Failed");
                 t.printStackTrace();
             }

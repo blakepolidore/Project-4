@@ -1,7 +1,7 @@
 package blake.com.project4.apicalls;
 
-import blake.com.project4.foursquareModel.Root;
-import blake.com.project4.foursquareModel.foursquarePhotoModel.PhotoRoot;
+import blake.com.project4.models.fourSquareModels.Root;
+import blake.com.project4.models.fourSquareModels.fourSquarePhotoModel.PhotoRoot;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
