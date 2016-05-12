@@ -791,6 +791,7 @@ public class Main3Activity extends AppCompatActivity
                     Date date = new Date();
                     firebaseRef.setValue(cardsList.get(0));
                     firebaseRef.setPriority(0 - date.getTime());
+                    Log.d(TAG, String.valueOf(date.getTime()));
                 }
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
