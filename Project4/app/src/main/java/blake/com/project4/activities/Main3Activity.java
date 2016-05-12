@@ -177,6 +177,11 @@ public class Main3Activity extends AppCompatActivity
     LinkedList<String> duplicateList = new LinkedList<>();
     //endregion duplicates
 
+    //region api call counts
+    int callCount = 0;
+    int numCalls = 0;
+    //endregion api call counts
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,9 +207,9 @@ public class Main3Activity extends AppCompatActivity
 
         cardsList = new LinkedList<>();
         locationViewsEnabled();
-        cardsArrayAdapter = new CardsAdapter(this, cardsList);
 
         intializeCardSwipes();
+        //cardsArrayAdapter = new CardsAdapter(this, cardsList);
         setLogOut();
     }
 
@@ -436,10 +441,10 @@ public class Main3Activity extends AppCompatActivity
             editor.putString(LOCATION_INPUT_CODE, locationForQuery);
         }
         editor.putInt(SEEKBAR_CODE, seekBarValue);
-        if (!userQueryEditText.getText().toString().isEmpty()) {
-            userQuery = userQueryEditText.getText().toString();
-            editor.putString(USER_QUERY_CODE, userQuery);
-        }
+//        if (!userQueryEditText.getText().toString().isEmpty()) {
+//            userQuery = userQueryEditText.getText().toString();
+//            editor.putString(USER_QUERY_CODE, userQuery);
+//        }
         editor.apply();
     }
 
@@ -471,9 +476,9 @@ public class Main3Activity extends AppCompatActivity
         timesAPICalledCoordinates = sharedPreferences.getInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
         timesAPICalledUserLocation = sharedPreferences.getInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
         userQuery = sharedPreferences.getString(USER_QUERY_CODE, userQuery);
-        if (userQuery != null) {
-            userQueryEditText.setText(userQuery);
-        }
+//        if (userQuery != null) {
+//            userQueryEditText.setText(userQuery);
+//        }
     }
 
     /**
@@ -542,7 +547,17 @@ public class Main3Activity extends AppCompatActivity
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
-                cardsArrayAdapter.notifyDataSetChanged();
+                //cardsArrayAdapter.notifyDataSetChanged();
+
+                callCount = callCount + 1;
+                if(callCount == numCalls) {
+                    Log.d(TAG, numCalls + " callCount:" + callCount);
+                    cardsArrayAdapter = new CardsAdapter(Main3Activity.this, cardsList);
+                    flingContainer.setAdapter(cardsArrayAdapter);
+                    cardsArrayAdapter.notifyDataSetChanged();
+                    numCalls = 0;
+                    callCount = 0;
+                }
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -925,18 +940,23 @@ public class Main3Activity extends AppCompatActivity
      */
     private void makeCoordinateAPICalls() {
         if (isFoodQueryToggle) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallCoordinates("restaurants");
         }
         if (isDrinkQueryToggle) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallCoordinates("nightlife");
         }
         if (isActiveQueryToggle) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallCoordinates("active");
         }
         if (isArtsQueryToggle) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallCoordinates("arts");
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallCoordinates(userQueryEditText.getText().toString().toLowerCase());
         }
     }
