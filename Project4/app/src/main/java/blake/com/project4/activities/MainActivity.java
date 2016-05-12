@@ -546,7 +546,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 Collections.shuffle(cardsList);
                 if (cardsList.size() == 0 ) {
-                    setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), android.R.drawable.ic_dialog_alert);
+                    setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), R.drawable.alert);
                 }
 
                 setCardClickListener();
@@ -612,7 +612,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 Collections.shuffle(cardsList);
                 if (cardsList.size() == 0) {
-                    setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), android.R.drawable.ic_dialog_alert);
+                    setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), R.drawable.alert);
                 }
                 setCardClickListener();
                 setLikeButton();
@@ -820,7 +820,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 } else {
                     if (cardsList.size() == 0) {
-                        setDialog(getString(R.string.low_matches_title), getString(R.string.low_matches_message), android.R.drawable.ic_dialog_alert);
+                        setDialog(getString(R.string.low_matches_title), getString(R.string.low_matches_message), R.drawable.alert);
                         noMoreResults = false;
                     }
                 }
@@ -937,7 +937,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         else {
-            setDialog("No Google Services", "Google Play Services need to be downloaded to acquire the device's location", android.R.drawable.ic_dialog_alert);
+            setDialog("No Google Services", "Google Play Services need to be downloaded to acquire the device's location", R.drawable.alert);
         }
     }
 
@@ -1091,7 +1091,7 @@ public class MainActivity extends AppCompatActivity
                         drawerLayout.openDrawer(Gravity.LEFT);
                     }
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.alert)
                 .show();
     }
 
