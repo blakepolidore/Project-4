@@ -13,12 +13,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_white"
+        android:src="@drawable/arrows_action_bar"
         android:scaleX="5"
         android:scaleY="5"
-        android:layout_marginTop="109dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="107dp" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/facebook_login"

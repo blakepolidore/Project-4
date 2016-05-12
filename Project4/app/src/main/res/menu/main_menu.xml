@@ -10,7 +10,7 @@
 
     <item android1:id="@+id/liked_activities"
         android1:title="Liked Activities"
-        android1:icon="@drawable/ic_action_white"
+        android1:icon="@drawable/arrows_action_bar"
         app:showAsAction="always"/>
 
 </menu>

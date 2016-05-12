@@ -31,7 +31,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/arrows_launcher">
         <activity android:name=".activities.VenueActivity" />
         <activity android:name=".activities.LikedActivity" />
         <activity

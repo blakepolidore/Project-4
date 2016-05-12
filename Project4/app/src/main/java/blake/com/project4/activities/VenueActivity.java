@@ -138,7 +138,7 @@ public class VenueActivity extends AppCompatActivity {
         String titleString = venueIntent.getStringExtra(MainActivity.TITLE_TEXT);
         title.setText(titleString);
         String imageURL = venueIntent.getStringExtra(MainActivity.IMAGE_TEXT);
-        Picasso.with(getApplicationContext()).load(imageURL).resize(900, 600).placeholder(R.drawable.fooddrink).into(imageView);
+        Picasso.with(getApplicationContext()).load(imageURL).resize(900, 600).placeholder(R.drawable.arrows).into(imageView);
 //        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
 //        ImageSize imageSize = new ImageSize(300, 300);
 //        imageLoader.displayImage(imageURL, imageView);
