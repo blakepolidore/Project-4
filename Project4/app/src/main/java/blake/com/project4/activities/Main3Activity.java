@@ -547,7 +547,6 @@ public class Main3Activity extends AppCompatActivity
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
-                //cardsArrayAdapter.notifyDataSetChanged();
 
                 callCount = callCount + 1;
                 if(callCount == numCalls) {
@@ -609,7 +608,16 @@ public class Main3Activity extends AppCompatActivity
                 setCardClickListener();
                 setLikeButton();
                 setDislikeButton();
-                cardsArrayAdapter.notifyDataSetChanged();
+
+                callCount = callCount + 1;
+                if(callCount == numCalls) {
+                    Log.d(TAG, numCalls + " callCount:" + callCount);
+                    cardsArrayAdapter = new CardsAdapter(Main3Activity.this, cardsList);
+                    flingContainer.setAdapter(cardsArrayAdapter);
+                    cardsArrayAdapter.notifyDataSetChanged();
+                    numCalls = 0;
+                    callCount = 0;
+                }
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -966,18 +974,23 @@ public class Main3Activity extends AppCompatActivity
      */
     private void makeUserLocationInputAPICalls() {
         if (isFoodQueryToggle) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallLocation("restaurants");
         }
         if (isDrinkQueryToggle) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallLocation("nightlife");
         }
         if (isActiveQueryToggle) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallLocation("active");
         }
         if (isArtsQueryToggle) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallLocation("arts");
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
+            numCalls = numCalls + 1;
             yelpAPISearchCallLocation(userQueryEditText.getText().toString().toLowerCase());
         }
     }
