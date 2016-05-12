@@ -41,6 +41,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.yelp.clientlib.connection.YelpAPI;
@@ -54,12 +55,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import blake.com.project4.GetFirebaseUniqueId;
 import blake.com.project4.CheckInternetConnection;
+import blake.com.project4.GetFirebaseUniqueId;
 import blake.com.project4.Keys;
 import blake.com.project4.R;
-import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.adapters.CardsAdapter;
+import blake.com.project4.apicalls.FoursquareAPIService;
 import blake.com.project4.models.cardsModel.Cards;
 import blake.com.project4.models.fourSquareModels.Root;
 import blake.com.project4.models.fourSquareModels.fourSquarePhotoModel.PhotoRoot;
@@ -926,10 +927,17 @@ public class MainActivity extends AppCompatActivity
      * Checks phones permissions to get location
      */
     private void checkPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
-                    PERMISSION_ACCESS_COARSE_LOCATION);
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int code = api.isGooglePlayServicesAvailable(MainActivity.this);
+        if (code == ConnectionResult.SUCCESS) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
+                        PERMISSION_ACCESS_COARSE_LOCATION);
+            }
+        }
+        else {
+            setDialog("No Google Services", "Google Play Services need to be downloaded to acquire the device's location", android.R.drawable.ic_dialog_alert);
         }
     }
 
