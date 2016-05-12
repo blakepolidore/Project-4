@@ -7,7 +7,7 @@ import com.firebase.client.Firebase;
  * Created by Raiders on 5/9/16.
  * Gets firebase unique user id
  */
-public class GetUId {
+public class GetFirebaseUniqueId {
     public static String getAuthData() {
         Firebase firebase = new Firebase("https://datemate.firebaseio.com");
         AuthData authData = firebase.getAuth();

@@ -22,7 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 
-import blake.com.project4.GetUId;
+import blake.com.project4.GetFirebaseUniqueId;
 import blake.com.project4.R;
 import blake.com.project4.models.cardsModel.Cards;
 import blake.com.project4.touchListeners.ClickListener;
@@ -109,7 +109,7 @@ public class LikedActivity extends AppCompatActivity {
      * Grabs the liked cards from firebase and places them into the recycler view
      */
     private void setLikedCards() {
-        String userID = GetUId.getAuthData();
+        String userID = GetFirebaseUniqueId.getAuthData();
         firebase = new Firebase("https://datemate.firebaseio.com/users/" + userID + "/cards/");
         firebase.orderByPriority();
         adapter = new FirebaseRecyclerAdapter<Cards, LikedFeedAdapter.FeedViewHolder>(Cards.class, R.layout.recycler_layout, LikedFeedAdapter.FeedViewHolder.class, firebase) {

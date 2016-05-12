@@ -54,8 +54,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import blake.com.project4.GetUId;
-import blake.com.project4.InternetConnection;
+import blake.com.project4.GetFirebaseUniqueId;
+import blake.com.project4.CheckInternetConnection;
 import blake.com.project4.Keys;
 import blake.com.project4.R;
 import blake.com.project4.apicalls.FoursquareAPIService;
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setToolbar();
-        String userID = GetUId.getAuthData();
+        String userID = GetFirebaseUniqueId.getAuthData();
 
         firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
         firebaseCards = firebaseRef.child("cards");
@@ -872,7 +872,7 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (InternetConnection.isNetworkAvailable(MainActivity.this)) {
+        if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
             getLatLongCoordinates();
         }
         else {
@@ -940,7 +940,7 @@ public class MainActivity extends AppCompatActivity
         if (deviceLocationSwitch.isChecked()) {
             if (latitude != null && longitude != null) {
                 locationForQuery = latitude + "," + longitude;
-                if (InternetConnection.isNetworkAvailable(MainActivity.this)) {
+                if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
                     makeCoordinateAPICalls();
                 } else {
                     setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
@@ -951,7 +951,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
-                if (InternetConnection.isNetworkAvailable(MainActivity.this)) {
+                if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
                     makeUserLocationInputAPICalls();
                 } else {
                     setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
