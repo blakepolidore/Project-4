@@ -25,9 +25,9 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 import blake.com.project4.GetUId;
 import blake.com.project4.R;
 import blake.com.project4.models.cardsModel.Cards;
-import blake.com.project4.feedRecyclerviewAdapter.ClickListener;
-import blake.com.project4.feedRecyclerviewAdapter.LikedFeedAdapter;
-import blake.com.project4.feedRecyclerviewAdapter.RecyclerTouchListener;
+import blake.com.project4.touchListeners.ClickListener;
+import blake.com.project4.adapters.LikedFeedAdapter;
+import blake.com.project4.touchListeners.RecyclerTouchListener;
 
 /**
  * Activity that shows all the users favorited cards

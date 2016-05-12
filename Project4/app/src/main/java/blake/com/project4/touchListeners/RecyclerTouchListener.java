@@ -1,4 +1,4 @@
-package blake.com.project4.feedRecyclerviewAdapter;
+package blake.com.project4.touchListeners;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

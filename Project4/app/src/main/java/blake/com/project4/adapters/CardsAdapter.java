@@ -1,4 +1,4 @@
-package blake.com.project4.cardModelAndAdapter;
+package blake.com.project4.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

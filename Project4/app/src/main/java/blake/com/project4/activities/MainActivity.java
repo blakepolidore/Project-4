@@ -59,7 +59,7 @@ import blake.com.project4.InternetConnection;
 import blake.com.project4.Keys;
 import blake.com.project4.R;
 import blake.com.project4.apicalls.FoursquareAPIService;
-import blake.com.project4.cardModelAndAdapter.CardsAdapter;
+import blake.com.project4.adapters.CardsAdapter;
 import blake.com.project4.models.cardsModel.Cards;
 import blake.com.project4.models.fourSquareModels.Root;
 import blake.com.project4.models.fourSquareModels.fourSquarePhotoModel.PhotoRoot;
