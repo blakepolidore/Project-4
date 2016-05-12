@@ -1,5 +1,6 @@
 package blake.com.project4.cardModelAndAdapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import blake.com.project4.R;
+import blake.com.project4.models.cardsModel.Cards;
 
 /**
  * Created by Raiders on 5/1/16.
@@ -49,9 +51,11 @@ public class CardsAdapter extends ArrayAdapter<Cards> {
         TextView locationText = (TextView) cardsView.findViewById(R.id.card_location);
         ImageView image = (ImageView) cardsView.findViewById(R.id.swipableImage);
         Cards cards = cardsList.get(position);
-        titleText.setText(cards.title);
-        locationText.setText(cards.location);
-        Picasso.with(parent.getContext()).load(cards.imageUrl).resize(900, 600).placeholder(R.drawable.fooddrink).into(image);
+        titleText.setText(cards.getTitle());
+        locationText.setText(cards.getLocation());
+        Picasso.with(parent.getContext()).load(cards.getImageUrl()).resize(900, 600).placeholder(R.drawable.fooddrink).into(image);
+        ProgressDialog dialog = new ProgressDialog(getContext());
+
 //        imageLoader.init(ImageLoaderConfiguration.createDefault(parent.getContext()));
 //        ImageSize imageSize = new ImageSize(300,300);
 //        imageLoader.displayImage(cards.imageUrl, image);

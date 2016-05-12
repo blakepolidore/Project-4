@@ -1,4 +1,4 @@
-package blake.com.project4.cardModelAndAdapter;
+package blake.com.project4.models.cardsModel;
 
 /**
  * Created by Raiders on 5/1/16.
@@ -6,14 +6,14 @@ package blake.com.project4.cardModelAndAdapter;
  */
 public class Cards {
 
-    String title;
-    String imageUrl;
-    String location;
-    String category;
-    String website;
-    String phone;
-    String description;
-    String uniqueFirebaseKey;
+    private String title;
+    private String imageUrl;
+    private String location;
+    private String category;
+    private String website;
+    private String phone;
+    private String description;
+    private String uniqueFirebaseKey;
 
     public void setUniqueFirebaseKey(String uniqueFirebaseKey) {
         this.uniqueFirebaseKey = uniqueFirebaseKey;

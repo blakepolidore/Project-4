@@ -24,7 +24,7 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 import blake.com.project4.GetUId;
 import blake.com.project4.R;
-import blake.com.project4.cardModelAndAdapter.Cards;
+import blake.com.project4.models.cardsModel.Cards;
 import blake.com.project4.feedRecyclerviewAdapter.ClickListener;
 import blake.com.project4.feedRecyclerviewAdapter.LikedFeedAdapter;
 import blake.com.project4.feedRecyclerviewAdapter.RecyclerTouchListener;

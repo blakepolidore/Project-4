@@ -15,7 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.util.List;
 
 import blake.com.project4.R;
-import blake.com.project4.cardModelAndAdapter.Cards;
+import blake.com.project4.models.cardsModel.Cards;
 
 /**
  * Created by Raiders on 5/2/16.
