@@ -1,6 +1,6 @@
 package blake.com.project4.apicalls;
 
-import blake.com.project4.foursquareModel.Root;
+import blake.com.project4.models.rottenTomatoesModel.rottenTomatoesModel.RTRoot;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -11,5 +11,5 @@ import retrofit2.http.Query;
 public interface RottenTomatoesAPIService {
 
     @GET("in_theaters.json")
-    Call<Root> searchInTheaters(@Query("apikey") String apiKey, @Query("page_limit") String limit);
+    Call<RTRoot> searchInTheaters(@Query("apikey") String apiKey, @Query("page_limit") String limit);
 }
