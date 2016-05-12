@@ -182,6 +182,10 @@ public class Main3Activity extends AppCompatActivity
     int numCalls = 0;
     //endregion api call counts
 
+    //region no more results boolean
+    private boolean noMoreResults = false;
+    //endregion no more results boolean
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,7 +213,7 @@ public class Main3Activity extends AppCompatActivity
         locationViewsEnabled();
 
         intializeCardSwipes();
-        //cardsArrayAdapter = new CardsAdapter(this, cardsList);
+        cardsArrayAdapter = new CardsAdapter(this, cardsList);
         setLogOut();
     }
 
@@ -554,6 +558,10 @@ public class Main3Activity extends AppCompatActivity
                     cardsArrayAdapter = new CardsAdapter(Main3Activity.this, cardsList);
                     flingContainer.setAdapter(cardsArrayAdapter);
                     cardsArrayAdapter.notifyDataSetChanged();
+                    if (cardsList.size() < numCalls * 20) {
+                        noMoreResults = true;
+                        Log.d(TAG, String.valueOf(cardsArrayAdapter.getCount()));
+                    }
                     numCalls = 0;
                     callCount = 0;
                 }
@@ -615,6 +623,10 @@ public class Main3Activity extends AppCompatActivity
                     cardsArrayAdapter = new CardsAdapter(Main3Activity.this, cardsList);
                     flingContainer.setAdapter(cardsArrayAdapter);
                     cardsArrayAdapter.notifyDataSetChanged();
+                    if (cardsList.size() < numCalls * 20) {
+                        noMoreResults = true;
+                        Log.d(TAG, String.valueOf(cardsArrayAdapter.getCount()));
+                    }
                     numCalls = 0;
                     callCount = 0;
                 }
@@ -791,7 +803,6 @@ public class Main3Activity extends AppCompatActivity
                     Date date = new Date();
                     firebaseRef.setValue(cardsList.get(0));
                     firebaseRef.setPriority(0 - date.getTime());
-                    Log.d(TAG, String.valueOf(date.getTime()));
                 }
                 cardsList.remove(0);
                 cardsArrayAdapter.notifyDataSetChanged();
@@ -799,11 +810,17 @@ public class Main3Activity extends AppCompatActivity
 
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                if (cardsList.size() > 3) {
-                    timesAPICalledUserLocation += 20;
-                    timesAPICalledCoordinates += 20;
-                    setStartLocationOption();
-                    Log.d("onAdapterAboutToEmpty", "called");
+                if (!noMoreResults) {
+                    if (cardsArrayAdapter.getCount() > 3) {
+                        timesAPICalledUserLocation += 20;
+                        timesAPICalledCoordinates += 20;
+                        setStartLocationOption();
+                        Log.d("onAdapterAboutToEmpty", "called");
+                    }
+                } else {
+                    if (cardsList.size() < 2) {
+                        setDialog(getString(R.string.low_matches_title), getString(R.string.low_matches_message), android.R.drawable.ic_dialog_alert);
+                    }
                 }
             }
 
