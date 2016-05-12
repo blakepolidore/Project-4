@@ -10,16 +10,17 @@
         <ImageButton
             android:id="@+id/dislikeButton"
             android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cross"/>
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:src="@drawable/thumbs_down"
+            android:background="@drawable/round_button"/>
 
         <ImageButton
             android:id="@+id/likeButton"
             android:layout_margin="10dp"
-            android:text="Right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/check"/>
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:src="@drawable/thumbs_up"
+            android:background="@drawable/round_button"/>
 
 </LinearLayout>
