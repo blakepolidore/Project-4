@@ -14,8 +14,10 @@ import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -162,11 +164,26 @@ public class LoginActivity extends AppCompatActivity {
         public void onAuthenticated(AuthData authData) {
             authProgressDialog.hide();
             setAuthenticatedUser(authData);
-            Map<String, String> map = new HashMap<String, String>();
+            final Map<String, String> map = new HashMap<String, String>();
             map.put("provider", authData.getProvider());
             if(authData.getProviderData().containsKey("displayName")) {
                 map.put("displayName", authData.getProviderData().get("displayName").toString());
             }
+            final Firebase addUserInfo = new Firebase("https://datemate.firebaseio.com/users/" + authData.getUid());
+            addUserInfo.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.hasChildren()) {
+                        addUserInfo.setValue(map);
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+            //addUserInfo.setValue(map);
             //firebaseRef.child("users").child(authData.getUid()).setValue(map);//Create if not exists
             goToMainActivity();
         }
