@@ -36,5 +36,5 @@
     <string name="phone">Phone:</string>
     <string name="website">Website:</string>
     <string name="low_matches_title">No more matches!</string>
-    <string name="low_matches_message">The amount of matches for the query are about to run out. Please choose a new query.</string>
+    <string name="low_matches_message">The amount of matches for the query has run out. Please choose a new query.</string>
 </resources>

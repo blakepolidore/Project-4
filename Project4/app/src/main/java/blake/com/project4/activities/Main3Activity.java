@@ -818,8 +818,9 @@ public class Main3Activity extends AppCompatActivity
                         Log.d("onAdapterAboutToEmpty", "called");
                     }
                 } else {
-                    if (cardsList.size() < 2) {
+                    if (cardsList.size() == 0) {
                         setDialog(getString(R.string.low_matches_title), getString(R.string.low_matches_message), android.R.drawable.ic_dialog_alert);
+                        noMoreResults = false;
                     }
                 }
             }
