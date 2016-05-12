@@ -1,6 +1,5 @@
 package blake.com.project4.cardModelAndAdapter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +53,6 @@ public class CardsAdapter extends ArrayAdapter<Cards> {
         titleText.setText(cards.getTitle());
         locationText.setText(cards.getLocation());
         Picasso.with(parent.getContext()).load(cards.getImageUrl()).resize(900, 600).placeholder(R.drawable.fooddrink).into(image);
-        ProgressDialog dialog = new ProgressDialog(getContext());
 
 //        imageLoader.init(ImageLoaderConfiguration.createDefault(parent.getContext()));
 //        ImageSize imageSize = new ImageSize(300,300);

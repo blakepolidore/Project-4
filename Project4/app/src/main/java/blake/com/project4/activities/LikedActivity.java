@@ -145,13 +145,13 @@ public class LikedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent venueIntent = new Intent(LikedActivity.this, VenueActivity.class);
-                venueIntent.putExtra(Main3Activity.TITLE_TEXT, adapter.getItem(position).getTitle());
-                venueIntent.putExtra(Main3Activity.CATEGORY_TEXT, adapter.getItem(position).getCategory());
-                venueIntent.putExtra(Main3Activity.IMAGE_TEXT, adapter.getItem(position).getImageUrl());
-                venueIntent.putExtra(Main3Activity.LOCATION_TEXT, adapter.getItem(position).getLocation());
-                venueIntent.putExtra(Main3Activity.DESCRIPTION_TEXT, adapter.getItem(position).getDescription());
-                venueIntent.putExtra(Main3Activity.PHONE_TEXT, adapter.getItem(position).getPhone());
-                venueIntent.putExtra(Main3Activity.WEBSITE_TEXT, adapter.getItem(position).getWebsite());
+                venueIntent.putExtra(MainActivity.TITLE_TEXT, adapter.getItem(position).getTitle());
+                venueIntent.putExtra(MainActivity.CATEGORY_TEXT, adapter.getItem(position).getCategory());
+                venueIntent.putExtra(MainActivity.IMAGE_TEXT, adapter.getItem(position).getImageUrl());
+                venueIntent.putExtra(MainActivity.LOCATION_TEXT, adapter.getItem(position).getLocation());
+                venueIntent.putExtra(MainActivity.DESCRIPTION_TEXT, adapter.getItem(position).getDescription());
+                venueIntent.putExtra(MainActivity.PHONE_TEXT, adapter.getItem(position).getPhone());
+                venueIntent.putExtra(MainActivity.WEBSITE_TEXT, adapter.getItem(position).getWebsite());
                 venueIntent.putExtra(FIREBASE_ID, adapter.getItem(position).getUniqueFirebaseKey());
                 venueIntent.putExtra(BOOLEAN_INTENT, true);
                 startActivity(venueIntent);

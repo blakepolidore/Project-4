@@ -135,28 +135,28 @@ public class VenueActivity extends AppCompatActivity {
      */
     private void getVenueInformation() {
         Intent venueIntent = getIntent();
-        String titleString = venueIntent.getStringExtra(Main3Activity.TITLE_TEXT);
+        String titleString = venueIntent.getStringExtra(MainActivity.TITLE_TEXT);
         title.setText(titleString);
-        String imageURL = venueIntent.getStringExtra(Main3Activity.IMAGE_TEXT);
+        String imageURL = venueIntent.getStringExtra(MainActivity.IMAGE_TEXT);
         Picasso.with(getApplicationContext()).load(imageURL).resize(900, 600).placeholder(R.drawable.fooddrink).into(imageView);
 //        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
 //        ImageSize imageSize = new ImageSize(300, 300);
 //        imageLoader.displayImage(imageURL, imageView);
-        String categoryString = venueIntent.getStringExtra(Main3Activity.CATEGORY_TEXT);
+        String categoryString = venueIntent.getStringExtra(MainActivity.CATEGORY_TEXT);
         category.setText(getString(R.string.category) + categoryString);
-        String locationString = venueIntent.getStringExtra(Main3Activity.LOCATION_TEXT);
+        String locationString = venueIntent.getStringExtra(MainActivity.LOCATION_TEXT);
         location.setText(getString(R.string.location) + locationString);
-        websiteString = venueIntent.getStringExtra(Main3Activity.WEBSITE_TEXT);
+        websiteString = venueIntent.getStringExtra(MainActivity.WEBSITE_TEXT);
         String websiteLink = "<a href ='" + websiteString + getString(R.string.reviews);
         website.setText(Html.fromHtml(websiteLink));
-        String phoneString = venueIntent.getStringExtra(Main3Activity.PHONE_TEXT);
+        String phoneString = venueIntent.getStringExtra(MainActivity.PHONE_TEXT);
         if (phoneString != null) {
             phoneString = phoneString.substring(3);
             phoneString =phoneString.replace("-", "");
         }
         phone.setText(phoneString);
         setPhoneCall(phoneString);
-        String descriptionString = venueIntent.getStringExtra(Main3Activity.DESCRIPTION_TEXT);
+        String descriptionString = venueIntent.getStringExtra(MainActivity.DESCRIPTION_TEXT);
         description.setText(getString(R.string.description) + descriptionString);
         hasBeenLiked = venueIntent.getBooleanExtra(LikedActivity.BOOLEAN_INTENT, false);
         firebaseKey = venueIntent.getStringExtra(LikedActivity.FIREBASE_ID);
@@ -200,7 +200,7 @@ public class VenueActivity extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
+                Intent intent = new Intent(VenueActivity.this, MainActivity.class);
                 intent.putExtra(IF_LIKE_INTENT, true);
                 setResult(RESULT_INTENT, intent);
                 finish();
@@ -215,7 +215,7 @@ public class VenueActivity extends AppCompatActivity {
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VenueActivity.this, Main3Activity.class);
+                Intent intent = new Intent(VenueActivity.this, MainActivity.class);
                 intent.putExtra(IF_LIKE_INTENT, false);
                 setResult(RESULT_INTENT, intent);
                 finish();

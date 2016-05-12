@@ -63,7 +63,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.Main3Activity"
+            android:name=".activities.MainActivity"
             android:label="@string/title_activity_main3"
             android:theme="@style/MyAppTheme"
             android:windowSoftInputMode="adjustPan">

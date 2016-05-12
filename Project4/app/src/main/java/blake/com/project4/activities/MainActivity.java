@@ -75,7 +75,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Has a nav drawer for the user queries
  * Shows cards based on use queries
  */
-public class Main3Activity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -189,7 +189,7 @@ public class Main3Activity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main3);
+        setContentView(R.layout.activity_main);
         setToolbar();
         String userID = GetUId.getAuthData();
 
@@ -317,7 +317,7 @@ public class Main3Activity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.liked_activities:
-                Intent likedVenuesIntent = new Intent(Main3Activity.this, LikedActivity.class);
+                Intent likedVenuesIntent = new Intent(MainActivity.this, LikedActivity.class);
                 startActivity(likedVenuesIntent);
                 return true;
             case R.id.information_main:
@@ -555,7 +555,7 @@ public class Main3Activity extends AppCompatActivity
                 callCount = callCount + 1;
                 if(callCount == numCalls) {
                     Log.d(TAG, numCalls + " callCount:" + callCount);
-                    cardsArrayAdapter = new CardsAdapter(Main3Activity.this, cardsList);
+                    cardsArrayAdapter = new CardsAdapter(MainActivity.this, cardsList);
                     flingContainer.setAdapter(cardsArrayAdapter);
                     cardsArrayAdapter.notifyDataSetChanged();
                     if (cardsList.size() < numCalls * 20) {
@@ -620,7 +620,7 @@ public class Main3Activity extends AppCompatActivity
                 callCount = callCount + 1;
                 if(callCount == numCalls) {
                     Log.d(TAG, numCalls + " callCount:" + callCount);
-                    cardsArrayAdapter = new CardsAdapter(Main3Activity.this, cardsList);
+                    cardsArrayAdapter = new CardsAdapter(MainActivity.this, cardsList);
                     flingContainer.setAdapter(cardsArrayAdapter);
                     cardsArrayAdapter.notifyDataSetChanged();
                     if (cardsList.size() < numCalls * 20) {
@@ -839,7 +839,7 @@ public class Main3Activity extends AppCompatActivity
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Intent venueIntent = new Intent(Main3Activity.this, VenueActivity.class);
+                Intent venueIntent = new Intent(MainActivity.this, VenueActivity.class);
                 venueIntent.putExtra(TITLE_TEXT, cardsList.get(0).getTitle());
                 venueIntent.putExtra(CATEGORY_TEXT, cardsList.get(0).getCategory());
                 venueIntent.putExtra(IMAGE_TEXT, cardsList.get(0).getImageUrl());
@@ -872,7 +872,7 @@ public class Main3Activity extends AppCompatActivity
      */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (InternetConnection.isNetworkAvailable(Main3Activity.this)) {
+        if (InternetConnection.isNetworkAvailable(MainActivity.this)) {
             getLatLongCoordinates();
         }
         else {
@@ -895,7 +895,7 @@ public class Main3Activity extends AppCompatActivity
      */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(Main3Activity.this, "Cannot Connect to Google Location Services", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Cannot Connect to Google Location Services", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -940,24 +940,24 @@ public class Main3Activity extends AppCompatActivity
         if (deviceLocationSwitch.isChecked()) {
             if (latitude != null && longitude != null) {
                 locationForQuery = latitude + "," + longitude;
-                if (InternetConnection.isNetworkAvailable(Main3Activity.this)) {
+                if (InternetConnection.isNetworkAvailable(MainActivity.this)) {
                     makeCoordinateAPICalls();
                 } else {
                     setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
                 }
             } else {
-                Toast.makeText(Main3Activity.this, R.string.no_location_determined, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.no_location_determined, Toast.LENGTH_SHORT).show();
             }
         } else {
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
-                if (InternetConnection.isNetworkAvailable(Main3Activity.this)) {
+                if (InternetConnection.isNetworkAvailable(MainActivity.this)) {
                     makeUserLocationInputAPICalls();
                 } else {
                     setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
                 }
             } else {
-                Toast.makeText(Main3Activity.this, R.string.enter_valid_location, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.enter_valid_location, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -1064,7 +1064,7 @@ public class Main3Activity extends AppCompatActivity
                 if (authData != null) {
                     firebase.unauth();
                     LoginManager.getInstance().logOut();
-                    Intent loginIntent = new Intent(Main3Activity.this, LoginActivity.class);
+                    Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(loginIntent);
                 }
             }
@@ -1075,7 +1075,7 @@ public class Main3Activity extends AppCompatActivity
      * Creates dialog box for when no matches meet the search query
      */
     private void createNoMatchesDialog() {
-        new AlertDialog.Builder(Main3Activity.this).setTitle(R.string.no_matches)
+        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.no_matches)
                 .setMessage(getString(R.string.no_matches_message))
                 .setPositiveButton(getString(R.string.new_search), new DialogInterface.OnClickListener() {
                     @Override
@@ -1142,7 +1142,7 @@ public class Main3Activity extends AppCompatActivity
      * @param image
      */
     private void setDialog(String title, String message, int image) {
-        AlertDialog dialog = new AlertDialog.Builder(Main3Activity.this)
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(getString(R.string.close), new DialogInterface.OnClickListener() {
