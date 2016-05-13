@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Liv</string>
+    <string name="app_name">LIV</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
@@ -37,4 +37,7 @@
     <string name="website">Website:</string>
     <string name="low_matches_title">No more matches!</string>
     <string name="low_matches_message">The amount of matches for the query has run out. Please choose a new query.</string>
+    <string name="no_google_serv">No Google Services</string>
+    <string name="no_google_serv_message">Google Play Services need to be downloaded to acquire the device\'s location</string>
+    <string name="no_location_serv">Cannot Connect to Google Location Services</string>
 </resources>

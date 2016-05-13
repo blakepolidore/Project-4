@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity
     private Button logOut;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
+    private ProgressBar progressBar;
     //endregion views
 
     //region intent strings
@@ -216,6 +218,7 @@ public class MainActivity extends AppCompatActivity
         intializeCardSwipes();
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
         setLogOut();
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -280,6 +283,7 @@ public class MainActivity extends AppCompatActivity
         dislikeButton = (ImageButton) findViewById(R.id.dislikeButton);
         likeButton = (ImageButton) findViewById(R.id.likeButton);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        progressBar = (ProgressBar) findViewById(R.id.loading_progress_bar);
     }
 
     /**
@@ -294,6 +298,7 @@ public class MainActivity extends AppCompatActivity
             cardsList.clear();
             cardsArrayAdapter.notifyDataSetChanged();
             setStartLocationOption();
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -549,6 +554,7 @@ public class MainActivity extends AppCompatActivity
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
+                progressBar.setVisibility(View.INVISIBLE);
                 createNoMatchesDialog();
             }
         });
@@ -594,6 +600,7 @@ public class MainActivity extends AppCompatActivity
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
+                progressBar.setVisibility(View.INVISIBLE);
                 createNoMatchesDialog();
             }
         });
@@ -618,6 +625,7 @@ public class MainActivity extends AppCompatActivity
         callCount = callCount + 1;
         if(callCount == numCalls) {
             Log.d(TAG, numCalls + " callCount:" + callCount);
+            progressBar.setVisibility(View.INVISIBLE);
             cardsArrayAdapter = new CardsAdapter(MainActivity.this, cardsList);
             flingContainer.setAdapter(cardsArrayAdapter);
             cardsArrayAdapter.notifyDataSetChanged();
@@ -869,6 +877,7 @@ public class MainActivity extends AppCompatActivity
         }
         else {
             setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -887,7 +896,8 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(MainActivity.this, "Cannot Connect to Google Location Services", Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.INVISIBLE);
+        Toast.makeText(MainActivity.this, R.string.no_location_serv, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -928,7 +938,8 @@ public class MainActivity extends AppCompatActivity
             }
         }
         else {
-            setDialog("No Google Services", "Google Play Services need to be downloaded to acquire the device's location", R.drawable.alert);
+            progressBar.setVisibility(View.INVISIBLE);
+            setDialog(getString(R.string.no_google_serv), getString(R.string.no_google_serv_message), R.drawable.alert);
         }
     }
 
