@@ -529,6 +529,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 for (int i = 0; i < response.body().businesses().size(); i++) {
                     if (response.body() != null) {
+                        //SearchResponse searchResponse = response.body();
                         String name = response.body().businesses().get(i).name();
                         String url = response.body().businesses().get(i).url();
                         String phone = response.body().businesses().get(i).displayPhone();
@@ -544,28 +545,7 @@ public class MainActivity extends AppCompatActivity
                         createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                     }
                 }
-                Collections.shuffle(cardsList);
-                if (cardsList.size() == 0 ) {
-                    setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), R.drawable.alert);
-                }
-
-                setCardClickListener();
-                setLikeButton();
-                setDislikeButton();
-
-                callCount = callCount + 1;
-                if(callCount == numCalls) {
-                    Log.d(TAG, numCalls + " callCount:" + callCount);
-                    cardsArrayAdapter = new CardsAdapter(MainActivity.this, cardsList);
-                    flingContainer.setAdapter(cardsArrayAdapter);
-                    cardsArrayAdapter.notifyDataSetChanged();
-                    if (cardsList.size() < numCalls * 20) {
-                        noMoreResults = true;
-                        Log.d(TAG, String.valueOf(cardsArrayAdapter.getCount()));
-                    }
-                    numCalls = 0;
-                    callCount = 0;
-                }
+                afterSuccessfulApiCallCommands();
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -610,33 +590,44 @@ public class MainActivity extends AppCompatActivity
                         createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
                     }
                 }
-                Collections.shuffle(cardsList);
-                if (cardsList.size() == 0) {
-                    setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), R.drawable.alert);
-                }
-                setCardClickListener();
-                setLikeButton();
-                setDislikeButton();
-
-                callCount = callCount + 1;
-                if(callCount == numCalls) {
-                    Log.d(TAG, numCalls + " callCount:" + callCount);
-                    cardsArrayAdapter = new CardsAdapter(MainActivity.this, cardsList);
-                    flingContainer.setAdapter(cardsArrayAdapter);
-                    cardsArrayAdapter.notifyDataSetChanged();
-                    if (cardsList.size() < numCalls * 20) {
-                        noMoreResults = true;
-                        Log.d(TAG, String.valueOf(cardsArrayAdapter.getCount()));
-                    }
-                    numCalls = 0;
-                    callCount = 0;
-                }
+                afterSuccessfulApiCallCommands();
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
                 createNoMatchesDialog();
             }
         });
+    }
+
+    /**
+     * Methods done after a successful api call to yelp
+     * Shuffles the list
+     * Sets ui
+     * checks if there are results from the call
+     * notifies the adapter if all the calls have been made
+     */
+    private void afterSuccessfulApiCallCommands() {
+        Collections.shuffle(cardsList);
+        if (cardsList.size() == 0) {
+            setDialog(getString(R.string.servers_unavailable), getString(R.string.unable_retrieve), R.drawable.alert);
+        }
+        setCardClickListener();
+        setLikeButton();
+        setDislikeButton();
+
+        callCount = callCount + 1;
+        if(callCount == numCalls) {
+            Log.d(TAG, numCalls + " callCount:" + callCount);
+            cardsArrayAdapter = new CardsAdapter(MainActivity.this, cardsList);
+            flingContainer.setAdapter(cardsArrayAdapter);
+            cardsArrayAdapter.notifyDataSetChanged();
+            if (cardsList.size() < numCalls * 20) {
+                noMoreResults = true;
+                Log.d(TAG, String.valueOf(cardsArrayAdapter.getCount()));
+            }
+            numCalls = 0;
+            callCount = 0;
+        }
     }
 
     /**
@@ -1162,5 +1153,4 @@ public class MainActivity extends AppCompatActivity
                 .setIcon(image)
                 .show();
     }
-
 }
