@@ -953,6 +953,7 @@ public class MainActivity extends AppCompatActivity
                 if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
                     makeCoordinateAPICalls();
                 } else {
+                    progressBar.setVisibility(View.INVISIBLE);
                     setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
                 }
             } else {
@@ -964,6 +965,7 @@ public class MainActivity extends AppCompatActivity
                 if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
                     makeUserLocationInputAPICalls();
                 } else {
+                    progressBar.setVisibility(View.INVISIBLE);
                     setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
                 }
             } else {
