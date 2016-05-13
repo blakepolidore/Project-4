@@ -1,4 +1,4 @@
-package blake.com.project4.apicalls;
+package blake.com.project4.interfaces;
 
 import blake.com.project4.models.fourSquareModels.Root;
 import blake.com.project4.models.fourSquareModels.fourSquarePhotoModel.PhotoRoot;
