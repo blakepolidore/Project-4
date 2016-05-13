@@ -12,16 +12,6 @@
         app:rotation_degrees="15.5"
         tools:context=".MyActivity"/>
 
-    <ProgressBar
-        android:id="@+id/loading_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:indeterminateDrawable="@drawable/progress"/>
-
     <include layout="@layout/progressbar" />
 
     <include layout="@layout/buttons" />
