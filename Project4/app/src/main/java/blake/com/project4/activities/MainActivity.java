@@ -212,7 +212,6 @@ public class MainActivity extends AppCompatActivity
         intializeCardSwipes();
         cardsArrayAdapter = new CardsAdapter(this, cardsList);
         setLogOut();
-        progressBar.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -1023,6 +1022,7 @@ public class MainActivity extends AppCompatActivity
             longitude = String.valueOf(lastLocation.getLongitude());
             locationForQuery = latitude + "," + longitude;
             if (cardsList.size() == 0) {
+                progressBar.setVisibility(View.VISIBLE);
                 setStartLocationOption();
             }
         }
