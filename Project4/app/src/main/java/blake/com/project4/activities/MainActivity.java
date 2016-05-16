@@ -457,16 +457,23 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        isFoodQueryToggle = sharedPreferences.getBoolean(FOOD_BOOLEAN_CODE, isFoodQueryToggle);
-        restaurantSwitch.setChecked(isFoodQueryToggle);
-        isDrinkQueryToggle = sharedPreferences.getBoolean(DRINK_BOOLEAN_CODE, isDrinkQueryToggle);
-        drinkSwitch.setChecked(isDrinkQueryToggle);
-        isArtsQueryToggle = sharedPreferences.getBoolean(Arts_BOOLEAN_CODE, isArtsQueryToggle);
-        artsSwitch.setChecked(isArtsQueryToggle);
-        isActiveQueryToggle = sharedPreferences.getBoolean(ACTIVE_BOOLEAN_CODE, isActiveQueryToggle);
-        activeSwitch.setChecked(isActiveQueryToggle);
-        isDeviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
-        deviceLocationSwitch.setChecked(isDeviceLocationToggle);
+        setSwitches(restaurantSwitch, isFoodQueryToggle, FOOD_BOOLEAN_CODE);
+        setSwitches(drinkSwitch, isDrinkQueryToggle, DRINK_BOOLEAN_CODE);
+        setSwitches(artsSwitch, isArtsQueryToggle, Arts_BOOLEAN_CODE);
+        setSwitches(activeSwitch, isActiveQueryToggle, ACTIVE_BOOLEAN_CODE);
+        setSwitches(deviceLocationSwitch, isDeviceLocationToggle, DEVICE_LOCATION_BOOLEAN_CODE);
+
+
+//        isFoodQueryToggle = sharedPreferences.getBoolean(FOOD_BOOLEAN_CODE, isFoodQueryToggle);
+//        restaurantSwitch.setChecked(isFoodQueryToggle);
+//        isDrinkQueryToggle = sharedPreferences.getBoolean(DRINK_BOOLEAN_CODE, isDrinkQueryToggle);
+//        drinkSwitch.setChecked(isDrinkQueryToggle);
+//        isArtsQueryToggle = sharedPreferences.getBoolean(Arts_BOOLEAN_CODE, isArtsQueryToggle);
+//        artsSwitch.setChecked(isArtsQueryToggle);
+//        isActiveQueryToggle = sharedPreferences.getBoolean(ACTIVE_BOOLEAN_CODE, isActiveQueryToggle);
+//        activeSwitch.setChecked(isActiveQueryToggle);
+//        isDeviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
+//        deviceLocationSwitch.setChecked(isDeviceLocationToggle);
         if (!isDeviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationForQuery));
         }
@@ -482,6 +489,11 @@ public class MainActivity extends AppCompatActivity
 //        if (userQuery != null) {
 //            userQueryEditText.setText(userQuery);
 //        }
+    }
+
+    private void setSwitches(Switch s, boolean switchBoolean, String key){
+        switchBoolean = sharedPreferences.getBoolean(key, switchBoolean);
+        s.setChecked(switchBoolean);
     }
 
     /**
