@@ -40,4 +40,13 @@
     <string name="no_google_serv">No Google Services</string>
     <string name="no_google_serv_message">Google Play Services need to be downloaded to acquire the device\'s location</string>
     <string name="no_location_serv">Cannot Connect to Google Location Services</string>
+    <string name="choose_radius">Choose radius (mi)</string>
+    <string name="choose_search_radius_mi">Choose search radius (Mi):</string>
+    <string-array name="radius_values">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+    </string-array>
 </resources>
