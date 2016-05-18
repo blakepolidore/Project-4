@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -272,7 +273,7 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         progressBar = (ProgressBar) findViewById(R.id.loading_progress_bar);
     }
-    
+
 
     /**
      * Inflates the menu
@@ -1036,4 +1037,15 @@ public class MainActivity extends AppCompatActivity
                 .show();
     }
 
+    /**
+     * Closes drawer if back is pressed and the drawer is open
+     */
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
