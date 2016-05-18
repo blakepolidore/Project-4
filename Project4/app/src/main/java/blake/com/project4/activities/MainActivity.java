@@ -789,7 +789,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         else {
-            progressBar.setVisibility(View.INVISIBLE);
+            //progressBar.setVisibility(View.INVISIBLE);
             setDialog(getString(R.string.no_google_serv), getString(R.string.no_google_serv_message), R.drawable.alert);
         }
     }
