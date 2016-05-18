@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -235,12 +234,14 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                cardsList.clear();
+                cardsArrayAdapter.notifyDataSetChanged();
+                setStartLocationOption();
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -271,22 +272,7 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         progressBar = (ProgressBar) findViewById(R.id.loading_progress_bar);
     }
-
-    /**
-     * Creates the api calls when the nav drawer is closed
-     */
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            drawer.closeDrawer(GravityCompat.START);
-            cardsList.clear();
-            cardsArrayAdapter.notifyDataSetChanged();
-            setStartLocationOption();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-    }
+    
 
     /**
      * Inflates the menu
