@@ -52,21 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         setFacebook();
         firebaseRef = new Firebase("https://datemate.firebaseio.com");
         setAuthProgressDialog();
-
-        try{
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "blake.com.project4", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:",Base64.encodeToString(md.digest(), Base64.DEFAULT));
-
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
     }
 
     /**
@@ -244,5 +229,22 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    private void getKeyHash() {
+        try{
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "blake.com.project4", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
     }
 }

@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity
     //endregion seek bar
 
     //region permissions
-    private int PERMISSION_ACCESS_COARSE_LOCATION = 22;
+    private final int PERMISSION_ACCESS_COARSE_LOCATION = 22;
     public static int INTENT_FOR_RESULT = 23;
     //endregion permission
 
@@ -849,6 +849,7 @@ public class MainActivity extends AppCompatActivity
                     setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
                 }
             } else {
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(MainActivity.this, R.string.no_location_determined, Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -861,6 +862,7 @@ public class MainActivity extends AppCompatActivity
                     setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
                 }
             } else {
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(MainActivity.this, R.string.enter_valid_location, Toast.LENGTH_SHORT).show();
             }
         }
@@ -1020,7 +1022,19 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        getLatLongCoordinates();
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (permissions.length < 0){
+                    return;
+                }
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getLatLongCoordinates();
+                } else {
+                    Toast.makeText(this, "Need device location.", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+        }
     }
 
     /**
@@ -1030,13 +1044,19 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            latitude = String.valueOf(lastLocation.getLatitude());
-            longitude = String.valueOf(lastLocation.getLongitude());
-            locationForQuery = latitude + "," + longitude;
-            if (cardsList.size() == 0) {
-                progressBar.setVisibility(View.VISIBLE);
-                setStartLocationOption();
+            if (lastLocation != null) {
+                latitude = String.valueOf(lastLocation.getLatitude());
+                longitude = String.valueOf(lastLocation.getLongitude());
+                locationForQuery = latitude + "," + longitude;
+                if (cardsList.size() == 0) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    setStartLocationOption();
+                }
             }
+            else {
+                Toast.makeText(MainActivity.this, "Please enable device location to use this feature", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
@@ -1059,4 +1079,5 @@ public class MainActivity extends AppCompatActivity
                 .setIcon(image)
                 .show();
     }
+
 }
