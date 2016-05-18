@@ -59,32 +59,17 @@
             android:layout_margin="4dp">
 
             <TextView
-                android:id="@+id/seekbar_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Miles"
-                android:layout_marginLeft="4dp"
-                android:textSize="12sp"
-                android:layout_column="1"
-                android:layout_gravity="center"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_margin="4dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Choose search radius:"
+                android:text="@string/choose_search_radius_mi"
                 android:layout_marginLeft="4dp"
                 android:textSize="12sp"
                 android:layout_column="0"
                 android:layout_gravity="start"/>
 
-            <SeekBar
-                android:id="@+id/search_radius_seekbar"
-                android:layout_width="80dp"
+            <Spinner
+                android:id="@+id/search_radius_spinner"
+                android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 />

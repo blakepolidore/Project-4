@@ -30,7 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,10 +81,9 @@ public class MainActivity extends AppCompatActivity
     //region views
     private NavigationView navigationView;
     private ScrollView scrollView;
-    private TextView seekbarProgress;
     private EditText locationEditText;
     private EditText userQueryEditText;
-    private SeekBar radiusSeekbar;
+    private Spinner radiusSpinner;
     private Switch deviceLocationSwitch;
     private Switch restaurantSwitch;
     private Switch drinkSwitch;
@@ -153,11 +152,6 @@ public class MainActivity extends AppCompatActivity
     private final String USER_QUERY_CODE = "user query";
     //endregion user query
 
-    //region seekbar
-    private int seekBarValue;
-    private final String SEEKBAR_CODE = "seekbar";
-    //endregion seek bar
-
     //region permissions
     private final int PERMISSION_ACCESS_COARSE_LOCATION = 22;
     public static int INTENT_FOR_RESULT = 23;
@@ -200,7 +194,7 @@ public class MainActivity extends AppCompatActivity
         locationEditText.setEnabled(false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        setSeekBar();
+        setRadiusSpinner();
         checkVenueSwitches(restaurantSwitch);
         checkVenueSwitches(drinkSwitch);
         checkVenueSwitches(artsSwitch);
@@ -241,12 +235,14 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                cardsList.clear();
+                cardsArrayAdapter.notifyDataSetChanged();
+                setStartLocationOption();
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -265,35 +261,19 @@ public class MainActivity extends AppCompatActivity
         scrollView = (ScrollView) navigationView.findViewById(R.id.nav_scrollview);
         locationEditText = (EditText) scrollView.findViewById(R.id.location_editText);
         userQueryEditText = (EditText) scrollView.findViewById(R.id.userQuery_editText);
-        radiusSeekbar = (SeekBar) scrollView.findViewById(R.id.search_radius_seekbar);
+        radiusSpinner = (Spinner) scrollView.findViewById(R.id.search_radius_spinner);
         deviceLocationSwitch = (Switch) scrollView.findViewById(R.id.phone_location_switch);
         restaurantSwitch = (Switch) scrollView.findViewById(R.id.food_search_switch);
         drinkSwitch = (Switch) scrollView.findViewById(R.id.drink_search_switch);
         artsSwitch = (Switch) scrollView.findViewById(R.id.arts_search_switch);
         activeSwitch = (Switch) scrollView.findViewById(R.id.active_search_switch);
         logOut = (Button) scrollView.findViewById(R.id.logoutButton);
-        seekbarProgress = (TextView) scrollView.findViewById(R.id.seekbar_progress);
         dislikeButton = (ImageButton) findViewById(R.id.dislikeButton);
         likeButton = (ImageButton) findViewById(R.id.likeButton);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         progressBar = (ProgressBar) findViewById(R.id.loading_progress_bar);
     }
 
-    /**
-     * Creates the api calls when the nav drawer is closed
-     */
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            drawer.closeDrawer(GravityCompat.START);
-            cardsList.clear();
-            cardsArrayAdapter.notifyDataSetChanged();
-            setStartLocationOption();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-    }
 
     /**
      * Inflates the menu
@@ -330,25 +310,11 @@ public class MainActivity extends AppCompatActivity
     /**
      * Sets and grabs the seek bar value and places into the textview and the seekBarValue int
      */
-    private void setSeekBar() {
-        radiusSeekbar.setMax(50);
-        radiusSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekbarProgress.setText(progress + getString(R.string.miles));
-                seekBarValue = progress;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+    private void setRadiusSpinner() {
+        ArrayAdapter<CharSequence> adapterRadius = ArrayAdapter.createFromResource(this,
+                R.array.radius_values, R.layout.spinner_layout);
+        radiusSpinner.setAdapter(adapterRadius);
+        radiusSpinner.setPrompt(getString(R.string.choose_radius));
     }
 
     /**
@@ -443,7 +409,6 @@ public class MainActivity extends AppCompatActivity
             locationForQuery = locationEditText.getText().toString();
             editor.putString(LOCATION_INPUT_CODE, locationForQuery);
         }
-        editor.putInt(SEEKBAR_CODE, seekBarValue);
 //        if (!userQueryEditText.getText().toString().isEmpty()) {
 //            userQuery = userQueryEditText.getText().toString();
 //            editor.putString(USER_QUERY_CODE, userQuery);
@@ -476,12 +441,6 @@ public class MainActivity extends AppCompatActivity
 //        deviceLocationSwitch.setChecked(isDeviceLocationToggle);
         if (!isDeviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationForQuery));
-        }
-        seekBarValue = sharedPreferences.getInt(SEEKBAR_CODE, 25);
-        if (seekBarValue == 0) {
-            radiusSeekbar.setProgress(25);
-        } else {
-            radiusSeekbar.setProgress(sharedPreferences.getInt(SEEKBAR_CODE, seekBarValue));
         }
         timesAPICalledCoordinates = sharedPreferences.getInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
         timesAPICalledUserLocation = sharedPreferences.getInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
@@ -949,12 +908,10 @@ public class MainActivity extends AppCompatActivity
      * @return
      */
     private String convertRadiusToKM() {
-        int radiusValue = 0;
-        if (seekBarValue > 25) {
-            radiusValue = 25 * 1609;
-        } else {
-            radiusValue = seekBarValue * 1609;
-        }
+        int radiusValue;
+        TextView textView = (TextView) radiusSpinner.getSelectedView();
+        int spinnerText = Integer.valueOf(textView.getText().toString());
+        radiusValue = spinnerText * 1609;
         return String.valueOf(radiusValue);
     }
 
@@ -1080,4 +1037,15 @@ public class MainActivity extends AppCompatActivity
                 .show();
     }
 
+    /**
+     * Closes drawer if back is pressed and the drawer is open
+     */
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
