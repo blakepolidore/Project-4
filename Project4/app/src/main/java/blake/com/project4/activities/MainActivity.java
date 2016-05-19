@@ -462,10 +462,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Method makes API call to yelp and retrieves data based on search query and users coordinates
+     * Method makes API call to yelp and retrieves data based on search query
      */
-    private void yelpAPISearchCallCoordinates(String query) {
-
+    private void yelpAPISearchCall(String query) {
         Map<String, String> params = new HashMap<>();
         params.put("category_filter", query);
         params.put("sort", "2");
@@ -475,62 +474,25 @@ public class MainActivity extends AppCompatActivity
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
         YelpAPI yelpAPI = apiFactory.createAPI();
-//
-        CoordinateOptions coordinateOptions = CoordinateOptions.builder().latitude(Double.valueOf(latitude)).longitude(Double.valueOf(longitude)).build();
-        Call<SearchResponse> call = yelpAPI.search(coordinateOptions, params);
 
+        if (isDeviceLocationToggle) {
+            CoordinateOptions coordinateOptions = CoordinateOptions.builder().latitude(Double.valueOf(latitude)).longitude(Double.valueOf(longitude)).build();
+            Call<SearchResponse> call = yelpAPI.search(coordinateOptions, params);
+            makeAPICall(call);
+        }
+        else {
+            Call<SearchResponse> call = yelpAPI.search(locationForQuery, params);
+            makeAPICall(call);
+        }
+    }
+
+    private void makeAPICall(Call<SearchResponse> call) {
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 for (int i = 0; i < response.body().businesses().size(); i++) {
                     if (response.body() != null) {
                         //SearchResponse searchResponse = response.body();
-                        String name = response.body().businesses().get(i).name();
-                        String url = response.body().businesses().get(i).url();
-                        String phone = response.body().businesses().get(i).displayPhone();
-                        String snippet = response.body().businesses().get(i).snippetText();
-                        String address = response.body().businesses().get(i).location().displayAddress().get(0);
-                        String city = response.body().businesses().get(i).location().city();
-                        String fullAddress = address + ", " + city;
-                        String imageURL = response.body().businesses().get(i).imageUrl();
-                        if (imageURL != null) {
-                            imageURL = imageURL.replaceAll("ms", "o");
-                        }
-                        String category = response.body().businesses().get(i).categories().get(0).name();
-                        createYelpCards(name, fullAddress, category, imageURL, url, phone, snippet);
-                    }
-                }
-                afterSuccessfulApiCallCommands();
-            }
-            @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
-                progressBar.setVisibility(View.INVISIBLE);
-                createNoMatchesDialog();
-            }
-        });
-    }
-
-    /**
-     * Method makes API call to yelp and retrieves data based on search query and users coordinates
-     */
-    private void yelpAPISearchCallLocation(String query) {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("category_filter", query);
-        params.put("sort", "2");
-        params.put("limit", "20");
-        params.put("offset", String.valueOf(timesAPICalledUserLocation));
-        params.put("radius_filter", convertRadiusToKM());
-
-        YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
-        YelpAPI yelpAPI = apiFactory.createAPI();
-        Call<SearchResponse> call = yelpAPI.search(locationForQuery, params);
-
-        call.enqueue(new Callback<SearchResponse>() {
-            @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                for (int i = 0; i < response.body().businesses().size(); i++) {
-                    if (response.body() != null) {
                         String name = response.body().businesses().get(i).name();
                         String url = response.body().businesses().get(i).url();
                         String phone = response.body().businesses().get(i).displayPhone();
@@ -780,6 +742,21 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void noLocationDetermined() {
+        progressBar.setVisibility(View.INVISIBLE);
+        Toast.makeText(MainActivity.this, R.string.no_location_determined, Toast.LENGTH_SHORT).show();
+    }
+
+    private void checkInternetMakeStartAPICalls() {
+        if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
+            setSwitchBooleans();
+            putQueryIntoAPICalls();
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+            setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
+        }
+    }
+
     /**
      * Makes the api called based on whether the user chose the device location or a custom location
      */
@@ -787,30 +764,19 @@ public class MainActivity extends AppCompatActivity
         if (deviceLocationSwitch.isChecked()) {
             if (latitude != null && longitude != null) {
                 locationForQuery = latitude + "," + longitude;
-                if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
-                    setSwitchBooleans();
-                    makeCoordinateAPICalls();
-                } else {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
-                }
-            } else {
-                progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(MainActivity.this, R.string.no_location_determined, Toast.LENGTH_SHORT).show();
+                checkInternetMakeStartAPICalls();
             }
-        } else {
+            else {
+                noLocationDetermined();
+            }
+        }
+        else {
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
-                if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
-                    setSwitchBooleans();
-                    makeUserLocationInputAPICalls();
-                } else {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    setDialog(getString(R.string.no_internet), getString(R.string.no_internet_message), R.drawable.baby_crying);
-                }
-            } else {
-                progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(MainActivity.this, R.string.enter_valid_location, Toast.LENGTH_SHORT).show();
+                checkInternetMakeStartAPICalls();
+            }
+            else {
+                noLocationDetermined();
             }
         }
     }
@@ -818,52 +784,26 @@ public class MainActivity extends AppCompatActivity
     /**
      * makes api calls based on device coordinates
      */
-    private void makeCoordinateAPICalls() {
+    private void putQueryIntoAPICalls() {
         if (isFoodQueryToggle) {
             numCalls = numCalls + 1;
-            yelpAPISearchCallCoordinates("restaurants");
+            yelpAPISearchCall("restaurants");
         }
         if (isDrinkQueryToggle) {
             numCalls = numCalls + 1;
-            yelpAPISearchCallCoordinates("nightlife");
+            yelpAPISearchCall("nightlife");
         }
         if (isActiveQueryToggle) {
             numCalls = numCalls + 1;
-            yelpAPISearchCallCoordinates("active");
+            yelpAPISearchCall("active");
         }
         if (isArtsQueryToggle) {
             numCalls = numCalls + 1;
-            yelpAPISearchCallCoordinates("arts");
+            yelpAPISearchCall("arts");
         }
         if (!userQueryEditText.getText().toString().isEmpty()) {
             numCalls = numCalls + 1;
-            yelpAPISearchCallCoordinates(userQueryEditText.getText().toString().toLowerCase());
-        }
-    }
-
-    /**
-     * makes api calls based on user input location
-     */
-    private void makeUserLocationInputAPICalls() {
-        if (isFoodQueryToggle) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCallLocation("restaurants");
-        }
-        if (isDrinkQueryToggle) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCallLocation("nightlife");
-        }
-        if (isActiveQueryToggle) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCallLocation("active");
-        }
-        if (isArtsQueryToggle) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCallLocation("arts");
-        }
-        if (!userQueryEditText.getText().toString().isEmpty()) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCallLocation(userQueryEditText.getText().toString().toLowerCase());
+            yelpAPISearchCall(userQueryEditText.getText().toString().toLowerCase());
         }
     }
 
