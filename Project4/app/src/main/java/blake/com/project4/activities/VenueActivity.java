@@ -1,7 +1,9 @@
 package blake.com.project4.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -155,7 +157,9 @@ public class VenueActivity extends AppCompatActivity {
             phoneString =phoneString.replace("-", "");
         }
         phone.setText(phoneString);
-        setPhoneCall(phoneString);
+        if (!isTablet(VenueActivity.this)) {
+            setPhoneCall(phoneString);
+        }
         String descriptionString = venueIntent.getStringExtra(MainActivity.DESCRIPTION_TEXT);
         description.setText(getString(R.string.description) + descriptionString);
         hasBeenLiked = venueIntent.getBooleanExtra(LikedActivity.BOOLEAN_INTENT, false);
@@ -233,5 +237,11 @@ public class VenueActivity extends AppCompatActivity {
             dislike.setClickable(false);
             dislike.setAlpha(0.0f);
         }
+    }
+
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }
