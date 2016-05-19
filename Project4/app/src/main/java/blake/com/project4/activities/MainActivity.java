@@ -406,10 +406,6 @@ public class MainActivity extends AppCompatActivity
             locationForQuery = locationEditText.getText().toString();
             editor.putString(LOCATION_INPUT_CODE, locationForQuery);
         }
-//        if (!userQueryEditText.getText().toString().isEmpty()) {
-//            userQuery = userQueryEditText.getText().toString();
-//            editor.putString(USER_QUERY_CODE, userQuery);
-//        }
         editor.apply();
     }
 
@@ -431,9 +427,6 @@ public class MainActivity extends AppCompatActivity
         timesAPICalledCoordinates = sharedPreferences.getInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
         timesAPICalledUserLocation = sharedPreferences.getInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
         userQuery = sharedPreferences.getString(USER_QUERY_CODE, userQuery);
-//        if (userQuery != null) {
-//            userQueryEditText.setText(userQuery);
-//        }
     }
 
     private void setSwitches(Switch s, boolean switchBoolean, String key){
@@ -785,25 +778,20 @@ public class MainActivity extends AppCompatActivity
      * makes api calls based on device coordinates
      */
     private void putQueryIntoAPICalls() {
-        if (isFoodQueryToggle) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCall("restaurants");
-        }
-        if (isDrinkQueryToggle) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCall("nightlife");
-        }
-        if (isActiveQueryToggle) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCall("active");
-        }
-        if (isArtsQueryToggle) {
-            numCalls = numCalls + 1;
-            yelpAPISearchCall("arts");
-        }
+        checkWhichAPICallsToMake(isFoodQueryToggle, "restaurants");
+        checkWhichAPICallsToMake(isDrinkQueryToggle, "nightlife");
+        checkWhichAPICallsToMake(isActiveQueryToggle, "active");
+        checkWhichAPICallsToMake(isArtsQueryToggle, "arts");
         if (!userQueryEditText.getText().toString().isEmpty()) {
             numCalls = numCalls + 1;
             yelpAPISearchCall(userQueryEditText.getText().toString().toLowerCase());
+        }
+    }
+
+    private void checkWhichAPICallsToMake(Boolean queryBooleans, String query) {
+        if (queryBooleans) {
+            numCalls = numCalls + 1;
+            yelpAPISearchCall(query);
         }
     }
 
