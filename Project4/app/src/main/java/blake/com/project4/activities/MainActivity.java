@@ -345,37 +345,29 @@ public class MainActivity extends AppCompatActivity
                 boolean toggled = s.isChecked();
                 switch (s.getId()) {
                     case R.id.food_search_switch:
-                        if (toggled) {
-                            isFoodQueryToggle = true;
-                        } else {
-                            isFoodQueryToggle = false;
-                        }
+                        changeSwitchBooleans(toggled, isFoodQueryToggle);
                         break;
                     case R.id.drink_search_switch:
-                        if (toggled) {
-                            isDrinkQueryToggle = true;
-                        } else {
-                            isDrinkQueryToggle = false;
-                        }
+                        changeSwitchBooleans(toggled, isDrinkQueryToggle);
                         break;
                     case R.id.arts_search_switch:
-                        if (toggled) {
-                            isArtsQueryToggle = true;
-                        } else {
-                            isArtsQueryToggle = false;
-                        }
+                        changeSwitchBooleans(toggled, isArtsQueryToggle);
                         break;
                     case R.id.active_search_switch:
-                        if (toggled) {
-                            isActiveQueryToggle = true;
-                        } else {
-                            isActiveQueryToggle = false;
-                        }
+                        changeSwitchBooleans(toggled, isActiveQueryToggle);
                         break;
                     default:
                 }
             }
         });
+    }
+
+    private void changeSwitchBooleans(Boolean toggled, Boolean switchBoolean) {
+        if (toggled) {
+            switchBoolean = true;
+        } else {
+            switchBoolean = false;
+        }
     }
 
     /**
