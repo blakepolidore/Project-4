@@ -158,10 +158,8 @@ public class MainActivity extends AppCompatActivity
     //endregion permission
 
     //region counter
-    private int timesAPICalledCoordinates = 0;
-    private final String COORDINATES_COUNTER_KEY = "counter coordinates";
-    private int timesAPICalledUserLocation = 0;
-    private final String USERPICK_COUNTER_KEY = "counter user location";
+    private int timesThroughAPIResults = 0;
+    private final String COUNTER_KEY = "counter coordinates";
     //endregion counter
 
     //region duplicates
@@ -392,8 +390,7 @@ public class MainActivity extends AppCompatActivity
         editor.putBoolean(Arts_BOOLEAN_CODE, isArtsQueryToggle);
         editor.putBoolean(ACTIVE_BOOLEAN_CODE, isActiveQueryToggle);
         editor.putBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
-        editor.putInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
-        editor.putInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
+        editor.putInt(COUNTER_KEY, timesThroughAPIResults);
         if (!isDeviceLocationToggle) {
             locationForQuery = locationEditText.getText().toString();
             editor.putString(LOCATION_INPUT_CODE, locationForQuery);
@@ -416,8 +413,7 @@ public class MainActivity extends AppCompatActivity
         if (!isDeviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationForQuery));
         }
-        timesAPICalledCoordinates = sharedPreferences.getInt(COORDINATES_COUNTER_KEY, timesAPICalledCoordinates);
-        timesAPICalledUserLocation = sharedPreferences.getInt(USERPICK_COUNTER_KEY, timesAPICalledUserLocation);
+        timesThroughAPIResults = sharedPreferences.getInt(COUNTER_KEY, timesThroughAPIResults);
         userQuery = sharedPreferences.getString(USER_QUERY_CODE, userQuery);
     }
 
@@ -454,7 +450,7 @@ public class MainActivity extends AppCompatActivity
         params.put("category_filter", query);
         params.put("sort", "2");
         params.put("limit", "20");
-        params.put("offset", String.valueOf(timesAPICalledCoordinates));
+        params.put("offset", String.valueOf(timesThroughAPIResults));
         params.put("radius_filter", convertRadiusToKM());
 
         YelpAPIFactory apiFactory = new YelpAPIFactory(Keys.YELP_CONSUMER_KEY, Keys.YELP_CONSUMER_SECRET, Keys.YELP_TOKEN, Keys.YELP_TOKEN_SECRET);
@@ -596,8 +592,7 @@ public class MainActivity extends AppCompatActivity
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 if (!noMoreResults) {
                     if (cardsArrayAdapter.getCount() > 3) {
-                        timesAPICalledUserLocation += 20;
-                        timesAPICalledCoordinates += 20;
+                        timesThroughAPIResults += 20;
                         setStartLocationOption();
                         Log.d("onAdapterAboutToEmpty", "called");
                     }
