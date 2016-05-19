@@ -182,8 +182,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setToolbar();
-        String userID = GetFirebaseUniqueId.getAuthData();
 
+        String userID = GetFirebaseUniqueId.getAuthData();
         firebaseRef = new Firebase("https://datemate.firebaseio.com/users/" + userID);
         firebaseCards = firebaseRef.child("cards");
 
@@ -230,7 +230,6 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-
             }
 
             @Override
@@ -247,7 +246,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerStateChanged(int newState) {
-
             }
         });
     }
@@ -428,17 +426,6 @@ public class MainActivity extends AppCompatActivity
         setSwitches(activeSwitch, isActiveQueryToggle, ACTIVE_BOOLEAN_CODE);
         setSwitches(deviceLocationSwitch, isDeviceLocationToggle, DEVICE_LOCATION_BOOLEAN_CODE);
 
-
-//        isFoodQueryToggle = sharedPreferences.getBoolean(FOOD_BOOLEAN_CODE, isFoodQueryToggle);
-//        restaurantSwitch.setChecked(isFoodQueryToggle);
-//        isDrinkQueryToggle = sharedPreferences.getBoolean(DRINK_BOOLEAN_CODE, isDrinkQueryToggle);
-//        drinkSwitch.setChecked(isDrinkQueryToggle);
-//        isArtsQueryToggle = sharedPreferences.getBoolean(Arts_BOOLEAN_CODE, isArtsQueryToggle);
-//        artsSwitch.setChecked(isArtsQueryToggle);
-//        isActiveQueryToggle = sharedPreferences.getBoolean(ACTIVE_BOOLEAN_CODE, isActiveQueryToggle);
-//        activeSwitch.setChecked(isActiveQueryToggle);
-//        isDeviceLocationToggle = sharedPreferences.getBoolean(DEVICE_LOCATION_BOOLEAN_CODE, isDeviceLocationToggle);
-//        deviceLocationSwitch.setChecked(isDeviceLocationToggle);
         if (!isDeviceLocationToggle) {
             locationEditText.setText(sharedPreferences.getString(LOCATION_INPUT_CODE, locationForQuery));
         }
@@ -802,6 +789,7 @@ public class MainActivity extends AppCompatActivity
             if (latitude != null && longitude != null) {
                 locationForQuery = latitude + "," + longitude;
                 if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
+                    setSwitchBooleans();
                     makeCoordinateAPICalls();
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
@@ -815,6 +803,7 @@ public class MainActivity extends AppCompatActivity
             locationForQuery = locationEditText.getText().toString();
             if (!locationForQuery.isEmpty()) {
                 if (CheckInternetConnection.isNetworkAvailable(MainActivity.this)) {
+                    setSwitchBooleans();
                     makeUserLocationInputAPICalls();
                 } else {
                     progressBar.setVisibility(View.INVISIBLE);
@@ -1047,5 +1036,12 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void setSwitchBooleans() {
+        isFoodQueryToggle = restaurantSwitch.isChecked();
+        isDrinkQueryToggle = drinkSwitch.isChecked();
+        isActiveQueryToggle = activeSwitch.isChecked();
+        isArtsQueryToggle = artsSwitch.isChecked();
     }
 }
