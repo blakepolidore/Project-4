@@ -137,17 +137,14 @@ public class VenueActivity extends AppCompatActivity {
      */
     private void getVenueInformation() {
         Intent venueIntent = getIntent();
-        String titleString = venueIntent.getStringExtra(MainActivity.TITLE_TEXT);
-        title.setText(titleString);
+        getIntentStringsSetTextViews(venueIntent, MainActivity.TITLE_TEXT, title);
         String imageURL = venueIntent.getStringExtra(MainActivity.IMAGE_TEXT);
         Picasso.with(getApplicationContext()).load(imageURL).resize(900, 600).placeholder(R.drawable.arrows).into(imageView);
 //        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
 //        ImageSize imageSize = new ImageSize(300, 300);
 //        imageLoader.displayImage(imageURL, imageView);
-        String categoryString = venueIntent.getStringExtra(MainActivity.CATEGORY_TEXT);
-        category.setText(getString(R.string.category) + categoryString);
-        String locationString = venueIntent.getStringExtra(MainActivity.LOCATION_TEXT);
-        location.setText(getString(R.string.location) + locationString);
+        getIntentStringsSetTextViews(venueIntent, MainActivity.CATEGORY_TEXT, category);
+        getIntentStringsSetTextViews(venueIntent, MainActivity.LOCATION_TEXT, location);
         websiteString = venueIntent.getStringExtra(MainActivity.WEBSITE_TEXT);
         String websiteLink = "<a href ='" + websiteString + getString(R.string.reviews);
         website.setText(Html.fromHtml(websiteLink));
@@ -160,8 +157,7 @@ public class VenueActivity extends AppCompatActivity {
         if (!isTablet(VenueActivity.this)) {
             setPhoneCall(phoneString);
         }
-        String descriptionString = venueIntent.getStringExtra(MainActivity.DESCRIPTION_TEXT);
-        description.setText(getString(R.string.description) + descriptionString);
+        getIntentStringsSetTextViews(venueIntent, MainActivity.DESCRIPTION_TEXT, description);
         hasBeenLiked = venueIntent.getBooleanExtra(LikedActivity.BOOLEAN_INTENT, false);
         firebaseKey = venueIntent.getStringExtra(LikedActivity.FIREBASE_ID);
     }
@@ -239,9 +235,14 @@ public class VenueActivity extends AppCompatActivity {
         }
     }
 
-    public static boolean isTablet(Context context) {
+    private boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    private void getIntentStringsSetTextViews(Intent intent, String code, TextView textView) {
+        String stringValue = intent.getStringExtra(code);
+        textView.setText(stringValue);
     }
 }
