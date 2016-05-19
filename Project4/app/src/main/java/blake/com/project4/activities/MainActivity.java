@@ -240,8 +240,7 @@ public class MainActivity extends AppCompatActivity
             public void onDrawerClosed(View drawerView) {
                 cardsList.clear();
                 cardsArrayAdapter.notifyDataSetChanged();
-                setStartLocationOption();
-                progressBar.setVisibility(View.VISIBLE);
+                checkLocationOptionTurnOnProgressBar();
             }
 
             @Override
@@ -893,7 +892,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Converts the value from the seekbar to km for the api call
+     * Converts the value from the spinner to km for the api call
      * @return
      */
     private String convertRadiusToKM() {
@@ -954,7 +953,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
             }
         });
     }
@@ -978,7 +976,6 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     Toast.makeText(this, "Need device location.", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
         }
     }
@@ -995,8 +992,7 @@ public class MainActivity extends AppCompatActivity
                 longitude = String.valueOf(lastLocation.getLongitude());
                 locationForQuery = latitude + "," + longitude;
                 if (cardsList.size() == 0) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    setStartLocationOption();
+                    checkLocationOptionTurnOnProgressBar();
                 }
             }
             else {
@@ -1043,5 +1039,10 @@ public class MainActivity extends AppCompatActivity
         isDrinkQueryToggle = drinkSwitch.isChecked();
         isActiveQueryToggle = activeSwitch.isChecked();
         isArtsQueryToggle = artsSwitch.isChecked();
+    }
+
+    private void checkLocationOptionTurnOnProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+        setStartLocationOption();
     }
 }
