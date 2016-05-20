@@ -447,7 +447,12 @@ public class MainActivity extends AppCompatActivity
      */
     private void yelpAPISearchCall(String query) {
         Map<String, String> params = new HashMap<>();
-        params.put("category_filter", query);
+        if(query == "restaurants" || query == "nightlife" || query == "arts" || query == "active") {
+            params.put("category_filter", query);
+        }
+        else {
+            params.put("term", query);
+        }
         params.put("sort", "2");
         params.put("limit", "20");
         params.put("offset", String.valueOf(timesThroughAPIResults));
