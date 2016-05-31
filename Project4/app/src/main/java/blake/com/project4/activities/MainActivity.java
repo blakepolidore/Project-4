@@ -611,7 +611,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onScroll(float scrollProgressPercent) {
-
             }
         });
     }
@@ -671,7 +670,6 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     /**
@@ -916,7 +914,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             else {
-                Toast.makeText(MainActivity.this, "Please enable device location to use this feature", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.device_location_slow_internet, Toast.LENGTH_SHORT).show();
             }
 
         }

@@ -42,6 +42,7 @@
     <string name="no_location_serv">Cannot Connect to Google Location Services</string>
     <string name="choose_radius">Choose radius (mi)</string>
     <string name="choose_search_radius_mi">Choose search radius (Mi):</string>
+    <string name="device_location_slow_internet">Unable to receive device\'s location. Please check internet connection or enable device location to use this feature</string>
     <string-array name="radius_values">
         <item>5</item>
         <item>10</item>
