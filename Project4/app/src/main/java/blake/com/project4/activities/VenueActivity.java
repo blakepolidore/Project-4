@@ -259,9 +259,10 @@ public class VenueActivity extends AppCompatActivity {
 
     private void setUberRide() {
         if (MainActivity.lastLocation != null) {
+            Double[] latlong = getLatLong();
             RideParameters rideParameters = new RideParameters.Builder()
                     .setPickupLocation(MainActivity.lastLocation.getLatitude(), MainActivity.lastLocation.getLongitude(), "Wherever You Are", "In This World")
-                    .setDropoffLocation(getLatLong()[0], getLatLong()[1], title.getText().toString(), location.getText().toString())
+                    .setDropoffLocation(latlong[0], latlong[1], title.getText().toString(), location.getText().toString())
                     .build();
             uberButton.setRideParameters(rideParameters);
         }
@@ -270,20 +271,23 @@ public class VenueActivity extends AppCompatActivity {
     private Double[] getLatLong() {
         Double[] latlong = new Double[2];
         Address address = new Address(Locale.US);
-        Geocoder geocoder = new Geocoder(VenueActivity.this, Locale.US);
-        List<Address> listOfAddress;
 
-        try {
-            if (!location.getText().toString().isEmpty()) {
-                listOfAddress = geocoder.getFromLocationName(location.getText().toString(), 1);
-                if (listOfAddress.size() > 0) {
-                    address = listOfAddress.get(0);
-                    latlong[0] = address.getLatitude();
-                    latlong[1] = address.getLongitude();
+        if (Locale.getDefault().getCountry().equals(Locale.US.getCountry())) {
+            Geocoder geocoder = new Geocoder(VenueActivity.this, Locale.US);
+            List<Address> listOfAddress;
+
+            try {
+                if (!location.getText().toString().isEmpty()) {
+                    listOfAddress = geocoder.getFromLocationName(location.getText().toString(), 1);
+                    if (listOfAddress.size() > 0) {
+                        address = listOfAddress.get(0);
+                        latlong[0] = address.getLatitude();
+                        latlong[1] = address.getLongitude();
+                    }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return latlong;
     }
