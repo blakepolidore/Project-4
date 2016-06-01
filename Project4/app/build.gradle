@@ -53,6 +53,5 @@ dependencies {
     compile 'com.firebase:firebase-client-android:2.3.1'
     compile 'com.google.android.gms:play-services-location:8.4.0'
     compile 'com.firebaseui:firebase-ui:0.3.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
-    androidTestCompile 'com.android.support:support-annotations:23.3.0'
+    compile 'com.uber.sdk:rides-android:0.3.2'
 }

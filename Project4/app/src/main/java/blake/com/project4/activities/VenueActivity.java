@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +25,12 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
+import com.uber.sdk.android.rides.RideParameters;
+import com.uber.sdk.android.rides.RideRequestButton;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import blake.com.project4.R;
 
@@ -41,6 +49,7 @@ public class VenueActivity extends AppCompatActivity {
     private TextView phone;
     private TextView description;
     private TextView category;
+    private RideRequestButton uberButton;
 
     private String websiteString;
     private String firebaseKey;
@@ -63,6 +72,7 @@ public class VenueActivity extends AppCompatActivity {
         setLikeButton();
         setDisikeButton();
         setButtonsClickable();
+        setUberRide();
     }
 
     /**
@@ -92,6 +102,7 @@ public class VenueActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.description);
         category = (TextView) findViewById(R.id.category_venue);
         share = (ImageButton) findViewById(R.id.share_button);
+        uberButton = (RideRequestButton) findViewById(R.id.uber_button);
     }
 
     /**
@@ -244,5 +255,36 @@ public class VenueActivity extends AppCompatActivity {
     private void getIntentStringsSetTextViews(Intent intent, String code, TextView textView) {
         String stringValue = intent.getStringExtra(code);
         textView.setText(stringValue);
+    }
+
+    private void setUberRide() {
+        if (MainActivity.lastLocation != null) {
+            RideParameters rideParameters = new RideParameters.Builder()
+                    .setPickupLocation(MainActivity.lastLocation.getLatitude(), MainActivity.lastLocation.getLongitude(), "Wherever You Are", "In This World")
+                    .setDropoffLocation(getLatLong()[0], getLatLong()[1], title.getText().toString(), location.getText().toString())
+                    .build();
+            uberButton.setRideParameters(rideParameters);
+        }
+    }
+
+    private Double[] getLatLong() {
+        Double[] latlong = new Double[2];
+        Address address = new Address(Locale.US);
+        Geocoder geocoder = new Geocoder(VenueActivity.this, Locale.US);
+        List<Address> listOfAddress;
+
+        try {
+            if (!location.getText().toString().isEmpty()) {
+                listOfAddress = geocoder.getFromLocationName(location.getText().toString(), 1);
+                if (listOfAddress.size() > 0) {
+                    address = listOfAddress.get(0);
+                    latlong[0] = address.getLatitude();
+                    latlong[1] = address.getLongitude();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return latlong;
     }
 }
