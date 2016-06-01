@@ -12,9 +12,13 @@ Features
 
 - Change the search parameters by category or location
 
+- Choose a search radius
+
 - Login with Facebook
 
 - Visit an activities Yelp page or call them
+
+- Integrated with Uber in order to make it more convenient for the user to access these venues at the click of a button
 
 Installation
 ------------
