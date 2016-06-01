@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
 
     //region googlelocation
     private GoogleApiClient googleApiClient;
-    private Location lastLocation;
+    public static Location lastLocation;
     private String latitude;
     private String longitude;
     //endregion googlelocation

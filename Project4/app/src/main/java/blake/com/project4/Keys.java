@@ -15,4 +15,7 @@ public class Keys {
     public static final String FOURSQUARE_SECRET = "EWQWRAUYWP4AH0GWFMQQJEU25VPV2N00C140DWO5HLDGU4AI";
 
     public static final String FACEBOOK_APP_ID = "1125954750780745";
+
+    public static final String UBER_CLIENT_ID = "cU_2W4yxefNFgxR1jpYTZ55sBnSOdYN7";
+    public static final String UBER_SERVER_TOKEN = "0Ac9Ptb4h0jNDo4pLX_OA7pl1c5Kg00zHBRMHQNL";
 }
